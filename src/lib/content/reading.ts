@@ -413,5 +413,125 @@ export const READING_PASSAGES: ReadingPassage[] = [
     ],
     "wordCount": 30
   },
+  {
+    "id": "hsk3-library-study",
+    "title": "Học tập tại thư viện",
+    "level": 3,
+    "sentences": [
+      "图书馆是学生学习的好地方。",
+      "这里安静，书很多，还可以免费上网。",
+      "小王每周六都来图书馆，通常待到下午四点。",
+      "他说在这里学习效率更高，不容易分心。",
+      "借书需要办证，每人最多可借五本书，借期一个月。"
+    ],
+    "wordCount": 85,
+    "topic": "Học tập",
+    "check": {
+      "prompt": "Tiểu Vương thường ở thư viện đến mấy giờ?",
+      "options": ["Buổi sáng", "Đến chiều bốn giờ", "Tối đến chín giờ"],
+      "answer": "Đến chiều bốn giờ",
+      "explanation": "通常待到下午四点 nghĩa là thường ở đến bốn giờ chiều."
+    },
+  },
+  {
+    "id": "hsk3-healthy-life",
+    "title": "Sống khỏe mạnh",
+    "level": 3,
+    "sentences": [
+      "健康的生活习惯很重要。",
+      "每天早起，吃一顿好的早餐，有助于全天精力充沛。",
+      "每周坚持运动三次，可以增强体质。",
+      "晚上不要熬夜，保证充足的睡眠。",
+      "多喝水，少吃油腻食物，身体会更好。"
+    ],
+    "wordCount": 78,
+    "topic": "Sức khỏe",
+    "check": {
+      "prompt": "Theo đoạn văn, điều gì không nên làm vào buổi tối?",
+      "options": ["Ngủ đủ giấc", "Đêm thức jusqu’à muộn", "Uống nhiều nước"],
+      "answer": "Đêm thức jusqu’à muộn",
+      "explanation": "晚上不要熬夜 nghĩa là buổi tối không nên thức quá muộn."
+    },
+  },
+  {
+    "id": "hsk3-city-life",
+    "title": "Đô thị 생활",
+    "level": 3,
+    "sentences": [
+      "大城市生活便利，交通发达，购物也方便。",
+      "但是，生活压力大，房租贵，交通拥堵也是常见问题。",
+      "很多人为了工作选择住在大城市，但也渴望安静的环境。",
+      "周末，有些人会到公园散步，或者到郊外呼吸新鲜空气。",
+      "如何在便利与安静之间找到平衡，是许多城市居民的思考。"
+    ],
+    "wordCount": 92,
+    "topic": "Đời sống",
+    "check": {
+      "prompt": "Nhiều người chọn sống ở thành phố lớn vì lý do gì?",
+      "options": ["Để về quê", "Vì công việc", "Để tránh ô nhiễm"],
+      "answer": "Vì công việc",
+      "explanation": "很多人为了工作选择住在大城市 cho biết lý do là công việc."
+    },
+  },
+  {
+    "id": "hsk4-travel-plan",
+    "title": "Kế hoạch du lịch",
+    "level": 4,
+    "sentences": [
+      "暑假快到了，小李开始计划暑假旅行。",
+      "他想去西安，因为那里有很多历史景点，比如兵马俑和大雁塔。",
+      "机票和酒店需要提前预订，否则价格会更高。",
+      "小李还打算学一些当地方言，以便与当地人交流。",
+      "他希望此行不仅能放松，还能了解更多中华文化。"
+    ],
+    "wordCount": 88,
+    "topic": "Du lịch",
+    "check": {
+      "prompt": "Tiểu Lý muốn đi Tây An vì lý do gì?",
+      "options": ["Đề cập bạn", "Có nhiều di tích lịch sử", "Vé máy bay rẻ"],
+      "answer": "Có nhiều di tích lịch sử",
+      "explanation": "因为那里有很多历史景点 xác định lý do là di tích lịch sử."
+    },
+  },
+  {
+    "id": "hsk4-environment",
+    "title": "Bảo vệ môi trường",
+    "level": 4,
+    "sentences": [
+      "随着城市化发展，环境污染问题日益严重。",
+      "塑料废弃物难以降解，给海洋生态带来巨大威胁。",
+      "越来越多的人开始使用环保袋，拒绝一次性塑料制品。",
+      "政府也在推行垃圾分类，鼓励市民参与环保行动。",
+      "保护环境需要每个人的参与，从一点一滴做起。"
+    ],
+    "wordCount": 84,
+    "topic": "Môi trường",
+    "check": {
+      "prompt": "Theo đoạn văn, việc nào giúp bảo vệ môi trường?",
+      "options": ["Dùng túi nhựa dùng một lần", "Sử dụng túi môi trường", "Thải rải vào biển"],
+      "answer": "Sử dụng túi môi trường",
+      "explanation": "越来越多的人开始使用环保袋 cho thấy việc dùng túi bảo vệ môi trường."
+    },
+  },
+  {
+    "id": "hsk4-work-life-balance",
+    "title": "Cân bằng công việc - cuộc sống",
+    "level": 4,
+    "sentences": [
+      "现代职场压力大，许多人加班已成为常态。",
+      "长期加班不仅影响身体健康，也降低工作效率。",
+      "有些公司开始倡导弹性工作制，让员工自主安排时间。",
+      "下班后适当休息和运动，有助于恢复精力。",
+      "工作与生活的平衡，对个人成长同样重要。"
+    ],
+    "wordCount": 80,
+    "topic": "Công việc",
+    "check": {
+      "prompt": "Theo đoạn văn, làm sao để phục hồi năng lượng sau giờ làm?",
+      "options": ["Làm thêm giờ", "Nghỉ ngơi và tập thể dục thích độ", "Làm việc suốt tuần"],
+      "answer": "Nghỉ ngơi và tập thể dục thích độ",
+      "explanation": "下班后适当休息和运动，有助于恢复精力 nêu cách thức phục hồi năng lượng."
+    },
+  },
   ...GRADED_READING,
 ];

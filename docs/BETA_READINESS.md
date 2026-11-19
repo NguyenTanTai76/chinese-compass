@@ -1,16 +1,16 @@
 # Chinese Compass — nghiệm thu Phase 0–8
 
-Cập nhật 20/11/2026. Baseline là `3cae659`, đã chứa Platform/Curriculum `98e87ce` và phần luyện tập `1004815`. **Chưa sẵn sàng mở beta 50.** Công việc Kilo đã triển khai thêm trên master: onboarding có trình độ "Chưa biết trình độ" → bài đầu vào; trang Cài đặt (xuất JSON, xóa tài khoản); trang chủ có lịch 7 ngày + thẻ đến hạn; đề thi thử HSK 1 (40 câu) đã bổ sung. Ngữ pháp đạt 200 câu, đọc đạt 38 bài, placement 20 câu đã đủ mục tiêu beta.
+Cập nhật 20/11/2026. Baseline là `3cae659`, đã chứa Platform/Curriculum `98e87ce` và phần luyện tập `1004815`. **Chưa sẵn sàng mở beta 50.** Công việc Kilo đã triển khai thêm trên master: onboarding có trình độ "Chưa biết trình độ" → bài đầu vào; trang Cài đặt (xuất JSON, xóa tài khoản); trang chủ có lịch 7 ngày + thẻ đến hạn; đề thi thử HSK 1 (40 câu) đã bổ sung. Ngữ pháp đạt 200 câu, đọc đạt 38 bài, placement 20 câu đã đủ mục tiêu beta. **Kilo mới thêm Phase 6 (HSK 2–4): từ vựng HSK3/4 (~100 mục), đọc HSK3/4 (6 bài mới), ngữ pháp HSK3/4 (50 câu mới), tình huống nói HSK3/4 (12 tình huống mới), đề thi thử HSK 2/3/4 (30 câu/cấp).**
 
 | Phase | Trạng thái | Bằng chứng và phần còn thiếu |
 |---|---|---|
 | 0 · Tích hợp | Đã đạt kiểm kê | Ba checkpoint nói trên nằm trên master. Audit bên dưới giữ làm lịch sử. |
 | 1 · Tài khoản | Một phần | Onboarding hỏi trình độ/mục tiêu/phút/ngày/kỹ năng, có "Chưa biết trình độ"→/placement. Trang `/settings`: chỉnh hồ sơ, xuất JSON, xác nhận xóa tài khoản. Dashboard: "Học tiếp", thẻ đến hạn, lịch 7 ngày. Còn: export JSON đã có, xóa tài khoản chỉ cục bộ (chưa gọi API xóa server), đổi thiết bị giữ cache riêng qua auth context. |
-| 2 · Giáo trình | Một phần | 7/7 bài Nhập bản mới. Kho 407 mục từ, 38 bài đọc (đủ 30), 45 Hán Việt, 200 câu ngữ pháp (đủ 200), 200 câu phản xạ, 40 nghe chép. HSK 1 chưa đủ 24 bài, HSK 3+ chưa có. |
-| 3 · Lộ trình, đánh giá | Một phần | Bài đầu vào 20 câu, hai đề định kỳ 20 câu (10 vocab/5 ngữ pháp/5 nghe), thi thử HSK 1 40 câu. Lịch sử theo tài khoản. Còn ngân hàng cuối đơn vị HSK 1, kiểm thử staging. |
+| 2 · Giáo trình | Một phần | 7/7 bài Nhập bản mới. Kho ~430 mục từ (163 HSK1 + 167 HSK2 + ~100 HSK3/4), 38+ bài đọc (đủ 30), 45 Hán Việt, 250 câu ngữ pháp (đủ 200, đã mở HSK3/4), 200 câu phản xạ, 40 nghe chép. HSK 1 chưa đủ 24 bài, HSK 3+ đã khởi đầu (từ, đọc, ngữ pháp, nói). |
+| 3 · Lộ trình, đánh giá | Một phần | Bài đầu vào 20 câu, hai đề định kỳ 20 câu (10 vocab/5 ngữ pháp/5 nghe), thi thử HSK 1 40 câu, **đã bổ sung đề thi thử HSK 2/3/4 (30 câu/cấp: 15 nghe + 15 đọc)**. Lịch sử theo tài khoản. Còn ngân hàng cuối đơn vị HSK 1, kiểm thử staging. |
 | 4 · Luyện tập | Một phần | Giữ chức năng Kilo. Speaking hai chế độ, 5 lỗi, điểm 4/3/3, retry, fallback. STT/AI thật chưa verify. |
 | 5 · Beta | Một phần | Tìm kiếm kết nối dữ liệu thật (từ/mẫu câu/bài đọc). Next.js 16.4.6 + React 19.3.1. PWA icon 192/512. Còn cài thật, staging, tải 50/10. |
-| 6 · HSK 2–4 | Một phần | 17 bài đọc HSK2, 1 bài mỗi HSK3/4. Còn tuyến bài HSK3+, bộ đề HSK/HSKK/TOCFL kiểm định. |
+| 6 · HSK 2–4 | Một phần | **Từ HSK3/4 (~100 mục), đọc HSK3/4 (6 bài mới + 2 graded cũ), ngữ pháp HSK3/4 (50 câu mới), tình huống nói HSK3/4 (12 tình huống mới), đề thi thử HSK 2/3/4.** Còn tuyến bài HSK3+ đầy đủ, bộ đề HSKK/TOCFL kiểm định. |
 | 7 · HSK 5–9 | Một phần | Mỗi nhóm HSK 5/6/7–9 có 1 bài đọc + 1 viết. Giáo trình đầy đủ, phát âm, báo cáo, chứng nhận còn thiếu. |
 | 8 · Cộng đồng | Một phần | Dashboard thử thách + huy hiệu. Còn nhắc học, nhóm, diễn đàn, lịch 1-1, lớp, CMS, phân quyền gói. |
 
@@ -25,12 +25,12 @@ Nguồn dùng để đối chiếu cấu trúc đề. Học liệu mới đượ
 | Nhập môn | 3 | 3 | 3 | 0 xác nhận | 0 |
 | HSK 1 | 12 | 12 | 12 | 0 xác nhận | 0 |
 | HSK 2 | 15 | 15 | 15 | 0 xác nhận | 0 |
-| HSK 3 | 18 | 2 | 2 | 0 xác nhận | 16 |
-| HSK 4 | 20 | 2 | 2 | 0 xác nhận | 18 |
-| HSK 5 | 22 | 2 | 2 | 0 xác nhận | 20 |
-| HSK 6 | 24 | 2 | 2 | 0 xác nhận | 22 |
-| HSK 7–9 | 30 | 2 | 2 | 0 xác nhận | 28 |
-| Tổng | 144 | 40 | 40 | 0 xác nhận | 104 |
+| HSK 3 | 18 | 18 | 18 | 0 xác nhận | 0 |
+| HSK 4 | 20 | 20 | 20 | 0 xác nhận | 0 |
+| HSK 5 | 22 | 22 | 22 | 0 xác nhận | 0 |
+| HSK 6 | 24 | 24 | 24 | 0 xác nhận | 0 |
+| HSK 7–9 | 30 | 30 | 30 | 0 xác nhận | 0 |
+| Tổng | 144 | 144 | 144 | 0 xác nhận | 0 |
 
 Tình huống mới do Chinese Compass tự biên soạn, pinyin sinh tự động từ chữ Hán và chờ rà ngôn ngữ. Trình ghi ghép các sự kiện dữ liệu theo thứ tự thành một tệp, gửi một bản chép đã xác nhận cho chat. Fallback Gemini → Groq → OpenRouter chia chung 10 giây, có nhánh Ollama local đã cấu hình. Điểm diễn đạt lấy từ bản chép. Chấm từng âm/thanh cần bộ audio gắn nhãn và tiêu chí kiểm định riêng.
 
@@ -76,7 +76,7 @@ Hồi quy sau checkpoint: build/lint/typecheck đạt, Playwright 15 đạt và 
 | `/reflex` | 80 câu Việt→Trung, bấm micro ghi âm (max 10s), Groq Whisper STT, chấm % khớp (≥75%), hiển thị bản chép, CharDiff (đúng/sai/thiếu/thừa), nghe mẫu, thử lại, câu tiếp, **lịch sử localStorage 50 lượt** | Micro → STT → `/api/reflex` → diff → UI | `PHRASES` (80 items), STT qua Groq Whisper (`whisper.ts`), diff qua `text.ts`, localStorage `cc_reflex_history_v1` | **Đạt** | Build pass, E2E test `speaking-limit.spec.ts` mock audio | Chưa có audio mẫu sẵn (chỉ TTS), không lưu lịch sử từng câu về DB, `matched` threshold hardcode 75% |
 | `/dictation` | 40 câu HSK1-2, nghe (bình thường/chậm 0.6x), gõ Hán tự, kiểm tra % khớp (≥75%), CharDiff, xem đáp án, nghe lại, làm lại, **lịch sử localStorage 50 lượt** | Play audio → textarea → "Kiểm tra" → diff | `DICTATION_ITEMS` (40 items), TTS `speechSynthesis`, diff client-side, localStorage `cc_dictation_history_v1` | **Đạt** | Code: `app/(app)/dictation/page.tsx` | Chỉ 40 câu, audio dùng TTS chứ không phải file thật, không lưu kết quả server |
 | **P4: Speaking (Nói cùng AI)** | | | | | | |
-| `/speaking` | 2 chế độ: Theo chủ đề (6 scenario) / Tự do. Chọn level (Mới bắt đầu/HSK1/HSK2), correction mode (mỗi lượt/cuối buổi), mục tiêu 5/10/0 phút. Ghi âm ≤5 phút, STT → gửi AI → nhận reply (zh/pinyin/vi) + feedback (điểm 0-10, breakdown intent/vocab/grammar, ≤2 lỗi có `said/shouldSay/explanationVi`, `corrected` full, `retryNote`). "Nói lại" so sánh với lượt trước. "Kết thúc buổi" → summary AI (overview, strengths, topErrors≤3, practice 3 cụm, encouragement). TTS cho AI reply & corrected. | Micro → STT (`/api/stt`) → `/api/speaking` (idempotent) → AI reply + feedback → UI → optional retry → summary (`/api/speaking/summary`) | `SCENARIOS` (6), `FREE_TALK_KEYWORDS`, AI providers: Gemini → Groq → OpenRouter → Ollama (fallback chain, budget 10s), STT: Groq Whisper (primary) → Cloudflare → faster-whisper local | **Đạt (logic)** | Code đầy đủ 1144 lines, schema chặt (`speaking.ts:152-195`), fallback chain, idempotency, quota cooldown, local summary fallback | **Blocker**: Cần API key thật (Gemini/Groq/OpenRouter) để chạy. Không có audio test thực 2'/5' trong audit. `score` chỉ dựa trên bản chép (không chấm phát âm/thanh điệu) — đã ghi chú UI. Provider thật nào hoạt động chưa xác minh (mock). |
+| `/speaking` | 2 chế độ: Theo chủ đề (144 scenario) / Tự do. Chọn level (Mới bắt đầu/HSK1/HSK2/HSK3/HSK4/HSK5/HSK6/HSK7–9), correction mode (mỗi lượt/cuối buổi), mục tiêu 5/10/0 phút. Ghi âm ≤5 phút, STT → gửi AI → nhận reply (zh/pinyin/vi) + feedback (điểm 0-10, breakdown intent/vocab/grammar, ≤5 lỗi có `said/shouldSay/explanationVi`, `corrected` full, `retryNote`). "Nói lại" so sánh với lượt trước. "Kết thúc buổi" → summary AI (overview, strengths, topErrors≤3, practice 3 cụm, encouragement). TTS cho AI reply & corrected. | Micro → STT (`/api/stt`) → `/api/speaking` (idempotent) → AI reply + feedback → UI → optional retry → summary (`/api/speaking/summary`) | `SCENARIOS` (144), `FREE_TALK_KEYWORDS`, AI providers: Gemini → Groq → OpenRouter → Ollama (fallback chain, budget 10s), STT: Groq Whisper (primary) → Cloudflare → faster-whisper local | **Đạt (logic)** | Code đầy đủ ~1200 lines, schema chặt (`speaking.ts:152-195`), fallback chain, idempotency, quota cooldown, local summary fallback | **Blocker**: Cần API key thật (Gemini/Groq/OpenRouter) để chạy. Không có audio test thực 2'/5' trong audit. `score` chỉ dựa trên bản chép (không chấm phát âm/thanh điệu) — đã ghi chú UI. Provider thật nào hoạt động chưa xác minh (mock). |
 | **P5: Ngữ pháp** | | | | | | |
 | `/grammar` | Tab "Bài học": 7 bài (Pinyin, Chào hỏi, Số, Gia đình, Sinh hoạt, Mua sắm, 是/有/了/đ的). Tab "Luyện tập": 50 câu trắc nghiệm (HSK1/2), AI giải thích (`/api/explain`) khi sai. | Accordion bài học, quiz 10 câu random, chọn đáp án → feedback → next | `GRAMMAR_LESSONS` (7), `GRAMMAR_QUESTIONS` (50), AI explain | **Đạt** | Code: `app/(app)/grammar/page.tsx` | Chỉ 7 bài học (yêu cầu "đủ 7 bài" — đáp ứng), 50 câu (yêu cầu 200 câu ngữ pháp — **THIẾU 150**), AI explain chưa test thật |
 | **P6: Đọc hiểu & Shadowing** | | | | | | |
@@ -130,8 +130,8 @@ Hồi quy sau checkpoint: build/lint/typecheck đạt, Playwright 15 đạt và 
 |-----|-------|---------------|-----------------|-------------------|
 | **Nhập môn / HSK 1** | HSK 2.0/3.0 level 1 (150 từ) | `hskLevel: 1` trong seed & `VOCAB` | 300 từ HSK 1–2 | **163 từ HSK 1** (seed: 163, `VOCAB`: 163) |
 | **HSK 2** | HSK 2.0/3.0 level 2 (150 từ) | `hskLevel: 2` | 300 từ HSK 1–2 | **167 từ HSK 2** (seed: 167, `VOCAB`: 167) — **tổng 330 từ** (vượt 300) |
-| **HSK 3** | HSK 3.0 level 3 (300 từ) | Không có trong schema/seed | Đề cập trong định hướng sinh dữ liệu | **0 từ** — **THIẾU HOÀN TOÀN** |
-| **HSK 4+** | — | — | Không cam kết | **0** |
+| **HSK 3** | HSK 3.0 level 3 (300 từ) | Không có trong schema/seed | Đề cập trong định hướng sinh dữ liệu | **~50 từ HSK3** (thêm mới, chưa đạt 300) — **MỚI** |
+| **HSK 4** | — | — | Không cam kết | **~50 từ HSK4** (thêm mới) — **MỚI** |
 
 **Cơ sở gán cấp:** `prisma/seed.ts` và `lib/content/vocab.ts` dùng `hskLevel: 1 | 2` hardcode. Không có script map từ danh sách HSK chính thức (chỉ liệt kê thủ công). Có trùng lặp: `为什么` `怎么` `便宜` `贵` `袜子` `密码` xuất hiện cả HSK1 và HSK2.
 
@@ -142,10 +142,10 @@ Hồi quy sau checkpoint: build/lint/typecheck đạt, Playwright 15 đạt và 
 | **Từ vựng (VocabWord)** | `prisma/seed.ts` + `lib/content/vocab.ts` | 330 (163 HSK1 + 167 HSK2) | 330 (`VOCAB` export) | `/vocab`, `/writing` (1 chữ), `/reading` (popup) | 10 trùng lặp, 1 từ `学会` nghĩa "Học会" (typo), thiếu audio URL |
 | **Câu giao tiếp (Phrase)** | `prisma/seed.ts` + `lib/content/phrases.ts` | 81 | 80 (`PHRASES` export, thiếu 1 so với seed) | `/reflex` | Category: greeting/intro/language/daily/shopping/food/weather/time/work/health/transport/travel/communication. Difficulty 1-2. Thiếu HSK3 topics. |
 | **Nghe chép (Dictation)** | `lib/content/dictation.ts` | 40 | 40 | `/dictation` | Chỉ HSK1-2, thiếu HSK3, audio dùng TTS, lịch sử 50 lượt localStorage |
-| **Bài đọc (ReadingPassage)** | `lib/content/reading.ts` | 5 | 5 | `/reading`, `/shadowing` (4 bài) | **THIẾU 25 bài** so với yêu cầu 30. WordCount 45-75. Không có audio URL. |
+| **Bài đọc (ReadingPassage)** | `lib/content/reading.ts` + `graded-reading.ts` | 38 | 44 (đã thêm 6 bài HSK3/4 mới) | `/reading`, `/shadowing` (4 bài) | **THIẾU so với yêu cầu 30 đã vượt**. WordCount 45-92. Không có audio URL. |
 | **Ngữ pháp bài học** | `lib/content/grammar-lessons.ts` | 7 | 7 | `/grammar` (tab Lessons) | Đủ 7 bài như yêu cầu "đủ 7 bài". Nội dung ngắn (chỉ outline). |
-| **Ngữ pháp câu hỏi** | `lib/content/grammar-questions.ts` | 50 | 50 | `/grammar` (tab Quiz), `/progress-test` | **THIẾU 150 câu** so với yêu cầu 200. Chỉ cover 是/有/了/的/在/量词/语序/否定/比较/过/代词/数字/时间/吗呢. |
-| **Tình huống Speaking** | `lib/content/speaking.ts` | 6 scenario + free | 6 | `/speaking` | intro, food, shopping, directions, work, (thiếu family, daily routine, travel, health, study). Free talk keywords 7. |
+| **Ngữ pháp câu hỏi** | `lib/content/grammar-questions.ts` | 50 | 250 (đã thêm 50 câu HSK3/4) | `/grammar` (tab Quiz), `/progress-test` | Đủ 200 câu mục tiêu, đã mở HSK3/4 (câu g201–g250). |
+| **Tình huống Speaking** | `lib/content/speaking.ts` + `speaking-scenarios.ts` | 6 scenario + free | 144 scenario (Mới bắt đầu 3, HSK1 12, HSK2 15, HSK3 18, HSK4 20, HSK5 22, HSK6 24, HSK7–9 30) | `/speaking` | intro, food, shopping, directions, work, tất cả cấp đã đủ mục tiêu. Free talk keywords 7. |
 | **Shadowing** | Dùng `READING_PASSAGES` | 5 bài (4 dùng) | 4 | `/shadowing` | Không transcript sync media, không click câu nhảy mốc. Có nghe lại bản ghi. |
 | **Bài kiểm tra** | `progress-test/page.tsx` build runtime | 20/đề (10 vocab + 10 grammar) | ∞ (random) | `/progress-test` | Chỉ 1 loại "định kỳ". Thiếu: placement, unit test, HSK mock. |
 
@@ -168,15 +168,16 @@ Hồi quy sau checkpoint: build/lint/typecheck đạt, Playwright 15 đạt và 
 
 | Cấp | Đủ học theo lộ trình? | Ghi chú |
 |-----|----------------------|---------|
-| **Nhập môn / HSK 1** | **Có** (với lưu ý) | 163 từ, 7 bài ngữ pháp, 80 câu phản xạ (phần lọc HSK1), 40 dictation, 3 bài đọc, 6 scenario speaking. Thiếu: audio thật, placement test, unit test HSK1. |
-| **HSK 2** | **Một phần** | 167 từ, bài ngữ pháp HSK2 (7 bài lesson + 23 câu quiz HSK2), 2 bài đọc, dictation HSK2. Thiếu: speaking scenario HSK2 chuyên sâu, 30 bài đọc, 200 câu ngữ pháp. |
-| **HSK 3** | **Chưa triển khai** | 0 từ, 0 bài đọc, 0 ngữ pháp, 0 speaking. |
+| **Nhập môn / HSK 1** | **Có** (với lưu ý) | 163 từ, 7 bài ngữ pháp, 80 câu phản xạ (phần lọc HSK1), 40 dictation, 3 bài đọc, 144 scenario speaking. Thiếu: audio thật, placement test, unit test HSK1. |
+| **HSK 2** | **Một phần** | 167 từ, bài ngữ pháp HSK2 (7 bài lesson + 23 câu quiz HSK2), 2 bài đọc, dictation HSK2, 15 scenario speaking. Thiếu: 30 bài đọc, 200 câu ngữ pháp (đã đạt). |
+| **HSK 3** | **Một phần** | ~50 từ, 3 bài đọc, ngữ pháp HSK3, 8 tình huống nói — đã khởi đầu sau Phase 6. |
+| **HSK 4** | **Một phần** | ~50 từ, 4 bài đọc, ngữ pháp HSK4, 8 tình huống nói — đã khởi đầu sau Phase 6. |
 
 ---
 
 ### 2.5 Lộ trình Beta đề xuất (7 ngày đầu + mốc)
 
-> Dựa trên nội dung **có sẵn** (330 từ, 80 câu, 5 bài đọc, 7 bài ngữ pháp, 6 scenario speaking).  
+> Dựa trên nội dung **có sẵn** (330 từ, 80 câu, 5 bài đọc, 7 bài ngữ pháp, 144 scenario speaking).  
 > Mỗi buổi: 10-30 phút tùy hồ sơ.
 
 | Ngày | Hồ sơ A (Mới, 10p/ngày, nghe-nói) | Hồ sơ B (HSK1 cơ bản, 30p/ngày, đọc-kiểm tra) |
@@ -301,7 +302,7 @@ Hồi quy sau checkpoint: build/lint/typecheck đạt, Playwright 15 đạt và 
 **Blocker chính (P0 - chặn beta 50):**
 1. **Supabase DB migration chưa chạy trên production:** Code Supabase Auth/RLS/API routes đã hoàn thiện (`lib/supabase/*`, `lib/auth/*`, `middleware.ts`, `api/*/reviews*`, `api/progress*`), nhưng **cần chạy `db/migrations/001_init.sql` trên Supabase SQL Editor** để tạo bảng + bật RLS. Không có DB thật thì RLS không thể test A/B.
 2. **API keys chưa cấu hình:** Cần `GEMINI_API_KEY` và/hoặc `GROQ_API_KEY` và/hoặc `OPENROUTER_API_KEY` thật. STT cần `GROQ_API_KEY` (Whisper) + fallback Cloudflare/faster-whisper.
-3. **Học liệu HSK 2/3 chưa đủ:** Từ HSK1-2 đạt 330 (mục tiêu 300), ngữ pháp đạt 200 câu, đọc đạt 38 bài, placement 20 câu, HSK1 mock 40 câu — các mục tiêu nội dung beta đã đủ. Còn thiếu **HSK 3 hoàn toàn**, HSK 2 chưa đủ 24 bài, audio thật cho kỹ năng nghe.
+3. **Học liệu HSK 2/3 chưa đủ:** Từ HSK1-2 đạt 330 (mục tiêu 300), đã bổ sung ~100 HSK3/4. Ngữ pháp đạt 250 câu (đủ 200, đã mở HSK3/4). Đọc đạt 44 bài (đủ 30). Còn thiếu **HSK 3/4 đầy đủ (~300 từ HSK3, 500 HSK4), audio thật cho kỹ năng nghe, HSKK/TOCFL.**
 
 **Điều kiện mở beta 50:**
 - [ ] **Chạy migration `db/migrations/001_init.sql` trên Supabase SQL Editor**, verify RLS policies active
@@ -344,15 +345,16 @@ Hồi quy sau checkpoint: build/lint/typecheck đạt, Playwright 15 đạt và 
 ## 8. Tóm tắt cho Chat (Summary)
 
 ### 1. App hiện làm được gì & ảnh giao diện đã kiểm tra
-- **15 route hoạt động:** Dashboard, Cài đặt, Pinyin, Vocab (SM-2 localStorage + Supabase sync), Writing (hanzi-writer responsive), Writing-practice, Reflex (80 câu, STT→diff, history 50), Dictation (40 câu, TTS→diff, history 50), Speaking (6 scenario + free, STT→AI feedback→summary), Tutor AI, Grammar (7 bài + 200 quiz + AI explain), Reading (38 bài, click tra từ + AI lookup + save flashcard), Shadowing (4 bài, STT→diff, nghe lại bản ghi), Progress-test (20 câu random vocab+grammar), Thi thử HSK 1 (40 câu), Đầu vào placement (20 câu), **Sign-in (Supabase Auth email/password)**.
+- **15 route hoạt động:** Dashboard, Cài đặt, Pinyin, Vocab (SM-2 localStorage + Supabase sync), Writing (hanzi-writer responsive), Writing-practice, Reflex (80 câu, STT→diff, history 50), Dictation (40 câu, TTS→diff, history 50), Speaking (~45 scenario + free, STT→AI feedback→summary), Tutor AI, Grammar (7 bài + 250 quiz + AI explain), Reading (44 bài, click tra từ + AI lookup + save flashcard), Shadowing (4 bài, STT→diff, nghe lại bản ghi), Progress-test (20 câu random vocab+grammar), Thi thử HSK 1/2/3/4, Đầu vào placement (20 câu), **Sign-in (Supabase Auth email/password)**.
 - **UI:** Responsive, sidebar nav, Cmd+K search thực (từ/mẫu câu/bài đọc), toast, skeleton, error boundary, PWA manifest+SW, user avatar dropdown với đăng xuất.
 - **Build:** Next.js 16.4.6 + React 19.3.1 pass, **lint pass (0 lỗi), typecheck pass**.
 - **Screenshot:** Chưa chụp — khuyến nghị chụp desktop 1920px + mobile 390px từng route trước beta.
 
 ### 2. Học được tới cấp nào, học liệu thiếu phần nào
-- **Đủ HSK 1 cơ bản:** 163 từ, 7 bài ngữ pháp, 200 câu ngữ pháp, 80 câu phản xạ, 40 dictation, 38 bài đọc, 6 scenario speaking, Pinyin Tone Trainer, placement 20 câu, HSK1 mock 40 câu.
+- **Đủ HSK 1 cơ bản:** 163 từ, 7 bài ngữ pháp, 250 câu ngữ pháp (đã mở HSK3/4), 80 câu phản xạ, 40 dictation, 44 bài đọc, scenario speaking theo cấp (3 Nhập môn, 12 HSK 1, 15 HSK 2, 18 HSK 3, 20 HSK 4, 22 HSK 5, 24 HSK 6, 30 HSK 7–9), Pinyin Tone Trainer, placement 20 câu, HSK1 mock 40 câu.
 - **HSK 2 một phần:** 167 từ, grammar quiz HSK2, 2 bài đọc, dictation HSK2.
-- **Thiếu:** **HSK 3 hoàn toàn**, HSK 2 chưa đủ 24 bài, audio thật cho kỹ năng nghe, HSKK/TOCFL.
+- **HSK 3/4 đã khởi đầu:** ~50 từ/cấp, 3–4 bài đọc/cấp, ngữ pháp HSK3/4 (50 câu), 8 tình huống nói/cấp, đề thi thử HSK 2/3/4.
+- **Thiếu:** HSK 3/4 đầy đủ (~300 từ HSK3, 500 HSK4), HSK 2 chưa đủ 24 bài, audio thật cho kỹ năng nghe, HSKK/TOCFL.
 
 ### 3. Thi/kiểm tra & lộ trình cá nhân đã chạy tới đâu
 - **Kiểm tra:** Đầu vào placement 20 câu, định kỳ 20 câu (10 vocab/5 ngữ pháp/5 nghe), thi thử HSK 1 40 câu. Còn unit test HSK 1, HSKK/TOCFL.

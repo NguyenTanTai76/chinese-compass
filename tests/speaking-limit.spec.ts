@@ -174,7 +174,7 @@ test.describe("speaking recorder 5-minute limit", () => {
     await signIn(page, emailA!, passwordA!);
     await page.goto("/speaking");
     const topic = page.getByLabel("Tình huống");
-    for (const [level, count] of [["Mới bắt đầu", 3], ["HSK 1", 12], ["HSK 2", 15], ["HSK 3", 2], ["HSK 4", 2], ["HSK 5", 2], ["HSK 6", 2], ["HSK 7–9", 2]] as const) {
+    for (const [level, count] of [["Mới bắt đầu", 3], ["HSK 1", 12], ["HSK 2", 15], ["HSK 3", 18], ["HSK 4", 20], ["HSK 5", 22], ["HSK 6", 24], ["HSK 7–9", 30]] as const) {
       await page.getByLabel("Trình độ").selectOption(level);
       await expect(topic.locator("option")).toHaveCount(count);
     }

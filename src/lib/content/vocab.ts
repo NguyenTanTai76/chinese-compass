@@ -2447,7 +2447,511 @@ export const VOCAB: VocabEntry[] = [
     "pinyin": "chuāng kě tiē",
     "meaningVi": "Băng keo",
     "hskLevel": 2
-  }
+  },
+  {
+    "hanzi": "公司",
+    "pinyin": "gōng sī",
+    "meaningVi": "Công ty",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "经理",
+    "pinyin": "jīng lǐ",
+    "meaningVi": "Giám đốc/Quản lý",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "同事",
+    "pinyin": "tóng shì",
+    "meaningVi": "Đồng nghiệp",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "会议",
+    "pinyin": "huì yì",
+    "meaningVi": "Cuộc họp",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "合同",
+    "pinyin": "hé tong",
+    "meaningVi": "Hợp đồng",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "决定",
+    "pinyin": "jué dìng",
+    "meaningVi": "Quyết định",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "发展",
+    "pinyin": "fā zhǎn",
+    "meaningVi": "Phát triển",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "经济",
+    "pinyin": "jīng jì",
+    "meaningVi": "Kinh tế",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "市场",
+    "pinyin": "shì chǎng",
+    "meaningVi": "Thị trường",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "价格",
+    "pinyin": "jià gé",
+    "meaningVi": "Giá cả",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "服务",
+    "pinyin": "fú wù",
+    "meaningVi": "Dịch vụ",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "质量",
+    "pinyin": "zhì liàng",
+    "meaningVi": "Chất lượng",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "产品",
+    "pinyin": "chǎn pǐn",
+    "meaningVi": "Sản phẩm",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "销售",
+    "pinyin": "xiāo shòu",
+    "meaningVi": "Bán hàng/Doanh thu",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "顾客",
+    "pinyin": "gù kè",
+    "meaningVi": "Khách hàng",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "满意",
+    "pinyin": "mǎn yì",
+    "meaningVi": "Hài lòng",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "投诉",
+    "pinyin": "tóu sù",
+    "meaningVi": "Phàn nàn",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "解决",
+    "pinyin": "jiě jué",
+    "meaningVi": "Giải quyết",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "沟通",
+    "pinyin": "gōu tōng",
+    "meaningVi": "Giao tiếp",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "合作",
+    "pinyin": "hé zuò",
+    "meaningVi": "Hợp tác",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "竞争",
+    "pinyin": "jìng zhēng",
+    "meaningVi": "Cạnh tranh",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "机会",
+    "pinyin": "jī huì",
+    "meaningVi": "Cơ hội",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "挑战",
+    "pinyin": "tiǎo zhǎn",
+    "meaningVi": "Thách thức",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "责任",
+    "pinyin": "zé rèn",
+    "meaningVi": "Trách nhiệm",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "义务",
+    "pinyin": "yì wù",
+    "meaningVi": "Nghĩa vụ",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "权利",
+    "pinyin": "quán lì",
+    "meaningVi": "Quyền lợi",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "法律",
+    "pinyin": "fǎ lǜ",
+    "meaningVi": "Pháp luật",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "规定",
+    "pinyin": "guī dìng",
+    "meaningVi": "Quy định",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "程序",
+    "pinyin": "chéng xù",
+    "meaningVi": "Thủ tục/Chương trình",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "流程",
+    "pinyin": "liú chéng",
+    "meaningVi": "Quy trình",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "效率",
+    "pinyin": "xiào lǜ",
+    "meaningVi": "Hiệu quả",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "成本",
+    "pinyin": "chéng běn",
+    "meaningVi": "Chi phí",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "利润",
+    "pinyin": "lì rùn",
+    "meaningVi": "Lợi nhuận",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "投资",
+    "pinyin": "tóu zī",
+    "meaningVi": "Đầu tư",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "预算",
+    "pinyin": "yù suàn",
+    "meaningVi": "Ngân sách",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "收入",
+    "pinyin": "shōu rù",
+    "meaningVi": "Thu nhập",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "支出",
+    "pinyin": "zhī chū",
+    "meaningVi": "Chi tiêu",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "储蓄",
+    "pinyin": "chǔ xù",
+    "meaningVi": "Tiết kiệm",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "银行",
+    "pinyin": "yín háng",
+    "meaningVi": "Ngân hàng",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "账户",
+    "pinyin": "zhàng hù",
+    "meaningVi": "Tài khoản",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "转账",
+    "pinyin": "zhuǎn zhàng",
+    "meaningVi": "Chuyển khoản",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "付款",
+    "pinyin": "fù kuǎn",
+    "meaningVi": "Thanh toán",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "发票",
+    "pinyin": "fā piào",
+    "meaningVi": "Hóa đơn",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "收据",
+    "pinyin": "shōu jù",
+    "meaningVi": "Phiếu thu",
+    "hskLevel": 3
+  },
+  {
+    "hanzi": "报告",
+    "pinyin": "bào gào",
+    "meaningVi": "Báo cáo",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "分析",
+    "pinyin": "fēn xī",
+    "meaningVi": "Phân tích",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "总结",
+    "pinyin": "zǒng jié",
+    "meaningVi": "Tổng kết",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "策略",
+    "pinyin": "cè lüè",
+    "meaningVi": "Chiến lược",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "计划",
+    "pinyin": "jì huà",
+    "meaningVi": "Kế hoạch",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "目标",
+    "pinyin": "mù biāo",
+    "meaningVi": "Mục tiêu",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "愿景",
+    "pinyin": "yuàn jǐng",
+    "meaningVi": "Tầm nhìn",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "使命",
+    "pinyin": "shǐ mìng",
+    "meaningVi": "Sứ mệnh",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "价值观",
+    "pinyin": "jià zhí guān",
+    "meaningVi": "Giá trị quan",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "文化",
+    "pinyin": "wén huà",
+    "meaningVi": "Văn hóa",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "传统",
+    "pinyin": "chuán tǒng",
+    "meaningVi": "Truyền thống",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "现代",
+    "pinyin": "xiàn dài",
+    "meaningVi": "Hiện đại",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "创新",
+    "pinyin": "chuàng xīn",
+    "meaningVi": "Đổi mới",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "科技",
+    "pinyin": "kē jì",
+    "meaningVi": "Công nghệ",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "互联网",
+    "pinyin": "hù lián wǎng",
+    "meaningVi": "Internet",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "数据",
+    "pinyin": "shù jù",
+    "meaningVi": "Dữ liệu",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "信息",
+    "pinyin": "xìn xī",
+    "meaningVi": "Thông tin",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "知识",
+    "pinyin": "zhī shi",
+    "meaningVi": "Kiến thức",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "智能",
+    "pinyin": "zhì néng",
+    "meaningVi": "Thông minh",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "自动化",
+    "pinyin": "zì dòng huà",
+    "meaningVi": "Tự động hóa",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "数字化",
+    "pinyin": "shù zì huà",
+    "meaningVi": "Số hóa",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "全球化",
+    "pinyin": "quán qiú huà",
+    "meaningVi": "Toàn cầu hóa",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "环境",
+    "pinyin": "huán jìng",
+    "meaningVi": "Môi trường",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "可持续",
+    "pinyin": "kě chí xù",
+    "meaningVi": "Bền vững",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "发展战略",
+    "pinyin": "fā zhǎn zhàn lüè",
+    "meaningVi": "Chiến lược phát triển",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "组织",
+    "pinyin": "zǔ zhī",
+    "meaningVi": "Tổ chức",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "机构",
+    "pinyin": "jī gòu",
+    "meaningVi": "Cơ cấu",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "部门",
+    "pinyin": "bù mén",
+    "meaningVi": "Phòng ban",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "领导",
+    "pinyin": "lǐng dǎo",
+    "meaningVi": "Lãnh đạo",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "管理",
+    "pinyin": "guǎn lǐ",
+    "meaningVi": "Quản lý",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "监督",
+    "pinyin": "jiān dū",
+    "meaningVi": "Giám sát",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "考核",
+    "pinyin": "kǎo hé",
+    "meaningVi": "Đánh giá",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "培训",
+    "pinyin": "péi xùn",
+    "meaningVi": "Đào tạo",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "招聘",
+    "pinyin": "zhāo pìn",
+    "meaningVi": "Tuyển dụng",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "辞职",
+    "pinyin": "cí zhí",
+    "meaningVi": "Đơn xin nghỉ việc",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "退休",
+    "pinyin": "tuì xiū",
+    "meaningVi": "Nghỉ hưu",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "福利",
+    "pinyin": "fú lì",
+    "meaningVi": "Phúc lợi",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "奖金",
+    "pinyin": "jiǎng jīn",
+    "meaningVi": "Thưởng",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "津贴",
+    "pinyin": "jīn tiē",
+    "meaningVi": "Phụ cấp",
+    "hskLevel": 4
+  },
+  {
+    "hanzi": "保险",
+    "pinyin": "bǎo xiǎn",
+    "meaningVi": "Bảo hiểm",
+    "hskLevel": 4
+  },
 ];
 
 export const VOCAB_MAP: Record<string, VocabEntry> = Object.fromEntries(

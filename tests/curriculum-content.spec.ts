@@ -51,7 +51,7 @@ test("graded passages have unique IDs and valid answer keys", () => {
 });
 
 test("Speaking scenarios have stable unique IDs and one opening question at each level", () => {
-  expect(LEVELS.map(level => SCENARIOS.filter(scene => scene.level === level).length)).toEqual([3, 12, 15, 2, 2, 2, 2, 2]);
+  expect(LEVELS.map(level => SCENARIOS.filter(scene => scene.level === level).length)).toEqual([3, 12, 15, 18, 20, 22, 24, 30]);
   expect(new Set(SCENARIOS.map(scene => scene.id)).size).toBe(SCENARIOS.length);
   expect(new Set(SCENARIOS.map(scene => scene.openingZh)).size).toBe(SCENARIOS.length);
   for (const scene of SCENARIOS) {
