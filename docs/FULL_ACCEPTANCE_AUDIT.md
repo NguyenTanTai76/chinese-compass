@@ -3,7 +3,7 @@
 **Repo:** https://github.com/NguyenTanTai76/chinese-compass  
 **Local path:** `C:\Users\LENOVO\Desktop\chinese-compass`  
 **Nhánh:** `master`  
-**HEAD / SHA:** `44a861b` (`feat: close Speaking scenario gap and add full acceptance audit`)  
+**HEAD / SHA:** `751f2df` (`docs: cập nhật FULL_ACCEPTANCE_AUDIT sau khi commit mã (SHA 44a861b)`)  
 **Trạng thái push:** đã push lên `origin/master`, working tree sạch  
 **Ngày kiểm tra:** 2026-11-19  
 **Môi trường:** Windows 11, Node.js 22+, Next.js 16.4.6, React 19.3.1  
@@ -12,7 +12,7 @@
 
 ## 1. Phạm vi và nguyên tắc
 
-- Chốt HEAD `82d5d31` trên nhánh `master`, đã push lên origin. Working tree sạch tại baseline (trừ 2 file dưới đang chưa commit).
+- Chốt HEAD `82d5d31` trên nhánh `master`, đã push lên origin. Các bản sau (`44a861b` đóng kín Speaking + thêm audit, `751f2df` cập nhật audit) cũng đã push. Working tree sạch.
 - Chỉ chạy kiểm tra và viết tài liệu. Không thay đổi tính năng, dependency, cấu hình; không deploy, push, migration production, không in secrets.
 - Chạy mọi kiểm tra độc lập có thể. Thiếu Supabase staging, API key thực (Gemini/Groq), audio gắn nhãn, thiết bị thật → ghi mục bị chặn, tiếp tục mục khác.
 - Trạng thái dùng: **ĐẠT / MỘT PHẦN / KHÔNG ĐẠT / CHƯA CÓ / CHƯA XÁC MINH / BỊ CHẶN**. Loại bằng chứng: Browser thật / Staging thật / Browser + mock / Automated test / Code review / SKIP.
@@ -24,7 +24,7 @@
 
 | Lệnh | Kết quả | Chi tiết |
 |---|---|---|
-| `git status` / `git log --oneline -3` | ĐẠT | Clean, HEAD `44a861b`, up-to-date origin/master, working tree sạch |
+| `git status` / `git log --oneline -3` | ĐẠT | Clean, HEAD `751f2df`, up-to-date origin/master, working tree sạch |
 | `npm run typecheck` (`tsc --noEmit`) | ĐẠT | Không lỗi, không xuất ra |
 | `npm run lint` (`eslint src`) | ĐẠT | 0 errors; 37 warnings pre-existing (setState trong effect, biến chưa dùng) |
 | `npm run build` (`next build`) | ĐẠT | 43 route (42 static/dynamic + proxy middleware) |
@@ -162,7 +162,7 @@ Các bước sẽ thực hiện khi có staging được phép:
 
 ## 7. SHA và trạng thái làm việc
 
-- HEAD / SHA: `44a861b` (đã commit và push lên `origin/master`).
+- HEAD / SHA: `751f2df` (đã commit và push lên `origin/master`; chain: `82d5d31` → `44a861b` → `751f2df`).
 - Working tree: sạch, không có thay đổi chưa commit.
 - Không tạo nhánh mới, không force-push, không commit secrets.
 
@@ -174,4 +174,4 @@ Các bước sẽ thực hiện khi có staging được phép:
 - **Tính năng nào có thể dùng thật ngay?** Nhập môn–HSK 1: onboarding, placement, dashboard, từ vựng flashcard, đọc, ngữ pháp, speaking HSK 1 (14 tình huống), mock HSK 1, cài đặt/xuất JSON/xóa tài khoản cục bộ.
 - **Học liệu đã nghiệm thu bao nhiêu trên mục tiêu?** Từ vựng 491/~430 (vượt), đọc 43/38+ (vượt), ngữ pháp 250/200 (đủ), Speaking 147/144 (vượt), bài học 7/7 (đủ), đề thi HSK 1–4 đủ.
 - **Có thể mời 50 người chưa?** Chưa — chỉ thử nội bộ Nhập môn–HSK 1. Cần Supabase production + RLS, API key thật, staging + 2 tài khoản QA trước khi mở beta 50.
-- **5 việc quan trọng nhất cần làm tiếp:** (1) HSK 5–9 giáo trình; (2) HSKK/TOCFL mock; (3) Supabase migration staging + RLS A/B; (4) API key thử nghiệm + chạy E2E staging (`speaking-limit`, `beta-platform`, `/tutor`); (5) xây P8 cộng đồng. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`. SHA đã push: `44a861b`.
+- **5 việc quan trọng nhất cần làm tiếp:** (1) HSK 5–9 giáo trình; (2) HSKK/TOCFL mock; (3) Supabase migration staging + RLS A/B; (4) API key thử nghiệm + chạy E2E staging (`speaking-limit`, `beta-platform`, `/tutor`); (5) xây P8 cộng đồng. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`. SHA đã push: `751f2df`.
