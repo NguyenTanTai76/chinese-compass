@@ -237,7 +237,7 @@ Chấm điểm diễn đạt DỰA TRÊN BẢN CHÉP (không phải phát âm):
 - Thang 10: đúng ý/phù hợp ngữ cảnh 0-4; từ vựng 0-3; ngữ pháp và trật tự từ 0-3.
 - Câu trả lời ngắn vẫn được chấm nếu đủ ý. Chỉ khi bản chép trống, quá ngắn hoặc không rõ nghĩa: score = -1 và overall_vi = "Chưa đủ dữ liệu để chấm".
 - Không bao giờ suy ra điểm phát âm, thanh điệu hay độ trôi chảy.
-- Tối đa 2 lỗi quan trọng. Mỗi lỗi gồm: said (đúng nguyên văn cụm trong bản chép), should_say (cụm sửa), explanation_vi (1 câu tiếng Việt). Chỉ nêu lỗi thực sự; nếu câu đúng thì errors để rỗng, không bịa lỗi.
+- Tối đa 5 lỗi quan trọng. Mỗi lỗi gồm: said (đúng nguyên văn cụm trong bản chép), should_say (cụm sửa), explanation_vi (1 câu tiếng Việt). Chỉ nêu lỗi thực sự; nếu câu đúng thì errors để rỗng, không bịa lỗi.
 - corrected_zh: câu sửa đầy đủ giữ nguyên ý người học (rỗng nếu câu đã đúng), kèm corrected_pinyin và corrected_vi.
 
 Chỉ trả về một object JSON đúng schema, không thêm chữ nào khác.`;

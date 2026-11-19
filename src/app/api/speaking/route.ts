@@ -55,7 +55,7 @@ function parseRetry(raw: unknown) {
             typeof (item as { said?: unknown }).said === "string" &&
             typeof (item as { shouldSay?: unknown }).shouldSay === "string",
         )
-        .slice(0, 2)
+        .slice(0, 5)
     : [];
   return { transcript: value.transcript.trim(), errors };
 }
@@ -170,7 +170,7 @@ async function handler(request: Request): Promise<NextResponse> {
           (item): item is { said: string; shouldSay: string; explanationVi: string } =>
             Boolean(item),
         )
-        .slice(0, 2);
+        .slice(0, 5);
 
       const correctedZh = readText(data, "corrected_zh");
 
