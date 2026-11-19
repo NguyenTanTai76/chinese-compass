@@ -1,4 +1,5 @@
 export type GrammarLesson = {
+  id: string;
   title: string;
   description: string;
   level: number;
@@ -8,6 +9,7 @@ export type GrammarLesson = {
 
 export const GRAMMAR_LESSONS: GrammarLesson[] = [
   {
+    "id": "pinyin-tones",
     "title": "Pinyin và Thanh điệu",
     "description": "Học phát âm chuẩn",
     "level": 1,
@@ -15,6 +17,7 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
     "order": 1
   },
   {
+    "id": "greetings",
     "title": "Chào hỏi cơ bản",
     "description": "Cách chào hỏi và giới thiệu bản thân",
     "level": 1,
@@ -22,6 +25,7 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
     "order": 2
   },
   {
+    "id": "numbers",
     "title": "Số đếm và Số lượng",
     "description": "Từ 1-100 và mạo từ",
     "level": 1,
@@ -29,6 +33,7 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
     "order": 3
   },
   {
+    "id": "family-jobs",
     "title": "Gia đình và Nghề nghiệp",
     "description": "Từ vựng về gia đình",
     "level": 1,
@@ -36,6 +41,7 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
     "order": 4
   },
   {
+    "id": "routines",
     "title": "Sinh hoạt hàng ngày",
     "description": "Đồng hồ, thói quen, hoạt động",
     "level": 1,
@@ -43,6 +49,7 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
     "order": 5
   },
   {
+    "id": "shopping-food",
     "title": "Mua sắm và Ăn uống",
     "description": "Hỏi giá, đặt món, thanh toán",
     "level": 2,
@@ -50,6 +57,7 @@ export const GRAMMAR_LESSONS: GrammarLesson[] = [
     "order": 6
   },
   {
+    "id": "core-particles",
     "title": "Ngữ pháp cơ bản: 是, 有, 了, 的",
     "description": "4 cấu trúc quan trọng nhất",
     "level": 2,

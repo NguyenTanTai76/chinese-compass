@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { speakChinese } from "@/lib/speech";
 import { levelFromXp, useStudyState } from "@/lib/progress";
+import { ContinueLearning } from "@/components/dashboard/continue-learning";
 
 const SKILLS = [
   { href: "/pinyin", label: "Pinyin", desc: "Phát âm & thanh điệu", icon: Languages },
@@ -53,7 +54,7 @@ const FALLBACK_TASKS = [
 ];
 
 export default function DashboardPage() {
-  const { state, syncing, lastSync, userLoaded, syncNow } = useStudyState();
+  const { state, syncing, lastSync, userLoaded, syncNow, syncFailed } = useStudyState();
   const [plan, setPlan] = useState<AiPlan | null>(null);
   const [planLoading, setPlanLoading] = useState(false);
 
@@ -66,7 +67,7 @@ export default function DashboardPage() {
   const average = useMemo(() => {
     if (state.results.length === 0) return 0;
     const total = state.results.reduce(
-      (sum, item) => sum + (item.total > 0 ? (item.score / item.total) * 100 : 0),
+      (sum, item) => sum + (item.type === "shadowing" ? item.score : (item.score / item.total) * 100),
       0,
     );
     return Math.round(total / state.results.length);
@@ -129,8 +130,10 @@ export default function DashboardPage() {
                   <RefreshCw className="h-3.5 w-3.5 animate-spin" />
                   Đang đồng bộ...
                 </>
+              ) : syncFailed ? (
+                "Đồng bộ lại"
               ) : lastSync > 0 ? (
-                `Đã sync ${new Date(lastSync).toLocaleTimeString()}`
+                `Đã đồng bộ ${new Date(lastSync).toLocaleTimeString()}`
               ) : (
                 "Đồng bộ dữ liệu"
               )}
@@ -146,6 +149,11 @@ export default function DashboardPage() {
           </Button>
         </div>
       </header>
+      {syncFailed && (
+        <p role="status" className="text-sm text-destructive">
+          Đồng bộ thất bại. Hãy thử lại khi có kết nối.
+        </p>
+      )}
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-2xl border border-border bg-card p-4">
@@ -191,6 +199,8 @@ export default function DashboardPage() {
           </p>
         </div>
       </div>
+
+      <ContinueLearning state={state} />
 
       <div className="grid gap-4 lg:grid-cols-[1.15fr_1fr]">
         <section className="rounded-2xl border border-border bg-card p-5">
@@ -305,11 +315,11 @@ export default function DashboardPage() {
         <section className="rounded-2xl border border-border bg-card p-5">
           <h2 className="text-sm font-semibold text-foreground">Hoạt động gần đây</h2>
           <ul className="mt-3 divide-y divide-border text-sm">
-            {recent.map((item, index) => (
-              <li key={index} className="flex items-center justify-between py-2">
+            {recent.map((item) => (
+              <li key={item.id} className="flex items-center justify-between py-2">
                 <span className="capitalize text-muted-foreground">{item.type}</span>
                 <span className="font-medium text-primary">
-                  {item.score}/{item.total}
+                  {item.type === "shadowing" ? `${item.score}%` : `${item.score}/${item.total}`}
                 </span>
               </li>
             ))}

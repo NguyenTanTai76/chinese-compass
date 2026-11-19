@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createSupabaseServerClient, ensureReviewProfile } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
   const supabase = createSupabaseServerClient();
@@ -53,6 +53,9 @@ export async function POST(request: Request) {
   if (toUpsert.length === 0) {
     return NextResponse.json({ success: true, synced: 0 });
   }
+
+  const { error: profileError } = await ensureReviewProfile(supabase, user);
+  if (profileError) return NextResponse.json({ error: "Review profile unavailable" }, { status: 500 });
 
   const { error } = await supabase.from("CardReview").upsert(toUpsert, {
     onConflict: "user_id,vocab_word_id",

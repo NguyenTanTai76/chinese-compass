@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
@@ -40,6 +41,11 @@ const DIFFICULTY_LABEL: Record<number, string> = {
 export default function ReflexPage() {
   const [order, setOrder] = useState(PHRASES);
   const [index, setIndex] = useState(0);
+  const lesson = useSearchParams().get("lesson");
+  useEffect(() => {
+    const index = PHRASES.findIndex(item => item.id === lesson);
+    if (index >= 0) setIndex(index);
+  }, [lesson]);
   const [result, setResult] = useState<ReflexResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState({ attempts: 0, correct: 0, totalScore: 0 });

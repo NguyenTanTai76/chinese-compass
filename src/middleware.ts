@@ -1,65 +1,50 @@
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { safeReturnPath } from "@/lib/auth/redirect";
 
 export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  });
+  const { pathname, search } = request.nextUrl;
+  if (pathname.startsWith("/api/") || pathname === "/auth/callback") return NextResponse.next();
 
+  let response = NextResponse.next({ request });
+  const authHeaders = new Headers();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        get(name: string) {
-          return request.cookies.get(name)?.value;
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({ name, value, ...options });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
-          response.cookies.set({ name, value, ...options });
-        },
-        remove(name: string, options: CookieOptions) {
-          request.cookies.set({ name, value: "", ...options });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
-          response.cookies.set({ name, value: "", ...options });
+        getAll: () => request.cookies.getAll(),
+        setAll(cookies, headers) {
+          for (const { name, value } of cookies) request.cookies.set(name, value);
+          const previousCookies = response.cookies.getAll();
+          response = NextResponse.next({ request });
+          for (const cookie of previousCookies) response.cookies.set(cookie);
+          for (const { name, value, options } of cookies) response.cookies.set(name, value, options);
+          for (const [name, value] of Object.entries(headers)) authHeaders.set(name, value);
         },
       },
-    }
+    },
   );
 
   const { data: { user } } = await supabase.auth.getUser();
-
-  const isAuthRoute = request.nextUrl.pathname.startsWith("/auth");
-  const isApiRoute = request.nextUrl.pathname.startsWith("/api");
-
-  if (!user && !isAuthRoute && !isApiRoute && request.nextUrl.pathname !== "/") {
-    const url = request.nextUrl.clone();
-    url.pathname = "/auth/sign-in";
-    url.searchParams.set("callbackUrl", request.nextUrl.pathname);
-    return NextResponse.redirect(url);
+  const signIn = pathname === "/auth/sign-in" || pathname === "/sign-in";
+  let destination: URL | undefined;
+  if (!user && !signIn && pathname !== "/") {
+    destination = new URL("/auth/sign-in", request.url);
+    destination.searchParams.set("callbackUrl", pathname + search);
+  } else if (signIn && (user || pathname === "/sign-in")) {
+    destination = new URL(user ? safeReturnPath(request.nextUrl.searchParams.get("callbackUrl")) : "/auth/sign-in" + search, request.url);
   }
 
-  if (user && isAuthRoute) {
-    const callbackUrl = request.nextUrl.searchParams.get("callbackUrl") ?? "/dashboard";
-    return NextResponse.redirect(new URL(callbackUrl, request.url));
+  const result = destination ? NextResponse.redirect(destination) : response;
+  if (destination) {
+    for (const cookie of response.cookies.getAll()) result.cookies.set(cookie);
+    result.headers.set("Cache-Control", "private, no-store");
   }
-
-  return response;
+  authHeaders.forEach((value, name) => result.headers.set(name, value));
+  return result;
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.png$).*)",
-  ],
+  matcher: ["/((?!_next/|favicon.ico|.*\\.[^/]+$).*)"],
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import {
   ArrowRight,
@@ -41,6 +42,11 @@ export default function GrammarPage() {
   const [tab, setTab] = useState<"lessons" | "quiz">("lessons");
   const [openLesson, setOpenLesson] = useState<string | null>(GRAMMAR_LESSONS[0]?.title ?? null);
 
+  const lesson = useSearchParams().get("lesson");
+  useEffect(() => {
+    const index = GRAMMAR_LESSONS.findIndex(item => item.id === lesson);
+    if (index >= 0) setOpenLesson(GRAMMAR_LESSONS[index].title);
+  }, [lesson]);
   const [level, setLevel] = useState<"all" | 1 | 2>("all");
   const [questions, setQuestions] = useState<GrammarQuestion[]>([]);
   const [index, setIndex] = useState(0);

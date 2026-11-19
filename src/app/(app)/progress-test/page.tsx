@@ -3,6 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { ArrowRight, CheckCircle2, Loader2, RotateCcw, Trophy, XCircle } from "lucide-react";
 
+import { DICTATION_ITEMS } from "@/lib/content/dictation";
+import { speakChinese, stopSpeaking } from "@/lib/speech";
+import { PERIODIC_EXAM_ID } from "@/lib/study-plan";
 import { Button } from "@/components/ui/button";
 import { GRAMMAR_QUESTIONS } from "@/lib/content/grammar-questions";
 import { VOCAB, type VocabEntry } from "@/lib/content/vocab";
@@ -11,7 +14,8 @@ import { cn } from "@/lib/utils";
 
 type TestQuestion = {
   id: string;
-  kind: "vocab" | "grammar";
+  kind: "vocab" | "grammar" | "listening";
+  audio?: string;
   hanzi?: string;
   prompt: string;
   options: string[];
@@ -29,10 +33,8 @@ function shuffle<T>(items: T[]): T[] {
 }
 
 function buildVocabQuestion(word: VocabEntry, pool: VocabEntry[]): TestQuestion {
-  const distractors = shuffle(
-    pool.filter((item) => item.meaningVi !== word.meaningVi),
-  ).slice(0, 3);
-  const options = shuffle([word.meaningVi, ...distractors.map((item) => item.meaningVi)]);
+  const meanings = [...new Set(pool.map(item => item.meaningVi))];
+  const options = shuffle([word.meaningVi, ...shuffle(meanings.filter(meaning => meaning !== word.meaningVi)).slice(0, 3)]);
   return {
     id: `v-${word.hanzi}`,
     kind: "vocab",
@@ -45,9 +47,9 @@ function buildVocabQuestion(word: VocabEntry, pool: VocabEntry[]): TestQuestion 
 }
 
 function buildTest(): TestQuestion[] {
-  const vocabPool = VOCAB.filter((word) => word.hskLevel <= 2);
-  const vocabPicks = shuffle(vocabPool).slice(0, 10);
-  const grammarPicks = shuffle(GRAMMAR_QUESTIONS).slice(0, 10);
+  const vocabPool = VOCAB.filter((word) => word.hskLevel === 1);
+  const vocabPicks = shuffle([...new Map(vocabPool.map(word => [word.hanzi, word])).values()]).slice(0, 8);
+  const grammarPicks = shuffle(GRAMMAR_QUESTIONS.filter(item => item.level === 1)).slice(0, 7);
 
   const vocabQuestions = vocabPicks.map((word) => buildVocabQuestion(word, vocabPool));
   const grammarQuestions: TestQuestion[] = grammarPicks.map((item) => ({
@@ -60,7 +62,21 @@ function buildTest(): TestQuestion[] {
     note: item.explanation,
   }));
 
-  return shuffle([...vocabQuestions, ...grammarQuestions]);
+  const audioPool = DICTATION_ITEMS.filter(item => item.level === 1);
+  const listeningQuestions: TestQuestion[] = shuffle(audioPool).slice(0, 5).map(item => {
+    const wrongMeanings = [...new Set(audioPool.map(option => option.meaningVi))].filter(meaning => meaning !== item.meaningVi);
+    return {
+      id: item.id,
+      kind: "listening",
+      audio: item.hanzi,
+      prompt: "Nghe câu tiếng Trung và chọn nghĩa đúng.",
+      options: shuffle([item.meaningVi, ...shuffle(wrongMeanings).slice(0, 3)]),
+      answer: item.meaningVi,
+      note: `${item.hanzi} (${item.pinyin}) · ${item.meaningVi}`,
+    };
+  });
+
+  return [...shuffle([...vocabQuestions, ...grammarQuestions]), ...listeningQuestions];
 }
 
 export default function ProgressTestPage() {
@@ -84,6 +100,7 @@ export default function ProgressTestPage() {
 
   const question = questions[index];
 
+  useEffect(() => stopSpeaking, [question?.id]);
   const score = answers.filter((item) => item.chosen === item.question.answer).length;
 
   const choose = useCallback(
@@ -98,7 +115,10 @@ export default function ProgressTestPage() {
   const next = useCallback(() => {
     if (index + 1 >= questions.length) {
       const finalScore = answers.filter((item) => item.chosen === item.question.answer).length;
-      logSession({ type: "test", score: finalScore, total: questions.length }, finalScore * 3);
+      logSession({
+        type: "test", score: finalScore, total: questions.length,
+        examId: PERIODIC_EXAM_ID, examKind: "periodic",
+      }, finalScore * 3);
       setDone(true);
       return;
     }
@@ -172,7 +192,7 @@ export default function ProgressTestPage() {
       <header className="space-y-1">
         <h1 className="text-2xl font-bold text-primary">Kiểm tra định kỳ</h1>
         <p className="text-sm text-muted-foreground">
-          20 câu tổng hợp từ vựng HSK 1–2 và ngữ pháp. Hoàn thành để nhận XP.
+          20 câu HSK 1 gồm 8 câu từ vựng, 7 câu ngữ pháp và 5 câu nghe.
         </p>
       </header>
 
@@ -186,7 +206,7 @@ export default function ProgressTestPage() {
       <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span className="rounded-full bg-primary/10 px-2.5 py-1 font-medium text-primary">
-            {question.kind === "vocab" ? "Từ vựng" : "Ngữ pháp"}
+            {question.kind === "listening" ? "Nghe hiểu" : question.kind === "vocab" ? "Từ vựng" : "Ngữ pháp"}
           </span>
           <span>
             Câu {index + 1}/{questions.length}
@@ -194,6 +214,11 @@ export default function ProgressTestPage() {
         </div>
 
         <p className="mt-4 text-sm text-muted-foreground">{question.prompt}</p>
+        {question.audio && (
+          <Button className="mt-2" variant="outline" onClick={() => void speakChinese(question.audio!)}>
+            Nghe câu hỏi
+          </Button>
+        )}
         {question.hanzi && (
           <p className="hanzi mt-1 text-3xl font-semibold text-foreground">
             {question.hanzi}

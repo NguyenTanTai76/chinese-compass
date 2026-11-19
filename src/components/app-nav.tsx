@@ -3,17 +3,19 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Search, X, LogOut, ChevronDown } from "lucide-react";
+import { Menu, Search, X, LogOut } from "lucide-react";
 
 import { GlobalSearch } from "@/components/global-search";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth/context";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const NAV = [
   { href: "/dashboard", label: "Trang chính" },
+  { href: "/plan", label: "Lịch học" },
+  { href: "/intro", label: "Nhập môn" },
   { href: "/pinyin", label: "Pinyin" },
   { href: "/vocab", label: "Từ vựng" },
   { href: "/writing", label: "Luyện viết" },
@@ -35,7 +37,11 @@ export function AppNav() {
   const close = useCallback(() => setOpen(false), []);
 
   const handleSignOut = async () => {
-    await signOut();
+    try {
+      await signOut();
+    } catch {
+      toast.error("Chưa thể đăng xuất. Hãy thử lại.");
+    }
   };
 
   useEffect(() => {
@@ -94,6 +100,11 @@ export function AppNav() {
               {item.label}
             </Link>
           ))}
+          {user && (
+            <Button variant="ghost" size="sm" onClick={handleSignOut} className="col-span-2 justify-start">
+              <LogOut className="h-4 w-4" /> Đăng xuất
+            </Button>
+          )}
         </nav>
       )}
 
@@ -114,7 +125,7 @@ export function AppNav() {
           </kbd>
         </button>
 
-        <nav className="flex flex-1 flex-col gap-1 overflow-y-auto">
+        <nav className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
           {NAV.map((item) => (
             <Link
               key={item.href}
@@ -132,28 +143,17 @@ export function AppNav() {
         </nav>
 
         {!loading && user && (
-          <div className="mt-auto border-t border-border pt-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="w-full justify-start gap-2 h-10 px-2">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src={user.user_metadata?.avatar_url ?? undefined} alt={user.email ?? "User"} />
-                    <AvatarFallback className="text-xs">{userInitial}</AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 text-left truncate">
-                    <p className="text-sm font-medium">{user.email}</p>
-                    <p className="text-xs text-muted-foreground">Đã đăng nhập</p>
-                  </div>
-                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Đăng xuất
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <div className="mt-auto shrink-0 space-y-2 border-t border-border pt-4">
+            <div className="flex items-center gap-2 px-2">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src={user.user_metadata?.avatar_url ?? undefined} alt="" />
+                <AvatarFallback className="text-xs">{userInitial}</AvatarFallback>
+              </Avatar>
+              <p className="truncate text-sm font-medium" title={user.email}>{user.email}</p>
+            </div>
+            <Button variant="ghost" size="sm" onClick={handleSignOut} className="w-full justify-start">
+              <LogOut className="h-4 w-4" /> Đăng xuất
+            </Button>
           </div>
         )}
 

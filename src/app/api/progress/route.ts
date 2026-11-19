@@ -1,64 +1,32 @@
 import { NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { isProgressEvent, type ProgressEvent } from "@/lib/progress-model";
 
-export async function GET() {
+export async function GET(request: Request) {
   const supabase = createSupabaseServerClient();
-
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const owner = new URL(request.url).searchParams.get("owner");
+  if (owner !== null && owner !== user.id) {
+    return NextResponse.json({ error: "Account changed" }, { status: 409 });
   }
 
-  const [profileResult, cardsResult, logsResult] = await Promise.all([
-    supabase.from("Profile").select("*").eq("user_id", user.id).single(),
-    supabase.from("CardReview").select("id, vocab_word_id, ease_factor, interval, repetitions, due_at, last_reviewed, created_at, VocabWord:vocab_word_id (hanzi, pinyin, meaning_vi, hsk_level)").eq("user_id", user.id),
-    supabase.from("StudyLog").select("*").eq("user_id", user.id).order("date", { ascending: false }).limit(60),
-  ]);
+  const events: ProgressEvent[] = [];
+  const pageSize = 500;
+  let cursor = 0;
+  while (true) {
+    const { data, error } = await supabase.from("ProgressEvent")
+      .select("sequence,event").eq("user_id", user.id).gt("sequence", cursor)
+      .order("sequence").limit(pageSize);
+    if (error) return NextResponse.json({ error: "Progress unavailable" }, { status: 500 });
 
-  if (profileResult.error && profileResult.error.code !== "PGRST116") {
-    return NextResponse.json({ error: profileResult.error.message }, { status: 500 });
+    for (const row of data) {
+      if (isProgressEvent(row.event)) events.push(row.event);
+      cursor = row.sequence;
+    }
+    if (data.length < pageSize) break;
   }
 
-  const profile = profileResult.data ?? {
-    user_id: user.id,
-    email: user.email ?? "",
-    xp: 0,
-    level: 1,
-    streak: 0,
-    last_active: null,
-  };
-
-  const cards = (cardsResult.data ?? []).map((item) => {
-    const vocab = Array.isArray(item.VocabWord) ? item.VocabWord[0] : item.VocabWord;
-    return {
-      hanzi: vocab?.hanzi ?? "",
-      pinyin: vocab?.pinyin ?? "",
-      meaningVi: vocab?.meaning_vi ?? "",
-      hskLevel: vocab?.hsk_level ?? 1,
-      addedAt: new Date(item.created_at).getTime(),
-      easeFactor: item.ease_factor,
-      interval: item.interval,
-      repetitions: item.repetitions,
-      dueAt: item.due_at,
-      lastReviewed: item.last_reviewed,
-    };
-  });
-
-  const results = (logsResult.data ?? []).map((log) => ({
-    type: log.type,
-    score: log.count,
-    total: log.count,
-    at: new Date(log.created_at).getTime(),
-    xpEarned: log.xp_earned,
-  }));
-
-  return NextResponse.json({
-    xp: profile.xp,
-    streak: profile.streak,
-    lastStudyDate: profile.last_active?.split("T")[0] ?? "",
-    todayXp: 0,
-    todayDate: new Date().toISOString().slice(0, 10),
-    cards,
-    results,
-  });
+  return NextResponse.json({ events }, { headers: { "Cache-Control": "private, no-store" } });
 }

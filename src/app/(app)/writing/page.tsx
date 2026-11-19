@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Eraser, Loader2, PencilLine, Play, Search, Volume2 } from "lucide-react";
 import { toast } from "sonner";
@@ -37,6 +38,11 @@ export default function WritingPage() {
   );
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(singleChars[0]?.hanzi ?? "我");
+  const lesson = useSearchParams().get("lesson");
+  useEffect(() => {
+    const index = singleChars.findIndex(item => item.hanzi === lesson);
+    if (index >= 0) setSelected(singleChars[index].hanzi);
+  }, [lesson, singleChars]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [isAnimating, setIsAnimating] = useState(false);
   const [isQuizzing, setIsQuizzing] = useState(false);

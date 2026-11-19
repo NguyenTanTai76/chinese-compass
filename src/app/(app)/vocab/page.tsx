@@ -1,6 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { findSinoVietnamese } from "@/lib/content/sino-vietnamese";
+
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { VOCAB, type VocabEntry } from "@/lib/content/vocab";
 import { addXp } from "@/lib/progress";
@@ -11,6 +14,11 @@ export default function VocabPage() {
   const [index, setIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
 
+  const lesson = useSearchParams().get("lesson");
+  useEffect(() => {
+    const index = VOCAB.findIndex(item => item.hanzi === lesson);
+    if (index >= 0) setIndex(index);
+  }, [lesson]);
   const pool = level === "all" ? VOCAB : VOCAB.filter((word) => word.hskLevel === level);
   const current: VocabEntry | undefined = pool[index % Math.max(1, pool.length)];
 
@@ -57,6 +65,7 @@ export default function VocabPage() {
         ) : (
           <div className="mt-5 space-y-4">
             <p className="text-xl font-medium text-primary">{current.meaningVi}</p>
+            <SinoVietnameseNote hanzi={current.hanzi} />
             <div className="grid grid-cols-4 gap-2">
               <Button variant="danger" onClick={() => { addXp(1); setIndex((i) => (i + 1) % pool.length); setShowAnswer(false); }}>
                 Lại
@@ -76,4 +85,8 @@ export default function VocabPage() {
       </section>
     </div>
   );
+}
+function SinoVietnameseNote({ hanzi }: { hanzi: string }) {
+  const entry = findSinoVietnamese(hanzi);
+  return entry ? <p className="text-sm text-muted-foreground">Âm Hán Việt: {entry.hanViet}</p> : null;
 }

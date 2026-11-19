@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
@@ -25,6 +26,11 @@ import { cn } from "@/lib/utils";
 export default function DictationPage() {
   const [order, setOrder] = useState(DICTATION_ITEMS);
   const [index, setIndex] = useState(0);
+  const lesson = useSearchParams().get("lesson");
+  useEffect(() => {
+    const index = DICTATION_ITEMS.findIndex(item => item.id === lesson);
+    if (index >= 0) setIndex(index);
+  }, [lesson]);
   const [input, setInput] = useState("");
   const [checked, setChecked] = useState(false);
   const [revealed, setRevealed] = useState(false);

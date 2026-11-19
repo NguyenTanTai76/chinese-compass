@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Bookmark,
@@ -35,6 +36,11 @@ type PopupWord = {
 
 export default function ReadingPage() {
   const [passageIndex, setPassageIndex] = useState(0);
+  const lesson = useSearchParams().get("lesson");
+  useEffect(() => {
+    const index = READING_PASSAGES.findIndex(item => item.id === lesson);
+    if (index >= 0) setPassageIndex(index);
+  }, [lesson]);
   const [popup, setPopup] = useState<PopupWord | null>(null);
   const [fallbackPinyin, setFallbackPinyin] = useState<string | null>(null);
   const [translations, setTranslations] = useState<string[] | null>(null);

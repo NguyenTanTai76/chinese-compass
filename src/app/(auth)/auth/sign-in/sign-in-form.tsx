@@ -11,12 +11,13 @@ import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/lib/auth/context";
+import { safeReturnPath } from "@/lib/auth/redirect";
 import { toast } from "sonner";
 
 export function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams?.get("callbackUrl") ?? "/dashboard";
+  const callbackUrl = safeReturnPath(searchParams?.get("callbackUrl") ?? null);
   const { signIn, signUp, loading: authLoading } = useAuth();
 
   const [isSignUp, setIsSignUp] = useState(false);
@@ -36,12 +37,17 @@ export function SignInForm() {
           toast.error("Mật khẩu xác nhận không khớp");
           return;
         }
-        const { error } = await signUp(email, password);
+        const { error, signedIn } = await signUp(email, password);
         if (error) {
           toast.error(error.message);
           return;
         }
-        toast.success("Đăng ký thành công! Vui lòng kiểm tra email để xác thực.");
+        if (signedIn) {
+          router.replace(callbackUrl);
+          router.refresh();
+        } else {
+          toast.success("Đăng ký thành công! Vui lòng kiểm tra email để xác thực.");
+        }
       } else {
         const { error } = await signIn(email, password);
         if (error) {
@@ -49,7 +55,7 @@ export function SignInForm() {
           return;
         }
         toast.success("Đăng nhập thành công!");
-        router.push(callbackUrl);
+        router.replace(callbackUrl);
         router.refresh();
       }
     } finally {
@@ -69,6 +75,11 @@ export function SignInForm() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {searchParams?.get("error") === "confirmation" && (
+            <p role="alert" className="mb-4 text-sm text-destructive">
+              Không thể xác nhận email. Hãy mở liên kết mới nhất trong trình duyệt đã đăng ký.
+            </p>
+          )}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
               <Label htmlFor="email">Email</Label>

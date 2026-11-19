@@ -1,0 +1,15 @@
+# Hợp đồng tích hợp beta/platform
+
+- Học liệu dùng `StudyContentRef = { kind, id }` từ `@/lib/study-plan`. Giữ ID đã xuất bản, ví dụ `{ kind: "dictation", id: "d01" }`. Học liệu mới dùng slug ổn định theo nội dung, ví dụ `{ kind: "test", id: "hsk1-mock-01" }`. Các mục từ hiện có chưa có ID riêng có thể tham chiếu bằng Hán tự chuẩn hóa NFC. Nếu thêm nhiều mục đồng tự, cấp ID riêng cho từng mục mới. Tránh vị trí mảng và tiêu đề hiển thị làm ID.
+- Đọc `state: StudyState` qua `useStudyState()` trong route thuộc layout app. Dùng `addXp`, `saveCard`, `removeCard` hoặc `logSession` từ `@/lib/progress` để ghi. Flashcard đã lưu định danh theo `hanzi`. `state.results` là tối đa 60 lượt gần nhất, sắp mới trước. `at`, `addedAt`, `completedAt` dùng epoch ms. Ngày học dùng `YYYY-MM-DD` theo giờ Việt Nam.
+- Khi nộp bài gọi `logSession({ type: "test", score: 16, total: 20, examId: "hsk1-mock-01", examKind: "hsk-mock" }, 48)` một lần. `score` là số câu đúng, `total` là số câu. Các loại đề là `placement | unit | periodic | hsk-mock`. Platform sinh `id` cho từng lượt và lưu điểm gốc. `examId` giữ nguyên giữa các lần thi cùng đề.
+- Kế hoạch theo tuần dùng bảng `StudyPlan`, khóa `(user_id, week_start)`. `week_start` là thứ Hai theo giờ Việt Nam. Cột `plan` chứa `{ version: 1, tasks: StudyPlanTask[] }` từ `@/lib/study-plan`. Mỗi task có ID ổn định trong tuần, `date`, `content`, `title`, `href` nội bộ, `minutes` và `completedAt?`. Dùng client Supabase của phiên đăng nhập để select theo tuần và upsert với `onConflict: "user_id,week_start"`, lấy `user_id` từ phiên Auth. RLS kiểm tra chủ sở hữu. Khi chuyển tài khoản, dùng khóa cache có `user.id` và hủy kết quả request cũ. Upsert là thay nguyên tuần, vì vậy cập nhật từ bản mới nhất trước khi ghi.
+- Dashboard đã gắn `<ContinueLearning state={state} />` dưới nhóm thống kê. Cline tích hợp nội dung kế hoạch vào `src/components/dashboard/continue-learning.tsx` với prop `{ state: StudyState }`. Patch thay đổi trang dashboard chung chuyển cho platform tích hợp.
+
+## Nghiệm thu staging
+
+Dùng project Supabase riêng có Email/Password Auth, Data API cho schema `public` và hai user email đã xác nhận. Thêm URL ứng dụng làm Site URL hoặc redirect allowlist cho `/auth/callback`. Đặt `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `BETA_TEST_EMAIL_A`, `BETA_TEST_PASSWORD_A`, `BETA_TEST_EMAIL_B`, `BETA_TEST_PASSWORD_B` trong môi trường local của app/test.
+
+Kiểm kê schema, policy và migration history trên DB đã xác nhận. DB mới áp dụng theo thứ tự `001_init.sql`, `002_beta_progress.sql`. DB đã có 001 kiểm tra đối chiếu trước khi chỉ áp dụng 002. Chạy `npx playwright test beta-platform.spec.ts` với app đang chạy. Mặc định test dùng cổng 3000. Đặt `BETA_TEST_BASE_URL` khi dùng địa chỉ staging hoặc cổng khác. Test ghi tiến độ trên hai tài khoản dùng riêng cho QA.
+
+`002` giữ XP và flashcard từ DB cho các profile gắn với tài khoản Auth. `StudyLog` cũ giữ nguyên các số liệu tổng hợp theo ngày. Các hàng cũ thiếu điểm từng lượt. Cache `cc_state_v1` trên trình duyệt cũ thiếu ID chủ sở hữu, nên chỉ có thể nhập dữ liệu sau khi đối chiếu chủ sở hữu.
