@@ -64,6 +64,13 @@ CREATE POLICY "Authenticated users can read grammar lessons" ON "GrammarLesson"
 CREATE POLICY "Authenticated users can read passages" ON "ReadingPassage"
   FOR SELECT USING (auth.role() = 'authenticated');
 
+-- ProgressEvent policies
+CREATE POLICY "Users can view own progress events" ON "ProgressEvent"
+  FOR SELECT USING (auth.uid()::text = "userId");
+
+CREATE POLICY "Users can insert own progress events" ON "ProgressEvent"
+  FOR INSERT WITH CHECK (auth.uid()::text = "userId");
+
 -- Helper function to get current user id
 CREATE OR REPLACE FUNCTION current_user_id() RETURNS text
 LANGUAGE sql SECURITY DEFINER

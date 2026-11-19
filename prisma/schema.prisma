@@ -121,3 +121,14 @@ model ReadingPassage {
   audioUrl    String?  @map("audio_url")
   createdAt   DateTime @default(now()) @map("created_at")
 }
+
+model ProgressEvent {
+  id        String   @id
+  userId    String   @map("user_id")
+  sequence  BigInt   @map("sequence")
+  event     Json     @map("event")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("ProgressEvent")
+  @@index([userId, sequence])
+}
