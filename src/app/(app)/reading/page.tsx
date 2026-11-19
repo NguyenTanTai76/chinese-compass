@@ -1,6 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Bookmark,
@@ -308,6 +309,7 @@ export default function ReadingPage() {
       </section>
 
       {passage.check && <ReadingCheck key={passage.id} passageId={passage.id} check={passage.check} />}
+      <Link className="text-sm underline" href={`/tutor?kind=reading&lesson=${encodeURIComponent(passage.id)}`}>Hỏi Trợ lý AI về bài đọc</Link>
       {popup && (
         <div className="fixed inset-x-0 bottom-0 z-40 flex justify-center px-3 pb-3">
           <div className="w-full max-w-lg rounded-2xl border border-border bg-card p-5 shadow-2xl">

@@ -7,15 +7,19 @@ import { buildPeriodicTest, type PeriodicQuestion } from "@/lib/content/periodic
 import { speakChinese, stopSpeaking } from "@/lib/speech";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { PERIODIC_EXAM_ID, SECOND_PERIODIC_EXAM_ID } from "@/lib/study-plan";
+import { LEGACY_SECOND_PERIODIC_EXAM_ID, PERIODIC_EXAM_ID, SECOND_PERIODIC_EXAM_ID } from "@/lib/study-plan";
 import { Button } from "@/components/ui/button";
-import { logSession, useStudyState } from "@/lib/progress";
+import { logSession, type SessionResult, useStudyState } from "@/lib/progress";
 import { cn } from "@/lib/utils";
 
 export default function ProgressTestPage() {
-  const form = useSearchParams().get("lesson") === SECOND_PERIODIC_EXAM_ID ? 1 : 0;
+  const lesson = useSearchParams().get("lesson");
+  const form = lesson === SECOND_PERIODIC_EXAM_ID || lesson === LEGACY_SECOND_PERIODIC_EXAM_ID ? 1 : 0;
   const examId = form === 1 ? SECOND_PERIODIC_EXAM_ID : PERIODIC_EXAM_ID;
-  const results = useStudyState().state.results.filter(result => result.examKind === "periodic");
+  const results = useStudyState().state.results.filter(
+    (result): result is SessionResult & { examKind: "periodic" } =>
+      result.examKind === "periodic",
+  );
   const submitted = useRef(false);
   const [questions, setQuestions] = useState<PeriodicQuestion[]>([]);
   const [index, setIndex] = useState(0);
@@ -152,7 +156,7 @@ export default function ProgressTestPage() {
             <Link className="underline" href={`/progress-test?lesson=${SECOND_PERIODIC_EXAM_ID}`}>Đề 2</Link>
           </nav>
         <p className="text-sm text-muted-foreground">
-          20 câu HSK 1 gồm 8 câu từ vựng, 7 câu ngữ pháp và 5 câu nghe.
+          20 câu HSK 1 gồm 10 câu từ vựng, 5 câu ngữ pháp và 5 câu nghe.
         </p>
       </header>
 

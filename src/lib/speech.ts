@@ -1,6 +1,30 @@
 "use client";
 
 let cachedVoice: SpeechSynthesisVoice | null = null;
+let owner: string | undefined;
+export type SpeechPreferences = { rate: number; voice: string; pinyin: boolean };
+const defaults: SpeechPreferences = { rate: 1, voice: "", pinyin: false };
+const key = (id: string) => `cc_speech_v1:${id}`;
+
+export function setSpeechOwner(id: string | undefined) {
+  if (owner !== id) stopSpeaking();
+  owner = id;
+}
+
+export function loadSpeechPreferences(id = owner): SpeechPreferences {
+  try {
+    if (id) {
+      const value = JSON.parse(window.localStorage.getItem(key(id)) ?? "null");
+      if (value && typeof value.rate === "number" && value.rate >= 0.6 && value.rate <= 1.3 &&
+        typeof value.voice === "string" && typeof value.pinyin === "boolean") return value;
+    }
+  } catch { /* Use defaults when device storage is unavailable. */ }
+  return defaults;
+}
+
+export function saveSpeechPreferences(id: string, value: SpeechPreferences) {
+  window.localStorage.setItem(key(id), JSON.stringify(value));
+}
 
 function pickChineseVoice(): SpeechSynthesisVoice | null {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) {
@@ -28,8 +52,9 @@ export function speakChinese(text: string, rate = 0.95): Promise<void> {
     synth.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "zh-CN";
-    utterance.rate = rate;
-    const voice = pickChineseVoice();
+    const prefs = loadSpeechPreferences();
+    utterance.rate = Math.min(1.4, Math.max(0.5, rate * prefs.rate));
+    const voice = synth.getVoices().find(item => item.voiceURI === prefs.voice && item.lang.toLowerCase().startsWith("zh")) ?? pickChineseVoice();
     if (voice) utterance.voice = voice;
     utterance.onend = () => resolve();
     utterance.onerror = () => resolve();

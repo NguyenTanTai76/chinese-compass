@@ -53,6 +53,7 @@ export function generateWeekPlan(input: OnboardingInput, start: string, existing
   const available = pools(input.level);
   const examGoal = input.goal === "exam" || input.goal === "hsk";
   const lastExam = results.find(result => result.examKind === "periodic");
+  const nextExamDate = lastExam ? addDays(studyDate(new Date(lastExam.at)), 14) : undefined;
   const needsReview = lastExam !== undefined && lastExam.total > 0 && lastExam.score / lastExam.total < 0.7;
   const nextExamId = lastExam?.examId === PERIODIC_EXAM_ID && !needsReview ? SECOND_PERIODIC_EXAM_ID : PERIODIC_EXAM_ID;
   const examTitle = nextExamId === PERIODIC_EXAM_ID ? "Kiểm tra định kỳ HSK 1 · Đề 1" : "Kiểm tra định kỳ HSK 1 · Đề 2";
@@ -77,7 +78,7 @@ export function generateWeekPlan(input: OnboardingInput, start: string, existing
     const count = Math.max(1, Math.min(Math.floor(budget / 10), 3));
     for (let i = 0; i < count; i++) {
       const skill = skills[(cursor++) % skills.length] ?? "vocab";
-      const exam = examGoal && offset === scheduledDays.at(-1) && i === count - 1;
+      const exam = examGoal && (!nextExamDate || date >= nextExamDate) && offset === scheduledDays.at(-1) && i === count - 1;
       const options = [
         ...(exam ? [lesson("test", nextExamId, examTitle, "progress-test")] : []),
         ...available[skill], ...available.vocab,

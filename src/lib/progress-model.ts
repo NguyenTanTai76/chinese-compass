@@ -24,6 +24,10 @@ export type SessionResult = SessionInput & {
   xpEarned: number;
 };
 
+export const reviewGrades = ["again", "hard", "good", "easy"] as const;
+export type ReviewGrade = typeof reviewGrades[number];
+export type ReviewSchedule = { dueAt: number; lastReviewed: number; interval: number; repetitions: number; ease: number };
+
 export type StudyState = {
   xp: number;
   streak: number;
@@ -32,6 +36,7 @@ export type StudyState = {
   todayDate: string;
   cards: Flashcard[];
   results: SessionResult[];
+  reviews: Record<string, ReviewSchedule>;
 };
 
 export type ProgressEvent = { id: string; at: number } & (
@@ -39,10 +44,22 @@ export type ProgressEvent = { id: string; at: number } & (
   | { kind: "session"; result: SessionInput; xp: number }
   | { kind: "save"; card: Omit<Flashcard, "addedAt"> }
   | { kind: "remove"; hanzi: string }
+  | { kind: "review"; hanzi: string; grade: ReviewGrade }
 );
 
 const studyDate = new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Ho_Chi_Minh" });
 const day = 86_400_000;
+
+export function scheduleReview(previous: ReviewSchedule | undefined, grade: ReviewGrade, at: number): ReviewSchedule {
+  const quality = { again: 1, hard: 3, good: 4, easy: 5 }[grade];
+  const penalty = 5 - quality;
+  const currentEase = previous?.ease ?? 2.5;
+  const ease = Math.max(1.3, Math.round((currentEase + 0.1 - penalty * (0.08 + penalty * 0.02)) * 100) / 100);
+  const repetitions = quality < 3 ? 0 : (previous?.repetitions ?? 0) + 1;
+  const interval = repetitions === 0 ? 0 : repetitions === 1 ? 1 : repetitions === 2 ? 6
+    : Math.min(3650, Math.max(1, Math.round((previous?.interval ?? 1) * ease)));
+  return { ease, repetitions, interval, dueAt: at + (interval ? interval * day : 10 * 60_000), lastReviewed: at };
+}
 
 export function buildStudyState(events: ProgressEvent[], now = Date.now()): StudyState {
   const todayDate = studyDate.format(now);
@@ -51,13 +68,24 @@ export function buildStudyState(events: ProgressEvent[], now = Date.now()): Stud
   const activeDays = new Set<string>();
   let xp = 0;
   let todayXp = 0;
+  const reviews = new Map<string, ReviewSchedule>();
+  const seen = new Set<string>();
 
   const ordered = [...events].sort((a, b) => a.at - b.at || a.id.localeCompare(b.id));
   for (const event of ordered) {
+    if (seen.has(event.id)) continue;
+    seen.add(event.id);
     if (event.kind === "save") {
       cards.set(event.card.hanzi, { ...event.card, addedAt: event.at });
     } else if (event.kind === "remove") {
       cards.delete(event.hanzi);
+    } else if (event.kind === "review") {
+      reviews.set(event.hanzi, scheduleReview(reviews.get(event.hanzi), event.grade, event.at));
+      const date = studyDate.format(event.at);
+      const reward = event.grade === "again" ? 1 : 2;
+      xp += reward;
+      if (date === todayDate) todayXp += reward;
+      activeDays.add(date);
     } else {
       const date = studyDate.format(event.at);
       xp += event.xp;
@@ -80,6 +108,7 @@ export function buildStudyState(events: ProgressEvent[], now = Date.now()): Stud
     xp, todayXp, todayDate, streak, lastStudyDate,
     cards: [...cards.values()].sort((a, b) => b.addedAt - a.addedAt),
     results: results.reverse().slice(0, 60),
+    reviews: Object.fromEntries(reviews),
   };
 }
 
@@ -122,6 +151,8 @@ export function isProgressEvent(value: unknown): value is ProgressEvent {
     }
     case "remove":
       return text(value.hanzi, 100);
+    case "review":
+      return text(value.hanzi, 100) && reviewGrades.some(grade => grade === value.grade);
     default:
       return false;
   }

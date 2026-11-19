@@ -23,10 +23,13 @@ const NAV = [
   { href: "/reflex", label: "Phản xạ" },
   { href: "/dictation", label: "Nghe chép" },
   { href: "/speaking", label: "Nói cùng AI" },
+  { href: "/tutor", label: "Trợ lý AI" },
+  { href: "/settings", label: "Cài đặt" },
   { href: "/grammar", label: "Ngữ pháp" },
   { href: "/reading", label: "Đọc hiểu" },
   { href: "/shadowing", label: "Shadowing" },
   { href: "/progress-test", label: "Kiểm tra" },
+  { href: "/hsk-mock", label: "Thi thử HSK" },
 ];
 
 export function AppNav() {

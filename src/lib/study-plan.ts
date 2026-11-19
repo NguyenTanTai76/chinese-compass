@@ -1,5 +1,6 @@
-export const PERIODIC_EXAM_ID = "periodic-hsk1-v2";
-export const SECOND_PERIODIC_EXAM_ID = "periodic-hsk1-form-2";
+export const PERIODIC_EXAM_ID = "periodic-hsk1-v3";
+export const SECOND_PERIODIC_EXAM_ID = "periodic-hsk1-form-2-v2";
+export const LEGACY_SECOND_PERIODIC_EXAM_ID = "periodic-hsk1-form-2";
 
 export type StudyContentKind =
   | "intro" | "pinyin" | "vocab" | "writing" | "reflex" | "dictation"

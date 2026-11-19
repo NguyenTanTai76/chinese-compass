@@ -47,6 +47,7 @@ export default function IntroPage() {
           {lesson.audio && <Button variant="outline" onClick={() => void speakChinese(lesson.audio!)}>Nghe mẫu (TTS)</Button>}
           <SelfCheck key={lesson.id} lessonId={lesson.id} exercise={lesson.exercise} />
           {lesson.completion && <p>{lesson.completion}</p>}
+          <Link className="block text-sm underline" href={`/tutor?kind=intro&lesson=${encodeURIComponent(lesson.id)}`}>Hỏi Trợ lý AI về bài này</Link>
           {next && <Link className="underline" href={`/intro?lesson=${next.id}`}>Bài tiếp theo · {next.title}</Link>}
         </>
       ) : (

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2, Loader2, Mail, Target, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth/context";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import {
@@ -18,13 +18,15 @@ import { loadOnboarding, saveOnboarding, updateWeekPlan } from "@/lib/plan/stora
 import { useStudyState } from "@/lib/progress";
 import { generateWeekPlan, weekStart } from "@/lib/plan/generator";
 
-const LEVELS: { value: Level; label: string }[] = [
-  { value: "beginner", label: "Mới bắt đầu" },
+const LEVELS: { value: Level | "unknown"; label: string }[] = [
+  { value: "unknown", label: "Tôi chưa biết trình độ" },
+  { value: "beginner", label: "Nhập môn" },
   { value: "hsk1", label: "HSK 1" },
   { value: "hsk2", label: "HSK 2" },
 ];
 const GOALS: { value: Goal; label: string }[] = [
   { value: "daily", label: "Giao tiếp hàng ngày" },
+  { value: "work", label: "Đi làm" },
   { value: "travel", label: "Du lịch" },
   { value: "exam", label: "Thi HSK / định kỳ" },
   { value: "hsk", label: "Chốt cấp HSK" },
@@ -43,28 +45,29 @@ const SKILLS: { value: Skill; label: string }[] = [
 export default function OnboardingPage() {
   const { state: { results } } = useStudyState();
   const { user, loading: authLoading } = useAuth();
+  const router = useRouter();
   const suggested = useSearchParams().get("level");
   const userId = user?.id;
   const [step, setStep] = useState<"form" | "result">("form");
   const [loading, setLoading] = useState(false);
-  const [level, setLevel] = useState<Level>("beginner");
-  const [goal, setGoal] = useState<Goal>("daily");
-  const [minutesPerDay, setMinutesPerDay] = useState<number>(30);
-  const [preferredDays, setPreferredDays] = useState<number[]>([0, 1, 2, 3, 4, 5, 6]);
-  const [skills, setSkills] = useState<Skill[]>(["vocab", "listening", "speaking"]);
+const [level, setLevel] = useState<Level | "unknown">("beginner");
+const [goal, setGoal] = useState<Goal>("daily");
+const [minutesPerDay, setMinutesPerDay] = useState<number>(30);
+const [preferredDays, setPreferredDays] = useState<number[]>([0, 1, 2, 3, 4, 5, 6]);
+const [skills, setSkills] = useState<Skill[]>(["vocab", "listening", "speaking"]);
 
-  useEffect(() => {
-    if (!userId) return;
-    const saved = loadOnboarding(userId);
-    if (saved) {
-      setLevel(saved.level);
-      setGoal(saved.goal);
-      setMinutesPerDay(saved.minutesPerDay);
-      setPreferredDays(saved.preferredDays);
-      setSkills(saved.skills);
-    }
-    if (suggested === "beginner" || suggested === "hsk1" || suggested === "hsk2") setLevel(suggested);
-  }, [suggested, userId]);
+useEffect(() => {
+  if (!userId) return;
+  const saved = loadOnboarding(userId);
+  if (saved) {
+    setLevel((saved.level === "beginner" || saved.level === "hsk1" || saved.level === "hsk2") ? saved.level : "beginner");
+    setGoal(saved.goal);
+    setMinutesPerDay(saved.minutesPerDay);
+    setPreferredDays(saved.preferredDays);
+    setSkills(saved.skills);
+  }
+  if (suggested === "beginner" || suggested === "hsk1" || suggested === "hsk2") setLevel(suggested);
+}, [suggested, userId]);
 
   const toggleDay = useCallback((d: number) => setPreferredDays((p) =>
     p.includes(d) ? p.filter((x) => x !== d) : [...p, d]), []);
@@ -75,6 +78,11 @@ export default function OnboardingPage() {
     if (!userId) return;
     if (preferredDays.length === 0) { toast.error("Chọn ít nhất một ngày học."); return; }
     if (skills.length === 0) { toast.error("Chọn ít nhất một kỹ năng."); return; }
+    if (level === "unknown") {
+      // Không biết trình độ → vào bài đầu vào xếp trình độ trước.
+      void router.push("/placement");
+      return;
+    }
     setLoading(true);
     try {
       const input: OnboardingInput = {

@@ -25,7 +25,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { speakChinese } from "@/lib/speech";
 import { levelFromXp, useStudyState } from "@/lib/progress";
 import { ContinueLearning } from "@/components/dashboard/continue-learning";
-
+import { weekStart, addDays, studyDate, WEEKDAY_LABELS } from "@/lib/plan/generator";
+import { useWeekPlan } from "@/lib/plan/storage";
+import { taskHref, type StudyPlanTask } from "@/lib/study-plan";
 const SKILLS = [
   { href: "/pinyin", label: "Pinyin", desc: "Phát âm & thanh điệu", icon: Languages },
   { href: "/vocab", label: "Từ vựng", desc: "Flashcard SM-2", icon: BookOpen },
@@ -202,7 +204,17 @@ export default function DashboardPage() {
 
       <ContinueLearning state={state} />
 
-      <div className="grid gap-4 lg:grid-cols-[1.15fr_1fr]">
+      <section className="rounded-2xl border border-border bg-card p-5">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold flex items-center gap-2">
+            <span>📅</span> Lịch học 7 ngày
+          </h2>
+          <Link href="/plan" className="text-xs text-primary underline">Xem toàn bộ lịch</Link>
+        </div>
+        <WeekPlanPreview state={state} />
+      </section>
+
+      <section className="grid gap-4 lg:grid-cols-[1.15fr_1fr]">
         <section className="rounded-2xl border border-border bg-card p-5">
           <div className="flex items-center justify-between">
             <h2 className="flex items-center gap-2 text-sm font-semibold">
@@ -281,7 +293,7 @@ export default function DashboardPage() {
             </ul>
           )}
         </section>
-      </div>
+      </section>
 
       <section>
         <h2 className="mb-3 text-sm font-semibold text-foreground">Kỹ năng</h2>
@@ -327,5 +339,32 @@ export default function DashboardPage() {
         </section>
       )}
     </div>
+  );
+}
+
+function WeekPlanPreview({ state }: { state: import("@/lib/progress").StudyState }) {
+  const start = weekStart();
+  const { plan } = useWeekPlan(start);
+  const today = studyDate();
+  const upcoming = plan?.tasks.filter(task => task.date >= today && !task.completedAt).slice(0, 5) ?? [];
+  if (upcoming.length === 0) {
+    return <p className="mt-3 text-sm text-muted-foreground">Hôm nay chưa có việc được lên lịch. Vào <Link href="/onboarding" className="text-primary underline">thiết lập hồ sơ</Link> để tạo lịch học.</p>;
+  }
+  return (
+    <ul className="mt-3 divide-y divide-border text-sm">
+      {upcoming.map((task: StudyPlanTask) => {
+        const date = addDays(start, 0);
+        const weekday = WEEKDAY_LABELS[new Date(task.date + "T00:00:00Z").getUTCDay()];
+        return (
+          <li key={task.id} className="flex items-center justify-between py-2">
+            <div className="flex-1">
+              <Link className="font-medium text-primary underline" href={taskHref(task)}>{task.title}</Link>
+              <p className="text-xs text-muted-foreground">{weekday} · {task.minutes} phút</p>
+            </div>
+            <span className="text-[10px] text-muted-foreground">{task.date}</span>
+          </li>
+        );
+      })}
+    </ul>
   );
 }

@@ -24,8 +24,8 @@ test("periodic forms each have 20 valid questions and no shared items", () => {
   expect(new Set(forms.flat().map(question => question.id)).size).toBe(40);
   for (const questions of forms) {
     expect(questions).toHaveLength(20);
-    expect(questions.filter(question => question.kind === "vocab")).toHaveLength(8);
-    expect(questions.filter(question => question.kind === "grammar")).toHaveLength(7);
+    expect(questions.filter(question => question.kind === "vocab")).toHaveLength(10);
+    expect(questions.filter(question => question.kind === "grammar")).toHaveLength(5);
     expect(questions.filter(question => question.kind === "listening" && question.audio)).toHaveLength(5);
     for (const question of questions) {
       expect(question.options).toContain(question.answer);

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useAuth } from "@/lib/auth/context";
-import { buildStudyState, isProgressEvent, type Flashcard, type ProgressEvent, type SessionInput } from "./progress-model";
+import { buildStudyState, isProgressEvent, type Flashcard, type ProgressEvent, type ReviewGrade, type SessionInput } from "./progress-model";
 
 export type { ExamKind, Flashcard, SessionInput, SessionResult, StudyState } from "./progress-model";
 
@@ -129,6 +129,10 @@ export function addXp(amount: number) {
   append({ kind: "xp", xp: amount });
 }
 
+export function recordReview(hanzi: string, grade: ReviewGrade) {
+  return append({ kind: "review", hanzi, grade });
+}
+
 export function logSession(result: SessionInput, xpEarned: number) {
   append({ kind: "session", result, xp: xpEarned });
 }
@@ -192,5 +196,6 @@ export function useStudyState() {
     state: data ? project(data) : buildStudyState([]),
     refresh, syncing: !!owner && syncingOwner === owner, lastSync: data?.lastSync ?? 0,
     userLoaded: !!data, syncNow, syncFailed: !!owner && failedOwner === owner,
+    pendingCount: data?.pending.length ?? 0,
   };
 }

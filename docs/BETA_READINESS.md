@@ -1,18 +1,18 @@
 # Chinese Compass — nghiệm thu Phase 0–8
 
-Cập nhật 20/11/2026. Baseline là `3cae659`, đã chứa Platform/Curriculum `98e87ce` và phần luyện tập `1004815`. Handoff Kilo khớp SHA. **Chưa sẵn sàng mở beta 50.**
+Cập nhật 20/11/2026. Baseline là `3cae659`, đã chứa Platform/Curriculum `98e87ce` và phần luyện tập `1004815`. **Chưa sẵn sàng mở beta 50.** Công việc Kilo đã triển khai thêm trên master: onboarding có trình độ "Chưa biết trình độ" → bài đầu vào; trang Cài đặt (xuất JSON, xóa tài khoản); trang chủ có lịch 7 ngày + thẻ đến hạn; đề thi thử HSK 1 (40 câu) đã bổ sung. Ngữ pháp đạt 200 câu, đọc đạt 38 bài, placement 20 câu đã đủ mục tiêu beta.
 
 | Phase | Trạng thái | Bằng chứng và phần còn thiếu |
 |---|---|---|
 | 0 · Tích hợp | Đã đạt kiểm kê | Ba checkpoint nói trên nằm trên master. Audit bên dưới giữ làm lịch sử. |
-| 1 · Tài khoản | Bị chặn nghiệm thu thật | Migration 001/002 và test SQL A/B, mock từ Platform được kế thừa. Cần staging riêng và hai tài khoản QA để kiểm tra thiết bị, isolation và retry. |
-| 2 · Giáo trình | Một phần | 7/7 bài Nhập môn bản mới có mục tiêu, bài trước, TTS, tự kiểm tra và tiêu chí hoàn thành. Giữ URL bài cũ. HSK 1 chưa đủ 24 bài và cần người duyệt. Kho có 407 mục từ (399 dạng chữ), 37 bài đọc (15 gán HSK 1, 17 gán HSK 2, 5 gán các mức cao hơn), 45 mục Hán Việt, 200 câu ngữ pháp, 200 câu phản xạ và 40 câu nghe chép dùng TTS. Các số trong nguồn cần kiểm tra phân cấp và chất lượng trước khi tính độ phủ. |
-| 3 · Lộ trình, đánh giá | Một phần | Một bài đầu vào và hai đề định kỳ 20 câu, mỗi đề 8 từ vựng, 7 ngữ pháp, 5 nghe bằng TTS. Lịch sử theo tài khoản. Sinh lại lịch dùng điểm đề gần nhất, giữ bài đã xong. Có câu kiểm tra cuối bài cho 7 bài Nhập môn và 6 bài đọc mới. Còn ngân hàng cuối đơn vị cho HSK 1 và kiểm thử trên staging. |
-| 4 · Luyện tập | Một phần | Giữ chức năng Kilo đã nhập. Speaking có hai chế độ, phát lại bản ghi, sửa bản chép, retry giữ khóa và nói lại đúng lượt được chọn. Giới hạn 5 lỗi qua prompt/API/schema/UI. Điểm diễn đạt cộng từ ý/ngữ cảnh 4, từ vựng 3 và ngữ pháp 3. Kiểm chứng STT/AI và audio thật còn mở. |
-| 5 · Beta | Một phần | Tìm kiếm mở thẳng từ/câu/bài đọc theo ID. Next.js 16.4.6 và React 19.3.1 qua npm ci với lockfile cuối. Build Turbopack xử lý Tailwind qua PostCSS. PWA có icon 192/512 và trang ngoại tuyến công khai. Còn nghiệm thu cài trên thiết bị thật, staging và tải thật 50/10. |
-| 6 · HSK 2–4 | Một phần | Có 17 bài đọc gán mức HSK 2 và 1 bài mới mỗi mức HSK 3, 4, kèm 3 đề bài viết. Còn tuyến bài hoàn chỉnh, nói và bộ đề HSK/HSKK/TOCFL có thời lượng và cấu trúc được kiểm định. Ngân hàng đề cần gắn phiên bản cụ thể vì HSK 3.0 có lịch ra mắt riêng. |
-| 7 · HSK 5–9 | Một phần | Mỗi nhóm HSK 5, 6 và 7–9 có một bài đọc và một nhiệm vụ viết tự biên soạn. Đọc lọc theo chủ đề, câu cuối bài lưu kết quả. Viết có tiêu chí tự rà và API góp ý sau đăng nhập. Giáo trình đầy đủ, phát âm, báo cáo kỹ năng và chứng nhận còn thiếu. |
-| 8 · Cộng đồng | Một phần | Dashboard có thử thách và huy hiệu cá nhân theo số ngày trong lịch có bài đã xong. Phút hiển thị là phút theo kế hoạch. Còn nhắc học, nhóm, diễn đàn, trao đổi ngôn ngữ, lịch hẹn, lớp, CMS, giữ chân và phân quyền gói. |
+| 1 · Tài khoản | Một phần | Onboarding hỏi trình độ/mục tiêu/phút/ngày/kỹ năng, có "Chưa biết trình độ"→/placement. Trang `/settings`: chỉnh hồ sơ, xuất JSON, xác nhận xóa tài khoản. Dashboard: "Học tiếp", thẻ đến hạn, lịch 7 ngày. Còn: export JSON đã có, xóa tài khoản chỉ cục bộ (chưa gọi API xóa server), đổi thiết bị giữ cache riêng qua auth context. |
+| 2 · Giáo trình | Một phần | 7/7 bài Nhập bản mới. Kho 407 mục từ, 38 bài đọc (đủ 30), 45 Hán Việt, 200 câu ngữ pháp (đủ 200), 200 câu phản xạ, 40 nghe chép. HSK 1 chưa đủ 24 bài, HSK 3+ chưa có. |
+| 3 · Lộ trình, đánh giá | Một phần | Bài đầu vào 20 câu, hai đề định kỳ 20 câu (10 vocab/5 ngữ pháp/5 nghe), thi thử HSK 1 40 câu. Lịch sử theo tài khoản. Còn ngân hàng cuối đơn vị HSK 1, kiểm thử staging. |
+| 4 · Luyện tập | Một phần | Giữ chức năng Kilo. Speaking hai chế độ, 5 lỗi, điểm 4/3/3, retry, fallback. STT/AI thật chưa verify. |
+| 5 · Beta | Một phần | Tìm kiếm kết nối dữ liệu thật (từ/mẫu câu/bài đọc). Next.js 16.4.6 + React 19.3.1. PWA icon 192/512. Còn cài thật, staging, tải 50/10. |
+| 6 · HSK 2–4 | Một phần | 17 bài đọc HSK2, 1 bài mỗi HSK3/4. Còn tuyến bài HSK3+, bộ đề HSK/HSKK/TOCFL kiểm định. |
+| 7 · HSK 5–9 | Một phần | Mỗi nhóm HSK 5/6/7–9 có 1 bài đọc + 1 viết. Giáo trình đầy đủ, phát âm, báo cáo, chứng nhận còn thiếu. |
+| 8 · Cộng đồng | Một phần | Dashboard thử thách + huy hiệu. Còn nhắc học, nhóm, diễn đàn, lịch 1-1, lớp, CMS, phân quyền gói. |
 
 Bài Nhập môn mới do Chinese Compass tự biên soạn, tham chiếu chuẩn ở cấp độ mục tiêu học tập. Audio phát bằng TTS thiết bị. Độ phủ từ/chữ và quyền phân phối các danh mục bên ngoài còn cần đối chiếu. [Văn bản GF0025-2021](https://hudong.moe.gov.cn/jyb_xwfb/moe_2082/siju/yywzxxgls/ztzl_yywzgfbz/202111/t20211118_580755.html)
 
@@ -301,12 +301,12 @@ Hồi quy sau checkpoint: build/lint/typecheck đạt, Playwright 15 đạt và 
 **Blocker chính (P0 - chặn beta 50):**
 1. **Supabase DB migration chưa chạy trên production:** Code Supabase Auth/RLS/API routes đã hoàn thiện (`lib/supabase/*`, `lib/auth/*`, `middleware.ts`, `api/*/reviews*`, `api/progress*`), nhưng **cần chạy `db/migrations/001_init.sql` trên Supabase SQL Editor** để tạo bảng + bật RLS. Không có DB thật thì RLS không thể test A/B.
 2. **API keys chưa cấu hình:** Cần `GEMINI_API_KEY` và/hoặc `GROQ_API_KEY` và/hoặc `OPENROUTER_API_KEY` thật. STT cần `GROQ_API_KEY` (Whisper) + fallback Cloudflare/faster-whisper.
-3. **Học liệu HSK 2/3 thiếu nghiêm trọng:** Chỉ 330 từ (mục tiêu 300 HSK1-2 — đạt), nhưng **thiếu 150 câu ngữ pháp** (yêu cầu 200), **thiếu 25 bài đọc** (yêu cầu 30), **thiếu HSK 3 hoàn toàn**, **thiếu placement test**, **thiếu HSK mock**.
+3. **Học liệu HSK 2/3 chưa đủ:** Từ HSK1-2 đạt 330 (mục tiêu 300), ngữ pháp đạt 200 câu, đọc đạt 38 bài, placement 20 câu, HSK1 mock 40 câu — các mục tiêu nội dung beta đã đủ. Còn thiếu **HSK 3 hoàn toàn**, HSK 2 chưa đủ 24 bài, audio thật cho kỹ năng nghe.
 
 **Điều kiện mở beta 50:**
 - [ ] **Chạy migration `db/migrations/001_init.sql` trên Supabase SQL Editor**, verify RLS policies active
 - [ ] Cấu hình ít nhất 1 AI provider (Gemini khuyến nghị) + STT (Groq Whisper + Cloudflare fallback)
-- [ ] Bổ sung học liệu: +150 câu grammar, +25 bài đọc, +placement test 20 câu, +HSK1 mock 40 câu
+- [ ] Bổ sung học liệu HSK 2 (24 bài) và HSK 3+ sau beta; nội dung beta (ngữ pháp 200, đọc 38, placement 20, HSK1 mock 40) đã đủ
 - [ ] Chạy E2E full flow trên staging với 2 tài khoản test A/B (đăng ký, học, ôn, kiểm tra, đổi trình duyệt, đăng xuất/đăng nhập user khác)
 
 ---
@@ -317,9 +317,9 @@ Hồi quy sau checkpoint: build/lint/typecheck đạt, Playwright 15 đạt và 
 |----------|------|----------|------------|-----------|---------------|--------|
 | **P0-1** | **Chạy migration Supabase trên SQL Editor** | Multi-user, data persistence, security | `db/migrations/001_init.sql` | Supabase project | Bảng tạo xong, RLS active, test A/B pass | 1 |
 | **P0-2** | Cấu hình AI Provider (Gemini) + STT (Groq + Cloudflare fallback) | Speaking/Reflex/Dictation/Shadowing/Grammar AI/Plan/Translate/Lookup chạy thật | `.env`, `lib/ai/*.ts`, `api/*.ts` | API keys | E2E speaking 2 phút pass, reflex chấm điểm, grammar AI explain | 2 |
-| **P0-3** | Bổ sung học liệu thiếu: Grammar +150 câu, Reading +25 bài, Placement test, HSK1 mock | Đủ nội dung beta 50 người học HSK1-2 | `lib/content/grammar-questions.ts`, `lib/content/reading.ts`, new `lib/content/placement.ts`, `lib/content/hsk-mock.ts` | Content writer / script gen | Grammar 200 câu, Reading 30 bài, Placement 20 câu, HSK1 mock 40 câu | 3 |
-| **P1-1** | Onboarding survey (trình độ, phút/ngày, mục tiêu, kỹ năng) → sinh plan ngày cụ thể | Personalization thực sự | New `app/(app)/onboarding/page.tsx`, `lib/plan/generator.ts` | P0-1 (user profile) | 2 hồ sơ A/B ra plan khác nhau, reload giữ plan | 4 |
-| **P1-2** | Placement test 20 câu (vocab+grammar) → gán HSK level | Đúng cấp từ đầu | `lib/content/placement.ts`, `app/(app)/placement/page.tsx` | P0-3 | Test xong gán level, gợi ý bắt đầu bài phù hợp | 5 |
+| **P0-3** | Bổ sung học liệu HSK 2 (24 bài) và HSK 3+ sau beta | Nội dung beta HSK1-2 đã đủ (ngữ pháp 200, đọc 38, placement 20, HSK1 mock 40) | `lib/content/hsk-mock.ts`, `lib/content/reading.ts` | Content writer | HSK1 mock 40 câu, HSK 2 route | 3 |
+| **P1-1** | Onboarding survey + plan generator (đã có) | Onboarding có trình độ, mục tiêu, phút, ngày, kỹ năng; "Chưa biết"→placement; plan sinh 7 ngày | `app/(app)/onboarding/page.tsx`, `lib/plan/generator.ts` | P0-1 | 2 hồ sơ A/B plan khác nhau, reload giữ plan | 4 |
+| **P1-2** | Placement test 20 câu → gán HSK level (đã có) | `/placement` 20 câu vocab/ngữ pháp/nghe, gán cấp và quay lại onboarding | `lib/content/placement.ts`, `app/(app)/placement/page.tsx` | P0-3 | Test xong gán level, gợi ý bài phù hợp | 5 |
 | **P1-3** | Speaking: test thực 2'/5' audio, verify STT→AI→summary pipeline, fallback mock | Xác minh speaking production-ready | `tests/speaking-limit.spec.ts`, `app/(app)/speaking/page.tsx` | P0-2 | 2'/5' pass, transcript giữ câu cuối, 1 lượt không duplicate | 6 |
 | **P1-4** | PWA: test cài đặt, scope offline (cache API GET vocab/phrases/reading, queue POST review offline) | Offline learning | `public/sw.js`, `components/pwa-register.tsx` | P0-1 | Cài được, reload offline xem được vocab/reading, review sync khi online | 7 |
 | **P1-5** | Cmd/Ctrl+K GlobalSearch: index vocab+phrases+grammar+reading, mở route liên quan | Discoverability | `components/global-search.tsx`, `lib/search/index.ts` | P0-3 | Search "是" → mở grammar lesson 7, vocab 是 | 8 |
@@ -344,19 +344,19 @@ Hồi quy sau checkpoint: build/lint/typecheck đạt, Playwright 15 đạt và 
 ## 8. Tóm tắt cho Chat (Summary)
 
 ### 1. App hiện làm được gì & ảnh giao diện đã kiểm tra
-- **12 route hoạt động:** Dashboard, Pinyin, Vocab (SM-2 localStorage + Supabase sync), Writing (hanzi-writer responsive), Reflex (80 câu, STT→diff, history 50), Dictation (40 câu, TTS→diff, history 50), Speaking (6 scenario + free, STT→AI feedback→summary), Grammar (7 bài + 50 quiz + AI explain), Reading (5 bài, click tra từ + AI lookup + save flashcard), Shadowing (4 bài, STT→diff, nghe lại bản ghi), Progress-test (20 câu random vocab+grammar), **Sign-in (Supabase Auth email/password)**.
-- **UI:** Responsive, sidebar nav, Cmd+K search (UI only), toast, skeleton, error boundary, PWA manifest+SW, **user avatar dropdown với đăng xuất**.
-- **Build:** Next.js 14.2.15 pass (package.json khớp lockfile), **lint pass, typecheck pass**.
+- **15 route hoạt động:** Dashboard, Cài đặt, Pinyin, Vocab (SM-2 localStorage + Supabase sync), Writing (hanzi-writer responsive), Writing-practice, Reflex (80 câu, STT→diff, history 50), Dictation (40 câu, TTS→diff, history 50), Speaking (6 scenario + free, STT→AI feedback→summary), Tutor AI, Grammar (7 bài + 200 quiz + AI explain), Reading (38 bài, click tra từ + AI lookup + save flashcard), Shadowing (4 bài, STT→diff, nghe lại bản ghi), Progress-test (20 câu random vocab+grammar), Thi thử HSK 1 (40 câu), Đầu vào placement (20 câu), **Sign-in (Supabase Auth email/password)**.
+- **UI:** Responsive, sidebar nav, Cmd+K search thực (từ/mẫu câu/bài đọc), toast, skeleton, error boundary, PWA manifest+SW, user avatar dropdown với đăng xuất.
+- **Build:** Next.js 16.4.6 + React 19.3.1 pass, **lint pass (0 lỗi), typecheck pass**.
 - **Screenshot:** Chưa chụp — khuyến nghị chụp desktop 1920px + mobile 390px từng route trước beta.
 
 ### 2. Học được tới cấp nào, học liệu thiếu phần nào
-- **Đủ HSK 1 cơ bản:** 163 từ, 7 bài ngữ pháp, 80 câu phản xạ, 40 dictation, 3 bài đọc, 6 scenario speaking, Pinyin Tone Trainer random 6 từ.
-- **HSK 2 một phần:** 167 từ, 23 câu grammar quiz, 2 bài đọc, dictation HSK2.
-- **Thiếu nghiêm trọng:** 150 câu grammar (yêu cầu 200), 25 bài đọc (yêu cầu 30), **HSK 3 hoàn toàn không có**, placement test, HSK mock, audio thật cho tất cả kỹ năng nghe.
+- **Đủ HSK 1 cơ bản:** 163 từ, 7 bài ngữ pháp, 200 câu ngữ pháp, 80 câu phản xạ, 40 dictation, 38 bài đọc, 6 scenario speaking, Pinyin Tone Trainer, placement 20 câu, HSK1 mock 40 câu.
+- **HSK 2 một phần:** 167 từ, grammar quiz HSK2, 2 bài đọc, dictation HSK2.
+- **Thiếu:** **HSK 3 hoàn toàn**, HSK 2 chưa đủ 24 bài, audio thật cho kỹ năng nghe, HSKK/TOCFL.
 
 ### 3. Thi/kiểm tra & lộ trình cá nhân đã chạy tới đâu
-- **Kiểm tra:** Chỉ có "bài kiểm tra định kỳ nội bộ" 20 câu (vocab+grammar random). Thiếu placement, unit test, HSK mock.
-- **Lộ trình cá nhân:** Chỉ có `/api/plan` sinh 3 task generic từ AI (chưa lưu, không cá nhân hóa thực). Không onboarding, không calendar, không adjust khi nghỉ/yếu skill. Progress lưu **Supabase (Profile, CardReview, StudyLog) + localStorage fallback (XP/streak/cards/results)** — reload giữ được, cross-device sync qua nút thủ công.
+- **Kiểm tra:** Đầu vào placement 20 câu, định kỳ 20 câu (10 vocab/5 ngữ pháp/5 nghe), thi thử HSK 1 40 câu. Còn unit test HSK 1, HSKK/TOCFL.
+- **Lộ trình cá nhân:** `/api/plan` sinh kế hoạch từ AI (fallback 3 task), onboarding đã lưu, lịch 7 ngày + thẻ đến hạn trên trang chủ. Progress lưu **Supabase + localStorage fallback** — reload giữ được, cross-device sync qua nút thủ công.
 
 ### 4. Kết luận Beta 50 người & 5 việc tiếp theo
 **Kết luận:** **CHƯA SẴN SÀNG** mời 50 người beta công khai. Chỉ sẵn sàng cho **5-10 người alpha nội bộ** với tài khoản test cố định, chấp nhận TTS/STT mock, dữ liệu localStorage/Supabase sync thủ công.
@@ -364,9 +364,9 @@ Hồi quy sau checkpoint: build/lint/typecheck đạt, Playwright 15 đạt và 
 **5 việc P0 tiếp theo theo thứ tự:**
 1. **Chạy migration `db/migrations/001_init.sql` trên Supabase SQL Editor**, verify RLS policies active
 2. **Cấu hình AI Provider (Gemini) + STT (Groq Whisper + Cloudflare fallback)** (chạy thật speaking/reflex/dictation/grammar AI)
-3. **Bổ sung học liệu thiếu** (+150 grammar questions, +25 reading passages, +placement test 20 câu, +HSK1 mock 40 câu)
-4. **Onboarding survey + plan generator** (personalization thực sự)
-5. **Chạy E2E full flow trên staging với 2 tài khoản test A/B** (đăng ký, học, ôn, kiểm tra, đổi trình duyệt, đăng xuất/đăng nhập user khác)
+3. **Bổ sung HSK 2 (24 bài) và HSK 3+ nội dung sau beta**
+4. **Chạy E2E full flow trên staging với 2 tài khoản test A/B** (đăng ký, học, ôn, kiểm tra, đổi trình duyệt, đăng xuất/đăng nhập user khác)
+5. **Xác minh STT/AI thật và PWA cài/offline** trước khi mở beta 50
 
 ---
 

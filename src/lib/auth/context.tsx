@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { User, Session } from "@supabase/supabase-js";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
+import { setSpeechOwner } from "@/lib/speech";
 
 type AuthContextType = {
   user: User | null;
@@ -24,6 +25,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSpeechOwner(session?.user.id);
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);

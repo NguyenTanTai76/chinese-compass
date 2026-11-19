@@ -38,8 +38,8 @@ function buildVocabQuestion(word: VocabEntry, pool: VocabEntry[]): PeriodicQuest
 
 export function buildPeriodicTest(form: 0 | 1): PeriodicQuestion[] {
   const vocabPool = VOCAB.filter((word) => word.hskLevel === 1);
-  const vocabPicks = [...new Map(vocabPool.map(word => [word.hanzi, word])).values()].slice(form * 8, (form + 1) * 8);
-  const grammarPicks = GRAMMAR_QUESTIONS.filter(item => item.level === 1).slice(form * 7, (form + 1) * 7);
+  const vocabPicks = [...new Map(vocabPool.map(word => [word.hanzi, word])).values()].slice(form * 10, (form + 1) * 10);
+  const grammarPicks = GRAMMAR_QUESTIONS.filter(item => item.level === 1).slice(form * 5, (form + 1) * 5);
 
   const vocabQuestions = vocabPicks.map((word) => buildVocabQuestion(word, vocabPool));
   const grammarQuestions: PeriodicQuestion[] = grammarPicks.map((item) => ({
