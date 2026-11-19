@@ -42,3 +42,8 @@ test-loader.mjs
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# test artifacts
+/playwright-report
+/test-results
+*.bak
