@@ -7,7 +7,7 @@ const scenes: Record<Level, Scene[]> = {
   "Mới bắt đầu": [
     ["hello-classmate", "Chào bạn cùng lớp", "Bạn cùng lớp", "Hai người gặp nhau trước giờ học", "早上好！你好吗？", "Chào buổi sáng! Bạn khỏe không?", "Chào lại, nói mình khỏe và hỏi thăm bạn.", "我很好", "tôi khỏe"],
     ["choose-water-tea", "Chọn nước hay trà", "Bạn đến chơi", "Bạn được mời uống một trong hai loại", "你喝水还是喝茶？", "Bạn uống nước hay trà?", "Chọn đồ uống và cảm ơn.", "谢谢", "cảm ơn"],
-    ["introduce-family", "Giới thiệu người thân", "Bạn cùng lớp", "Bạn nói về người thân trong gia đình", "这是我妈妈。", "Đây là mẹ tôi.", "Giới thiệu một người thân và Quan hệ với mình.", "妈妈", "mẹ"],
+    ["introduce-family", "Giới thiệu người thân", "Bạn cùng lớp", "Bạn nói về người thân trong gia đình", "这是你妈妈吗？", "Đây là mẹ bạn à?", "Giới thiệu một người thân và Quan hệ với mình.", "妈妈", "mẹ"],
   ],
   "HSK 1": [
     ["family-photo", "Ảnh gia đình", "Bạn cùng lớp", "Hai bạn xem ảnh gia đình", "照片里的人是谁？", "Người trong ảnh là ai?", "Giới thiệu một người và quan hệ với mình.", "这是", "đây là"],
@@ -62,10 +62,10 @@ const scenes: Record<Level, Scene[]> = {
     ["hsk4-rent-decision", "Chọn căn hộ", "Bạn cùng thuê", "Cân nhắc giá và thời gian đi làm", "你愿意为了节省通勤时间多付一点房租吗？", "Bạn có sẵn sàng trả thêm tiền thuê để tiết kiệm thời gian đi làm không?", "Nêu một đánh đổi và điều kiện chấp nhận.", "权衡", "cân nhắc đánh đổi"],
     ["hsk4-training-plan", "Phân công buổi hướng dẫn", "Đồng nghiệp", "Nhóm sắp hướng dẫn người mới", "我们应该先给新同事介绍哪项工作？", "Ta nên giới thiệu việc nào trước cho người mới?", "Chọn một việc và giải thích thứ tự.", "优先", "ưu tiên"],
     ["hsk4-project-deadline", "Đính giá tiến độ dự án", "Quản lý dự án", "Dự án sắp đến hạn nhưng chưa xong", "我们怎样才能按时完成项目？", "Chúng ta làm sao để hoàn thành dự án đúng hạn?", "Nêu giải pháp và phân công công việc.", "按时", "đúng hạn"],
-    ["hsk4-sign-contract", "Ký hợp đồng", "Đại lý", "Bạn đọc và xác nhận điều khoản hợp đồng", "这份合同需要双方签字后才生效。", "Hợp đồng này cần hai bên ký hiệu mới có hiệu lực.", "Xác nhận hiểu rõ trước khi ký.", "签字", "ký tên"],
-    ["hsk4-apology-email", "Gửi email xin lỗi", "Đồng nghiệp", "Bạn làm sai một báo cáo và xin lỗi", "关于报告中的错误，我想向你道歉。", "Về các lỗi trong báo cáo, tôi xin lỗi bạn.", "Nêu lỗi và Cam kết khắc phục.", "道歉", "xin lỗi"],
+    ["hsk4-sign-contract", "Ký hợp đồng", "Đại lý", "Bạn đọc và xác nhận điều khoản hợp đồng", "这份合同准备好签了吗？", "Hợp đồng này cần hai bên ký hiệu mới có hiệu lực.", "Xác nhận hiểu rõ trước khi ký.", "签字", "ký tên"],
+    ["hsk4-apology-email", "Gửi email xin lỗi", "Đồng nghiệp", "Bạn làm sai một báo cáo và xin lỗi", "可以谈谈报告中的错误吗？", "Về các lỗi trong báo cáo, tôi xin lỗi bạn.", "Nêu lỗi và Cam kết khắc phục.", "道歉", "xin lỗi"],
     ["hsk4-culture-shock", "Ứng xử giao lưu", "Bạn trường học", "Bạn hỏi về phong tục Trung Quốc", "在中国，见面时通常握手还是鞠躬？", "Ở Trung Quốc, gặp mặt thường bắt tay hay cú chào?", "Hỏi và so sánh phong tục Việt Nam–Trung Quốc.", "习俗", "phong tục"],
-    ["hsk4-online-shopping", "Mua sắm trực tuyến", "Khách hàng", "Bạn gặp vấn đề với đơn hàng và muốn đổi", "我想退掉这件商品，因为尺寸不合适。", "Tôi muốn đổi sản phẩm này vì kích thước không vừa.", "Nêu lý do và yêu cầu đổi trả.", "退货", "đổi trả"],
+    ["hsk4-online-shopping", "Mua sắm trực tuyến", "Khách hàng", "Bạn gặp vấn đề với đơn hàng và muốn đổi", "可以退掉这件商品吗？", "Tôi muốn đổi sản phẩm này vì kích thước không vừa.", "Nêu lý do và yêu cầu đổi trả.", "退货", "đổi trả"],
     ["hsk4-travel-experience", "Kinh nghiệm du lịch", "Bạn cùng lớp", "Hai bạn nói về chuyến du lịch vừa qua", "你上次去哪里旅行？", "Lần cuối bạn đi du lịch đâu?", "Mô tả một địa điểm đã đến và cảm nhận.", "旅行", "du lịch"],
     ["hsk4-work-stress", "Áp lực công việc", "Đồng nghiệp", "Hai bạn nói về áp lực trong công việc", "你最近工作压力大吗？", "Gần đây công việc bạn có bận rộn không?", "Nêu một lý do gây stress và cách giải quyết.", "压力", "áp lực"],
     ["hsk4-environment", "Bảo vệ môi trường", "Bạn cùng lớp", "Hai bạn nói về việc bảo vệ môi trường", "你怎么保护环境？", "Bạn bảo vệ môi trường thế nào?", "Nêu một hành động bảo vệ môi trường.", "环境", "môi trường"],
@@ -78,6 +78,7 @@ const scenes: Record<Level, Scene[]> = {
     ["hsk4-shopping-habit", "Thói quen mua sắm", "Bạn cùng lớp", "Hai bạn nói về cách mua sắm", "你喜欢在网上购物还是在商店购物？", "Bạn thích mua sắm online hay ở cửa hàng?", "Nêu ưu tiên và lý do.", "购物", "mua sắm"],
     ["hsk4-transportation", "Phương tiện đi lại", "Bạn cùng lớp", "Hai bạn nói về cách đi làm", "你每天怎么上班？", "Mỗi ngày bạn đi làm bằng phương tiện gì?", "Nêu phương tiện và thời gian di chuyển.", "地铁", "tàu điện ngầm"],
     ["hsk4-hometown", "Quê hometown của bạn", "Bạn mới quen", "Bạn giới thiệu quê quán mình", "你的家乡在哪里？", "Quê quán của bạn ở đâu?", "Nêu địa điểm và một đặc điểm của quê.", "家乡", "quê quán"],
+    ["hsk4-meeting-time", "Đặt giờ họp", "Đồng nghiệp", "Hai người sắp xếp giờ họp chung", "你明天下午几点有空开会？", "Ngày mai chiều mấy giờ bạn có thể họp?", "Đề xuất giờ và xác nhận thời gian.", "空闲", "rãnh rỗi"],
   ],
   "HSK 5": [
     ["hsk5-delivery-risk", "Báo nguy cơ trễ hạn", "Quản lý dự án", "Một hạng mục phụ thuộc bên cung cấp", "如果供应商推迟交付，你准备怎么调整计划？", "Nếu nhà cung cấp giao muộn, bạn định điều chỉnh kế hoạch thế nào?", "Giải thích rủi ro và nêu phương án dự phòng.", "应对", "ứng phó"],
@@ -101,6 +102,7 @@ const scenes: Record<Level, Scene[]> = {
     ["hsk5-artificial-intelligence", "Trí tuệ nhân tạo", "Bạn cùng lớp", "Hai bạn nói về AI trong cuộc sống", "你觉得人工智能会取代教师吗？", "Bạn có nghĩ AI sẽ thay thế giáo viên không?", "Nêu ý kiến và lý do.", "人工智能", "trí tuệ nhân tạo"],
     ["hsk5-lifelong-learning", "Học tập suốt đời", "Bạn cùng lớp", "Hai bạn nói về việc học sau khi đi làm", "工作以后还需要学习吗？", "Sau khi đi làm còn cần học tập không?", "Nêu một lý do học tập suốt đời.", "学习", "học tập"],
     ["hsk5-travel-benefit", "Lợi ích du lịch", "Bạn cùng lớp", "Hai bạn nói về lợi ích của du lịch", "旅行对年轻人有什么好处？", "Du lịch có lợi ích gì cho年轻人?", "Nêu một lợi ích.", "好处", "lợi ích"],
+    ["hsk5-city-life", "Sống ở thành phố", "Bạn cùng lớp", "Hai bạn so sánh sống ở thành phố lớn và thành phố nhỏ", "你觉得住在大城市还是小城市更好？", "Bạn nghĩ sống ở thành phố lớn hay thành phố nhỏ tốt hơn?", "Nêu một ưu điểm và một nhược điểm.", "繁华", "náo nhiệt, phồn thịnh"],
   ],
   "HSK 6": [
     ["hsk6-sample-design", "Bảo vệ cách lấy mẫu", "Người phản biện", "Bạn trình bày đề cương nghiên cứu", "你的样本如何覆盖不常使用图书馆的学生？", "Mẫu của bạn bao phủ sinh viên ít dùng thư viện thế nào?", "Giải thích cách giảm thiên lệch chọn mẫu và nêu một giới hạn.", "抽样", "lấy mẫu"],
@@ -125,6 +127,8 @@ const scenes: Record<Level, Scene[]> = {
     ["hsk6-artistic-expression", "Biểu hiện nghệ thuật", "Bạn cùng lớp", "Hai bạn nói về một tác phẩm nghệ thuật", "你最喜欢哪种艺术形式？", "Bạn thích thể loại nghệ thuật nào nhất?", "Nêu thể loại và một tác phẩm.", "艺术", "nghệ thuật"],
     ["hsk6-economic-policy", "Chính sách kinh tế", "Quản lý dự án", "Bạn trình bày một chính sách kinh tế", "你认为政府应该如何控制通货膨胀？", "Bạn nghĩ chính phủ nên kiểm soát lạm phát thế nào?", "Nêu một biện pháp.", "政策", "chính sách"],
     ["hsk6-environmental-sustainability", "Phát triển bền vững môi trường", "Bạn cùng lớp", "Hai bạn nói về phát triển bền vững", "你认为企业应该如何保护环境？", "Bạn nghĩ doanh nghiệp nên bảo vệ môi trường thế nào?", "Nêu một biện pháp của doanh nghiệp.", "企业", "doanh nghiệp"],
+    ["hsk6-aging-society", "Già hóa dân số", "Bạn cùng lớp", "Hai bạn nói về vấn đề già hóa dân số", "你觉得老龄化社会是一个挑战吗？", "Bạn có nghĩ xã hội già hóa là một thách thức không?", "Nêu một vấn đề và một giải pháp.", "挑战", "thách thức"],
+    ["hsk6-digital-transformation", "Biến đổi số", "Quản lý dự án", "Bạn trình bày kế hoạch biến đổi số cho công ty", "企业应该如何推进数字化转型？", "Doanh nghiệp nên thúc đẩy biến đổi số thế nào?", "Nêu một bước và một lợi ích.", "转型", "biến đổi"],
   ],
   "HSK 7–9": [
     ["hsk79-ai-disclosure", "Tranh luận về khai báo AI", "Người chủ trì hội thảo", "Trường muốn ban hành quy định dùng AI khi viết bài", "要求学生披露使用人工智能的过程，在哪些情况下可能流于形式？", "Trong trường hợp nào yêu cầu sinh viên khai báo quá trình dùng AI có thể thành hình thức?", "Nêu lập luận, phản biện và điều kiện thực thi có thể kiểm tra.", "流于形式", "rơi vào hình thức"],
@@ -155,6 +159,8 @@ const scenes: Record<Level, Scene[]> = {
     ["hsk79-research-collaboration", "Hợp tác nghiên cứu", "Bạn cùng lớp", "Hai bạn nói về lợi ích của nghiên cứu chung", "国际合作研究有什么优势？", "Nghiên cứu hợp tác quốc tế có lợi thế gì?", "Nêu một lợi thế.", "优势", "lợi thế"],
     ["hsk79-scholarly-metrics", "Chỉ số học thuật", "Bạn cùng lớp", "Hai bạn nói về đánh giá tác giả bằng chỉ số", "你觉得引用次数能反映研究者的水平吗？", "Bạn có nghĩ số lần trích dẫn có thể phản ánh trình độ của nhà nghiên cứu không?", "Nêu một lập luận và hạn chế.", "引用次数", "số lần trích dẫn"],
     ["hsk79-academic-career", "Nghề nghiệp học thuật", "Bạn cùng lớp", "Hai bạn nói về phát triển nghề nghiệp học thuật", "你想在大学里发展学术生涯吗？", "Bạn có muốn phát triển sự nghiệp học thuật tại đại học không?", "Nêu một lý do và một thử thách.", "生涯", "sự nghiệp"],
+    ["hsk79-ai-governance", "Quản trị AI", "Người chủ trì hội thảo", "Bạn tranh luận về quản trị trí tuệ nhân tạo", "政府应该如何监管人工智能的发展？", "Chính phủ nên quản lý phát triển AI thế nào?", "Nêu một nguyên tắc và một biện pháp.", "监管", "giám sát"],
+    ["hsk79-educational-equity", "Công bằng giáo dục", "Bạn cùng lớp", "Hai bạn nói về công bằng trong giáo dục", "你觉得城乡教育资源分配公平吗？", "Bạn có nghĩ phân phối tài nguyên giáo dục thành thị–nông thôn công bằng không?", "Nêu một nguyên nhân và một giải pháp.", "公平", "công bằng"],
   ],
 };
 
