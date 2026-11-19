@@ -1,10 +1,21 @@
 import { NextResponse } from "next/server";
 
 import { transcribeAudio, WhisperError } from "@/lib/ai/whisper";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
+  const supabase = await createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: "Vui lòng đăng nhập." }, { status: 401 });
+  const limit = checkRateLimit({ userId: user.id });
+  if (!limit.allowed) {
+    return NextResponse.json({ error: "Quá nhiều yêu cầu. Vui lòng thử lại sau." }, {
+      status: 429, headers: { "Retry-After": String(limit.retryAfter) },
+    });
+  }
   const formData = await request.formData().catch(() => null);
   if (!formData) {
     return NextResponse.json({ error: "Body không hợp lệ" }, { status: 400 });

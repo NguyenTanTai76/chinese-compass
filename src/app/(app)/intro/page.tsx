@@ -2,19 +2,26 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { INTRO_LESSONS, getIntroLesson } from "@/lib/content/intro-lessons";
 import { speakChinese } from "@/lib/speech";
+import { logSession } from "@/lib/progress";
 
-function SelfCheck({ exercise }: { exercise: NonNullable<ReturnType<typeof getIntroLesson>>["exercise"] }) {
+function SelfCheck({ lessonId, exercise }: { lessonId: string; exercise: NonNullable<ReturnType<typeof getIntroLesson>>["exercise"] }) {
   const [choice, setChoice] = useState<string>();
+  const submitted = useRef(false);
   if (!exercise) return null;
   return (
     <fieldset className="space-y-3">
       <legend className="font-semibold">{exercise.prompt}</legend>
       {exercise.options.map(option => (
-        <Button key={option} variant="outline" onClick={() => setChoice(option)}>{option}</Button>
+        <Button key={option} variant="outline" onClick={() => {
+          setChoice(option);
+          if (submitted.current) return;
+          submitted.current = true;
+          logSession({ type: "test", examKind: "unit", examId: lessonId, score: Number(option === exercise.answer), total: 1 }, 0);
+        }}>{option}</Button>
       ))}
       {choice && <p role="status">{choice === exercise.answer ? "Chính xác." : "Hãy thử lại."} Đáp án: {exercise.answer}</p>}
     </fieldset>
@@ -38,7 +45,7 @@ export default function IntroPage() {
             {lesson.content.split("\n").slice(1).map(line => <li key={line}>{line.replace(/^- /, "")}</li>)}
           </ul>
           {lesson.audio && <Button variant="outline" onClick={() => void speakChinese(lesson.audio!)}>Nghe mẫu (TTS)</Button>}
-          <SelfCheck key={lesson.id} exercise={lesson.exercise} />
+          <SelfCheck key={lesson.id} lessonId={lesson.id} exercise={lesson.exercise} />
           {lesson.completion && <p>{lesson.completion}</p>}
           {next && <Link className="underline" href={`/intro?lesson=${next.id}`}>Bài tiếp theo · {next.title}</Link>}
         </>

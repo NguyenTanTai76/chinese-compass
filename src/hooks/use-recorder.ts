@@ -102,20 +102,20 @@ export function useRecorder(
     setState("recording");
     setSeconds(0);
 
-    timerRef.current = setInterval(() => {
-      setSeconds((prev) => {
-        const next = prev + 1;
-        if (next >= maxSeconds) {
-          clearInterval(timerRef.current!);
-          timerRef.current = null;
-          if (recorder.state !== "inactive") {
-            autoStopRef.current = true;
-            recorder.stop();
-          }
+    const startedAt = performance.now();
+    const timer = setInterval(() => {
+      const elapsed = Math.floor((performance.now() - startedAt) / 1000);
+      setSeconds(Math.min(elapsed, maxSeconds));
+      if (elapsed >= maxSeconds) {
+        clearInterval(timer);
+        timerRef.current = null;
+        if (recorder.state !== "inactive") {
+          autoStopRef.current = true;
+          recorder.stop();
         }
-        return Math.min(next, maxSeconds);
-      });
+      }
     }, 1000);
+    timerRef.current = timer;
 
     return true;
   }, [cleanup, maxSeconds]);

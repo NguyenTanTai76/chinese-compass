@@ -1,9 +1,13 @@
+import { GRADED_READING } from "./graded-reading";
+
 export type ReadingPassage = {
   id: string;
   title: string;
   level: number;
   sentences: string[];
   wordCount: number;
+  topic?: string;
+  check?: { prompt: string; options: string[]; answer: string; explanation: string };
 };
 
 export const READING_PASSAGES: ReadingPassage[] = [
@@ -409,4 +413,5 @@ export const READING_PASSAGES: ReadingPassage[] = [
     ],
     "wordCount": 30
   },
+  ...GRADED_READING,
 ];

@@ -159,7 +159,7 @@ export default function ShadowingPage() {
           setPlayingUserAudio(null);
         };
       }
-      audio.currentTime = 0;
+      audio.load();
       audio.play().catch(() => {
         toast.error("Không thể phát lại bản ghi");
         setPlayingUserAudio(null);

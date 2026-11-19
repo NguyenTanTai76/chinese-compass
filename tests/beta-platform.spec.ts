@@ -34,6 +34,9 @@ test("guest is sent to the real sign-in page and cannot read progress", async ({
   expect(new URL(page.url()).searchParams.get("callbackUrl")).toBe("/dashboard?from=beta");
   await expect(page.locator("#email")).toBeVisible();
   expect((await page.request.get("/api/progress")).status()).toBe(401);
+  expect((await page.request.post("/api/speaking", { data: {} })).status()).toBe(401);
+  expect((await page.request.post("/api/stt")).status()).toBe(401);
+  expect((await page.request.post("/api/writing-feedback", { data: {} })).status()).toBe(401);
 });
 
 test("A/B isolation, switch in the same browser and reload from a clean browser", async ({ page, browser }) => {

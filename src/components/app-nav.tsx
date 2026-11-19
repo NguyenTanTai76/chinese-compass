@@ -19,6 +19,7 @@ const NAV = [
   { href: "/pinyin", label: "Pinyin" },
   { href: "/vocab", label: "Từ vựng" },
   { href: "/writing", label: "Luyện viết" },
+  { href: "/writing-practice", label: "Viết theo chủ đề" },
   { href: "/reflex", label: "Phản xạ" },
   { href: "/dictation", label: "Nghe chép" },
   { href: "/speaking", label: "Nói cùng AI" },

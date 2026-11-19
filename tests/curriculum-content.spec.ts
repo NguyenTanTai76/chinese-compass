@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import { getIntroLesson, INTRO_LESSONS } from "../src/lib/content/intro-lessons";
 import { buildPeriodicTest } from "../src/lib/content/periodic-tests";
 import { MAX_SPEAKING_ERRORS, TURN_RESPONSE_SCHEMA } from "../src/lib/content/speaking";
+import { GRADED_READING } from "../src/lib/content/graded-reading";
 
 test("intro sequence has unique IDs, audio, a valid answer and a completion criterion", () => {
   expect(INTRO_LESSONS.map(lesson => lesson.title)).toEqual([
@@ -37,4 +38,14 @@ test("periodic forms each have 20 valid questions and no shared items", () => {
 test("Speaking provider schema caps correction feedback at five items", () => {
   expect(MAX_SPEAKING_ERRORS).toBe(5);
   expect(TURN_RESPONSE_SCHEMA.properties.errors.maxItems).toBe(MAX_SPEAKING_ERRORS);
+});
+
+test("graded passages have unique IDs and valid answer keys", () => {
+  expect(GRADED_READING.map(passage => passage.level)).toEqual([2, 3, 4, 5, 6, 7]);
+  expect(new Set(GRADED_READING.map(passage => passage.id)).size).toBe(6);
+  for (const passage of GRADED_READING) {
+    expect(passage.wordCount).toBeGreaterThan(30);
+    expect(passage.check?.options).toContain(passage.check?.answer);
+    expect(passage.check?.explanation).toBeTruthy();
+  }
 });

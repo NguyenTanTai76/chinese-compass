@@ -1,7 +1,9 @@
-const CACHE = "chinese-compass-static-v1";
+const CACHE_PREFIX = "chinese-compass-static-";
+const CACHE = `${CACHE_PREFIX}v2`;
+const OFFLINE = "/offline.html";
 
-self.addEventListener("install", () => {
-  self.skipWaiting();
+self.addEventListener("install", (event) => {
+  event.waitUntil(caches.open(CACHE).then(cache => cache.add(OFFLINE)).then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", (event) => {
@@ -9,7 +11,7 @@ self.addEventListener("activate", (event) => {
     caches
       .keys()
       .then((keys) =>
-        Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key))),
+        Promise.all(keys.filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE).map(key => caches.delete(key))),
       )
       .then(() => self.clients.claim()),
   );
@@ -22,6 +24,14 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
+  if (request.mode === "navigate") {
+    event.respondWith(fetch(request).catch(async () => {
+      const cache = await caches.open(CACHE);
+      return (await cache.match(OFFLINE)) ?? Response.error();
+    }));
+    return;
+  }
+
   const cacheable =
     url.pathname.startsWith("/_next/static/") ||
     url.pathname.startsWith("/icon") ||
@@ -30,13 +40,12 @@ self.addEventListener("fetch", (event) => {
   if (!cacheable) return;
 
   event.respondWith(
-    caches.match(request).then((hit) => {
+    caches.open(CACHE).then(async cache => {
+      const hit = await cache.match(request);
       if (hit) return hit;
-      return fetch(request).then((response) => {
-        const copy = response.clone();
-        caches.open(CACHE).then((cache) => cache.put(request, copy));
-        return response;
-      });
+      const response = await fetch(request);
+      if (response.ok) await cache.put(request, response.clone()).catch(() => undefined);
+      return response;
     }),
   );
 });

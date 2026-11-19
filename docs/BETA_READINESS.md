@@ -1,20 +1,22 @@
 # Chinese Compass — nghiệm thu Phase 0–8
 
-Cập nhật 19/11/2026. Baseline là `3cae659`, đã chứa Platform/Curriculum `98e87ce` và phần luyện tập `1004815`. Handoff Kilo khớp SHA. **Chưa sẵn sàng mở beta 50.**
+Cập nhật 20/11/2026. Baseline là `3cae659`, đã chứa Platform/Curriculum `98e87ce` và phần luyện tập `1004815`. Handoff Kilo khớp SHA. **Chưa sẵn sàng mở beta 50.**
 
 | Phase | Trạng thái | Bằng chứng và phần còn thiếu |
 |---|---|---|
 | 0 · Tích hợp | Đã đạt kiểm kê | Ba checkpoint nói trên nằm trên master. Audit bên dưới giữ làm lịch sử. |
 | 1 · Tài khoản | Bị chặn nghiệm thu thật | Migration 001/002 và test SQL A/B, mock từ Platform được kế thừa. Cần staging riêng và hai tài khoản QA để kiểm tra thiết bị, isolation và retry. |
-| 2 · Giáo trình | Một phần | 7/7 bài Nhập môn bản mới có mục tiêu, bài trước, TTS, tự kiểm tra và tiêu chí hoàn thành. Giữ URL bài cũ. HSK 1 chưa đủ 24 bài và cần người duyệt. Kho có 407 mục từ (399 dạng chữ), 31 bài đọc (15 gán HSK 1, 16 gán HSK 2), 45 mục Hán Việt, 200 câu ngữ pháp, 200 câu phản xạ và 40 câu nghe chép dùng TTS. Các số trong nguồn cần kiểm tra phân cấp và chất lượng trước khi tính độ phủ. |
-| 3 · Lộ trình, đánh giá | Một phần | Một bài đầu vào và hai đề định kỳ 20 câu, mỗi đề 8 từ vựng, 7 ngữ pháp, 5 nghe bằng TTS. Lịch sử theo tài khoản. Sinh lại lịch dùng điểm đề gần nhất, giữ bài đã xong. Còn cần bài cuối đơn vị đầy đủ và kiểm thử trên staging. |
+| 2 · Giáo trình | Một phần | 7/7 bài Nhập môn bản mới có mục tiêu, bài trước, TTS, tự kiểm tra và tiêu chí hoàn thành. Giữ URL bài cũ. HSK 1 chưa đủ 24 bài và cần người duyệt. Kho có 407 mục từ (399 dạng chữ), 37 bài đọc (15 gán HSK 1, 17 gán HSK 2, 5 gán các mức cao hơn), 45 mục Hán Việt, 200 câu ngữ pháp, 200 câu phản xạ và 40 câu nghe chép dùng TTS. Các số trong nguồn cần kiểm tra phân cấp và chất lượng trước khi tính độ phủ. |
+| 3 · Lộ trình, đánh giá | Một phần | Một bài đầu vào và hai đề định kỳ 20 câu, mỗi đề 8 từ vựng, 7 ngữ pháp, 5 nghe bằng TTS. Lịch sử theo tài khoản. Sinh lại lịch dùng điểm đề gần nhất, giữ bài đã xong. Có câu kiểm tra cuối bài cho 7 bài Nhập môn và 6 bài đọc mới. Còn ngân hàng cuối đơn vị cho HSK 1 và kiểm thử trên staging. |
 | 4 · Luyện tập | Một phần | Giữ chức năng Kilo đã nhập. Speaking dùng cùng giới hạn 5 lỗi trong prompt, API, schema và UI. Test schema local. Kiểm chứng giọng thật, bản ghi 2/5 phút có đánh dấu cuối, retry và provider còn mở. |
-| 5 · Beta | Một phần | Tìm kiếm mở thẳng từ/câu/bài đọc theo ID. Còn Next.js 16, PWA desktop/mobile, staging và tải thật 50/10. |
-| 6 · HSK 2–4 | Một phần | Có học liệu gán cấp HSK 2 trong kho. Còn tuyến bài theo cấp, nhiệm vụ viết, nói và các đề HSK/HSKK/TOCFL. |
-| 7 · HSK 5–9 | Chưa nghiệm thu | Còn giáo trình, AI sửa bài, kiểm chứng phát âm, báo cáo kỹ năng và chứng nhận. |
-| 8 · Cộng đồng | Chưa nghiệm thu | Còn nhắc học, hoạt động nhóm, kiểm duyệt, CMS, chỉ số giữ chân và phân quyền gói. |
+| 5 · Beta | Một phần | Tìm kiếm mở thẳng từ/câu/bài đọc theo ID. Next.js 16.4.6 và React 19.3.1 qua npm ci với lockfile cuối. Build Turbopack xử lý Tailwind qua PostCSS. PWA có icon 192/512 và trang ngoại tuyến công khai. Còn nghiệm thu cài trên thiết bị thật, staging và tải thật 50/10. |
+| 6 · HSK 2–4 | Một phần | Có 17 bài đọc gán mức HSK 2 và 1 bài mới mỗi mức HSK 3, 4, kèm 3 đề bài viết. Còn tuyến bài hoàn chỉnh, nói và bộ đề HSK/HSKK/TOCFL có thời lượng và cấu trúc được kiểm định. Ngân hàng đề cần gắn phiên bản cụ thể vì HSK 3.0 có lịch ra mắt riêng. |
+| 7 · HSK 5–9 | Một phần | Mỗi nhóm HSK 5, 6 và 7–9 có một bài đọc và một nhiệm vụ viết tự biên soạn. Đọc lọc theo chủ đề, câu cuối bài lưu kết quả. Viết có tiêu chí tự rà và API góp ý sau đăng nhập. Giáo trình đầy đủ, phát âm, báo cáo kỹ năng và chứng nhận còn thiếu. |
+| 8 · Cộng đồng | Một phần | Dashboard có thử thách và huy hiệu cá nhân theo số ngày trong lịch có bài đã xong. Phút hiển thị là phút theo kế hoạch. Còn nhắc học, nhóm, diễn đàn, trao đổi ngôn ngữ, lịch hẹn, lớp, CMS, giữ chân và phân quyền gói. |
 
 Bài Nhập môn mới do Chinese Compass tự biên soạn, tham chiếu chuẩn ở cấp độ mục tiêu học tập. Audio phát bằng TTS thiết bị. Độ phủ từ/chữ và quyền phân phối các danh mục bên ngoài còn cần đối chiếu. [Văn bản GF0025-2021](https://hudong.moe.gov.cn/jyb_xwfb/moe_2082/siju/yywzxxgls/ztzl_yywzgfbz/202111/t20211118_580755.html)
+
+Nguồn dùng để đối chiếu cấu trúc đề. Học liệu mới được tự biên soạn trong repo, mức gán là tham khảo nội bộ và chờ duyệt. Giấy phép phân phối dữ liệu bên ngoài chưa được xác nhận. [HSK và thông báo 3.0](https://www.chinesetest.cn/HSK?lang=en) · [HSKK](https://www.chinesetest.cn/HSKK) · [TOCFL](https://tocfl.edu.tw/tocfl/index.php/test/cat/list/2)
 
 ## Cách thử checkpoint
 

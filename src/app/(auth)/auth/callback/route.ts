@@ -7,7 +7,8 @@ export async function GET(request: Request) {
   const code = url.searchParams.get("code");
   let destination = "/auth/sign-in?error=confirmation";
   if (code) {
-    const { error } = await createSupabaseServerClient().auth.exchangeCodeForSession(code);
+    const supabase = await createSupabaseServerClient();
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) destination = safeReturnPath(url.searchParams.get("next"));
   }
 

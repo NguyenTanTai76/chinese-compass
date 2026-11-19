@@ -14,10 +14,11 @@ import {
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { READING_PASSAGES } from "@/lib/content/reading";
+import { READING_PASSAGES, type ReadingPassage } from "@/lib/content/reading";
 import type { VocabEntry } from "@/lib/content/vocab";
-import { addXp, saveCard, useStudyState } from "@/lib/progress";
+import { addXp, logSession, saveCard, useStudyState } from "@/lib/progress";
 import { segmentText, isCjk } from "@/lib/segment";
+import { findSinoVietnamese } from "@/lib/content/sino-vietnamese";
 import { speakChinese, stopSpeaking } from "@/lib/speech";
 import { cn } from "@/lib/utils";
 
@@ -36,6 +37,7 @@ type PopupWord = {
 
 export default function ReadingPage() {
   const [passageIndex, setPassageIndex] = useState(0);
+  const [topic, setTopic] = useState("");
   const lesson = useSearchParams().get("lesson");
   useEffect(() => {
     const index = READING_PASSAGES.findIndex(item => item.id === lesson);
@@ -164,10 +166,11 @@ export default function ReadingPage() {
     }
   }, [popup]);
 
+  const sinoVietnamese = popup ? findSinoVietnamese(popup.word) : undefined;
   const save = useCallback(() => {
     if (!popup) return;
-    const meaning = popup.entry?.meaningVi ?? popup.ai?.meaningVi;
-    const reading = popup.entry?.pinyin ?? popup.ai?.pinyin;
+    const meaning = popup.entry?.meaningVi ?? popup.ai?.meaningVi ?? sinoVietnamese?.meaningVi;
+    const reading = popup.entry?.pinyin ?? popup.ai?.pinyin ?? sinoVietnamese?.pinyin;
     if (!meaning || !reading) {
       toast.error("Cần tra nghĩa trước khi lưu");
       return;
@@ -176,7 +179,7 @@ export default function ReadingPage() {
       hanzi: popup.word,
       pinyin: reading,
       meaningVi: meaning,
-      hskLevel: popup.entry?.hskLevel ?? passage.level,
+      hskLevel: popup.entry?.hskLevel ?? sinoVietnamese?.hskLevel ?? passage.level,
     });
     if (added) {
       addXp(2);
@@ -184,7 +187,7 @@ export default function ReadingPage() {
     } else {
       toast.info("Từ này đã có trong flashcard");
     }
-  }, [passage.level, popup]);
+  }, [passage.level, popup, sinoVietnamese]);
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
@@ -196,10 +199,25 @@ export default function ReadingPage() {
         </p>
       </header>
 
+      <label className="flex items-center gap-2 text-sm">
+        Chủ đề
+        <select value={topic} onChange={event => {
+          const selected = event.target.value;
+          setTopic(selected);
+          if (selected && passage.topic !== selected) {
+            setPassageIndex(READING_PASSAGES.findIndex(item => item.topic === selected));
+          }
+        }} className="rounded-md border border-border bg-card p-2">
+          <option value="">Tất cả</option>
+          {[...new Set(READING_PASSAGES.flatMap(item => item.topic ? [item.topic] : []))].map(item => (
+            <option key={item} value={item}>{item}</option>
+          ))}
+        </select>
+      </label>
       <div className="flex flex-wrap gap-2">
-        {READING_PASSAGES.map((item, index) => (
+        {READING_PASSAGES.map((item, index) => (!topic || item.topic === topic) && (
           <button
-            key={item.title}
+            key={item.id}
             type="button"
             onClick={() => setPassageIndex(index)}
             className={cn(
@@ -221,7 +239,7 @@ export default function ReadingPage() {
               {passage.title}
             </h2>
             <p className="text-xs text-muted-foreground">
-              HSK {passage.level} · {passage.sentences.length} câu · {passage.wordCount} chữ
+              HSK {passage.level === 7 ? "7–9" : passage.level} · {passage.sentences.length} câu · {passage.wordCount} chữ
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -289,6 +307,7 @@ export default function ReadingPage() {
         </p>
       </section>
 
+      {passage.check && <ReadingCheck key={passage.id} passageId={passage.id} check={passage.check} />}
       {popup && (
         <div className="fixed inset-x-0 bottom-0 z-40 flex justify-center px-3 pb-3">
           <div className="w-full max-w-lg rounded-2xl border border-border bg-card p-5 shadow-2xl">
@@ -298,13 +317,15 @@ export default function ReadingPage() {
                   {popup.word}
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  {popup.entry?.pinyin ?? popup.ai?.pinyin ?? fallbackPinyin ?? "..."}
+                  {popup.entry?.pinyin ?? popup.ai?.pinyin ?? sinoVietnamese?.pinyin ?? fallbackPinyin ?? "..."}
                 </p>
                 <p className="mt-1 text-sm">
                   {popup.entry?.meaningVi ??
                     popup.ai?.meaningVi ??
+                    sinoVietnamese?.meaningVi ??
                     "Chưa có trong từ điển nhanh."}
                 </p>
+                {sinoVietnamese && <p className="text-sm text-muted-foreground">Âm Hán Việt: {sinoVietnamese.hanViet}</p>}
               </div>
               <Button
                 variant="ghost"
@@ -357,5 +378,28 @@ export default function ReadingPage() {
         </div>
       )}
     </div>
+  );
+}
+
+function ReadingCheck({ passageId, check }: { passageId: string; check: NonNullable<ReadingPassage["check"]> }) {
+  const [choice, setChoice] = useState<string>();
+  const submitted = useRef(false);
+  function answer(option: string) {
+    if (submitted.current) return;
+    submitted.current = true;
+    setChoice(option);
+    logSession({ type: "test", examKind: "unit", examId: `reading-${passageId}`, score: Number(option === check.answer), total: 1 }, 0);
+  }
+
+  return (
+    <fieldset className="space-y-3 rounded-xl border border-border p-4">
+      <legend className="font-semibold">Cuối bài · {check.prompt}</legend>
+      <div className="flex flex-wrap gap-2">
+        {check.options.map(option => (
+          <Button key={option} variant="outline" disabled={choice !== undefined} onClick={() => answer(option)}>{option}</Button>
+        ))}
+      </div>
+      {choice !== undefined && <p role="status">{choice === check.answer ? "Chính xác." : `Đáp án: ${check.answer}.`} {check.explanation}</p>}
+    </fieldset>
   );
 }

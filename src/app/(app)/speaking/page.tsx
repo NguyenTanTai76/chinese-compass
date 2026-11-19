@@ -160,7 +160,8 @@ export default function SpeakingPage() {
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const sendingRef = useRef(false);
-  const lastAudioRef = useRef<File | null>(null);
+  const [lastAudio, setLastAudio] = useState<File | null>(null);
+  const turnRequest = useRef<{ body: string; key: string } | null>(null);
   const sessionStartRef = useRef<number | null>(null);
 
   const scenario = getScenario(scenarioId) ?? SCENARIOS[0];
@@ -185,10 +186,12 @@ export default function SpeakingPage() {
 
   const resetSession = useCallback(() => {
     stopSpeaking();
+    turnRequest.current = null;
     setMessages([opening]);
     setBusy("idle");
     setPendingTranscript(null);
     setAutoStoppedFile(null);
+    setLastAudio(null);
     setSttError(null);
     setTextInput("");
     setHints(null);
@@ -235,7 +238,7 @@ export default function SpeakingPage() {
   }, []);
 
   const handleAutoStop = useCallback((file: File) => {
-    lastAudioRef.current = file;
+    setLastAudio(file);
     setAutoStoppedFile(file);
     setBusy("idle");
   }, []);
@@ -247,7 +250,7 @@ export default function SpeakingPage() {
   }, [recorder.error]);
 
   const transcribe = useCallback(async (file: File) => {
-    lastAudioRef.current = file;
+    setLastAudio(file);
     setSttError(null);
     setBusy("transcribing");
     try {
@@ -295,22 +298,25 @@ export default function SpeakingPage() {
       ensureSessionStart();
       setBusy("thinking");
 
+      const payload = {
+        mode,
+        level,
+        scenarioId: mode === "topic" ? scenario.id : undefined,
+        correctionMode,
+        transcript,
+        history,
+        retryOf: retryTarget ?? undefined,
+      };
+      const body = JSON.stringify(payload);
+      if (turnRequest.current?.body !== body) {
+        turnRequest.current = { body, key: uid("idem") };
+      }
+      const attempt = turnRequest.current;
       try {
         const res = await fetch("/api/speaking", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            mode,
-            level,
-            scenarioId: mode === "topic" ? scenario.id : undefined,
-            correctionMode,
-            transcript,
-            history,
-            retryOf: retryTarget ?? undefined,
-            userId,
-            projectId: "chinese-compass",
-            idempotencyKey: uid("idem"),
-          }),
+          body: JSON.stringify({ ...payload, idempotencyKey: attempt.key }),
         });
         const data = (await res.json()) as {
           transcript?: string;
@@ -322,6 +328,7 @@ export default function SpeakingPage() {
           retryAfter?: number;
         };
 
+        if (turnRequest.current !== attempt) return;
         if (res.status === 429) {
           toast.error(
             data.error ??
@@ -354,6 +361,7 @@ export default function SpeakingPage() {
           });
         }
 
+        turnRequest.current = null;
         setMessages(newMessages);
         setPendingTranscript(null);
         setTextInput("");
@@ -372,7 +380,6 @@ export default function SpeakingPage() {
       }
     },
     [
-      userId,
       busy,
       correctionMode,
       ensureSessionStart,
@@ -977,7 +984,7 @@ export default function SpeakingPage() {
                 variant="ghost"
                 onClick={() => {
                   setAutoStoppedFile(null);
-                  lastAudioRef.current = null;
+                  setLastAudio(null);
                   void startRecording();
                 }}
               >
@@ -989,11 +996,11 @@ export default function SpeakingPage() {
           {sttError && (
             <div className="flex flex-wrap items-center gap-2 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">
               {sttError}
-              {lastAudioRef.current && (
+              {lastAudio && (
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() => lastAudioRef.current && transcribe(lastAudioRef.current)}
+                  onClick={() => transcribe(lastAudio)}
                 >
                   <RefreshCw className="h-4 w-4" /> Thử lại chép lời
                 </Button>
@@ -1055,7 +1062,7 @@ export default function SpeakingPage() {
                 <>
                   <div className="flex items-center gap-2 text-sm font-medium text-red-600">
                     <span className="h-2 w-2 animate-pulse rounded-full bg-red-600" />
-                    Đang ghi âm · {formatTime(recorder.seconds)} / 01:00
+                    Đang ghi âm · {formatTime(recorder.seconds)} / {formatTime(recorder.maxSeconds)}
                   </div>
                   <div className="flex gap-2">
                     <Button variant="danger" onClick={stopRecording} data-testid="stop-button">
