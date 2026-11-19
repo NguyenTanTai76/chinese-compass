@@ -23,7 +23,8 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRecorder } from "@/hooks/use-recorder";
-import { MAX_SPEAKING_ERRORS,
+import {
+  MAX_SPEAKING_ERRORS,
   CORRECTION_MODES,
   FREE_TALK_KEYWORDS,
   LEVELS,
@@ -34,6 +35,7 @@ import { MAX_SPEAKING_ERRORS,
   type CorrectionMode,
   type ScenarioKeyword,
   type TurnFeedback,
+  type Level,
 } from "@/lib/content/speaking";
 import { logSession } from "@/lib/progress";
 import { speakChinese, stopSpeaking } from "@/lib/speech";
@@ -65,9 +67,9 @@ type RetryTarget = {
 };
 
 const FREE_OPENING = {
-  zh: "你好！今天你想聊什么？",
-  pinyin: "nǐ hǎo! jīn tiān nǐ xiǎng liáo shén me?",
-  vi: "Xin chào! Hôm nay bạn muốn nói về điều gì?",
+  zh: "你好！你可以先说，也可以问我一个问题。",
+  pinyin: "nǐ hǎo! nǐ kěyǐ xiān shuō, yě kěyǐ wèn wǒ yí ge wèntí.",
+  vi: "Chào bạn! Bạn có thể mở lời hoặc hỏi mình một câu.",
 };
 
 function uid(prefix: string) {
@@ -124,8 +126,8 @@ function buildLocalSummary(turns: UserMessage[], keywords: ScenarioKeyword[]): S
 
 export default function SpeakingPage() {
   const [mode, setMode] = useState<"topic" | "free">("topic");
-  const [level, setLevel] = useState<string>(LEVELS[1]);
-  const [scenarioId, setScenarioId] = useState(SCENARIOS[0].id);
+  const [level, setLevel] = useState<Level>("HSK 1");
+  const [scenarioId, setScenarioId] = useState("food");
   const [correctionMode, setCorrectionMode] = useState<CorrectionMode>("per_turn");
   const [goalMinutes, setGoalMinutes] = useState<number>(5);
   const [showPinyin, setShowPinyin] = useState(true);
@@ -161,9 +163,23 @@ export default function SpeakingPage() {
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const sendingRef = useRef(false);
   const [lastAudio, setLastAudio] = useState<File | null>(null);
+  const playbackRef = useRef<HTMLAudioElement | null>(null);
   const turnRequest = useRef<{ body: string; key: string } | null>(null);
+
+  useEffect(() => {
+    const player = playbackRef.current;
+    if (!lastAudio || !player) return;
+    const url = URL.createObjectURL(lastAudio);
+    player.src = url;
+    return () => {
+      player.pause();
+      player.removeAttribute("src");
+      URL.revokeObjectURL(url);
+    };
+  }, [lastAudio]);
   const sessionStartRef = useRef<number | null>(null);
 
+  const scenariosAtLevel = SCENARIOS.filter(item => item.level === level);
   const scenario = getScenario(scenarioId) ?? SCENARIOS[0];
   const keywords = mode === "topic" ? scenario.keywords : FREE_TALK_KEYWORDS;
 
@@ -411,24 +427,21 @@ export default function SpeakingPage() {
     setAutoStoppedFile(null);
   }, [recorder]);
 
-  const startRetry = useCallback(() => {
-    const lastUser = [...messages].reverse().find((item) => item.role === "user") as
-      | UserMessage
-      | undefined;
-    if (!lastUser) return;
+  const startRetry = useCallback((target: UserMessage) => {
+    if (busy !== "idle" || recorder.isRecording) return;
     setRetryTarget({
-      transcript: lastUser.text,
+      transcript: target.text,
       errors:
-        lastUser.feedback?.errors.map((error) => ({
+        target.feedback?.errors.map((error) => ({
           said: error.said,
           shouldSay: error.shouldSay,
         })) ?? [],
     });
     setSummary(null);
     setPendingTranscript(null);
-    toast.info("Nói lại câu vừa rồi, AI sẽ so sánh với lượt trước");
-    void startRecording();
-  }, [messages, startRecording]);
+    toast.info("Nói lại câu đã chọn, AI sẽ so sánh với lượt trước");
+    if (inputMode === "mic") void startRecording();
+  }, [busy, inputMode, recorder.isRecording, startRecording]);
 
   const finishSession = useCallback(async () => {
     if (summaryLoading) return;
@@ -583,7 +596,14 @@ export default function SpeakingPage() {
           Trình độ
           <select
             value={level}
-            onChange={(event) => setLevel(event.target.value)}
+            onChange={(event) => {
+              const selected = LEVELS.find(item => item === event.target.value);
+              if (!selected) return;
+              const next = SCENARIOS.find(item => item.level === selected);
+              if (!next) return;
+              setLevel(selected);
+              setScenarioId(next.id);
+            }}
             className="mt-1 h-9 w-full rounded-lg border border-border bg-background px-2 text-sm text-foreground"
           >
             {LEVELS.map((item) => (
@@ -602,7 +622,7 @@ export default function SpeakingPage() {
             disabled={mode === "free"}
             className="mt-1 h-9 w-full rounded-lg border border-border bg-background px-2 text-sm text-foreground disabled:opacity-50"
           >
-            {SCENARIOS.map((item) => (
+            {scenariosAtLevel.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.label}
               </option>
@@ -799,15 +819,28 @@ export default function SpeakingPage() {
             {correctionMode === "per_turn" ? "Sửa sau mỗi lượt" : "Sửa cuối buổi"}
           </span>
         </div>
+        {mode === "topic" && (
+          <div className="border-b border-border px-4 py-2 text-sm">
+            <p>{scenario.objective}</p>
+            {summary && <p className="mt-1 text-muted-foreground">Bài ôn: {scenario.practice}</p>}
+          </div>
+        )}
 
         <div className="flex-1 space-y-4 overflow-y-auto px-4 py-4" style={{ maxHeight: "52vh" }}>
-          {messages.map((message) =>
-            message.role === "user" ? (
+          {messages.map((message, index) => {
+            const following = messages[index + 1];
+            return message.role === "user" ? (
               <div key={message.id} className="flex flex-col items-end gap-1.5">
                 <div className="max-w-[85%] rounded-2xl rounded-br-sm bg-primary px-4 py-2.5 text-white">
                   <p className="text-[11px] opacity-80">Bạn nói (bản chép)</p>
                   <p className="hanzi mt-0.5 text-lg">{message.text}</p>
                 </div>
+
+                {mode === "free" && following?.role === "assistant" && (
+                  <div className="w-full">
+                    <AssistantTurn message={following} showPinyin={showPinyin} showVi={showVi} />
+                  </div>
+                )}
 
                 {message.retryNote && (
                   <p className="max-w-[85%] rounded-lg bg-emerald-50 px-3 py-1.5 text-xs text-emerald-800">
@@ -889,7 +922,7 @@ export default function SpeakingPage() {
                     )}
 
                     <div className="flex flex-wrap gap-2">
-                      <Button size="sm" variant="secondary" onClick={startRetry} data-testid="retry-button">
+                      <Button size="sm" variant="secondary" onClick={() => startRetry(message)} data-testid="retry-button">
                         <RotateCcw className="h-4 w-4" /> Nói lại câu này
                       </Button>
                     </div>
@@ -900,52 +933,18 @@ export default function SpeakingPage() {
                   <div className="w-full max-w-[92%] rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
                     <p className="font-medium">Chưa đủ dữ liệu để chấm</p>
                     <p className="text-xs">{message.feedback.overallVi}</p>
-                    <Button size="sm" variant="outline" className="mt-2" onClick={startRetry}>
+                    <Button size="sm" variant="outline" className="mt-2" onClick={() => startRetry(message)}>
                       <RotateCcw className="h-4 w-4" /> Nói lại
                     </Button>
                   </div>
                 )}
               </div>
             ) : (
-              <div key={message.id} className="flex justify-start">
-                <div className="max-w-[88%] space-y-1.5 rounded-2xl rounded-bl-sm border border-border bg-muted/40 px-4 py-3">
-                  <div className="flex items-start justify-between gap-3">
-                    <p className="hanzi text-lg font-semibold text-foreground">
-                      {message.reply.zh}
-                    </p>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 shrink-0"
-                      onClick={() => speakChinese(message.reply.zh, 0.9)}
-                    >
-                      <Volume2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  {showPinyin && message.reply.pinyin && (
-                    <p className="text-sm text-primary">{message.reply.pinyin}</p>
-                  )}
-                  {showVi && message.reply.vi && (
-                    <p className="text-sm text-muted-foreground">{message.reply.vi}</p>
-                  )}
-                      {message.kind === "reply" && message.provider && (
-                        <p className="text-[11px] text-muted-foreground">
-                          AI:
-                          {message.provider === "gemini"
-                            ? "Gemini"
-                            : message.provider === "groq"
-                              ? "Groq"
-                              : message.provider === "openrouter"
-                                ? "OpenRouter"
-                                : message.provider === "ollama"
-                                  ? "Ollama (local)"
-                                  : message.provider}
-                        </p>
-                      )}
-                </div>
-              </div>
-            ),
-          )}
+              mode === "free" && messages[index - 1]?.role === "user"
+                ? null
+                : <AssistantTurn key={message.id} message={message} showPinyin={showPinyin} showVi={showVi} />
+            );
+          })}
 
           {busy === "thinking" && (
             <div className="flex justify-start">
@@ -1008,6 +1007,9 @@ export default function SpeakingPage() {
             </div>
           )}
 
+          {lastAudio && (
+            <audio key="latest-recording" ref={playbackRef} controls aria-label="Nghe lại bản ghi" className="w-full" />
+          )}
           {busy === "transcribing" && (
             <p className="flex items-center justify-center gap-2 py-3 text-sm text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" /> Đang chép lời...
@@ -1147,6 +1149,49 @@ export default function SpeakingPage() {
         Điểm chỉ phản ánh nội dung bản chép lời, không đánh giá phát âm hay thanh
         điệu. Hãy nghe TTS và tự đối chiếu.
       </p>
+    </div>
+  );
+}
+
+function AssistantTurn({ message, showPinyin, showVi }: { message: AiMessage; showPinyin: boolean; showVi: boolean }) {
+  return (
+    <div className="flex justify-start">
+      <div className="max-w-[88%] space-y-1.5 rounded-2xl rounded-bl-sm border border-border bg-muted/40 px-4 py-3">
+        <div className="flex items-start justify-between gap-3">
+          <p className="hanzi text-lg font-semibold text-foreground">
+            {message.reply.zh}
+          </p>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 shrink-0"
+                    aria-label="Nghe câu trả lời"
+            onClick={() => speakChinese(message.reply.zh, 0.9)}
+          >
+            <Volume2 className="h-4 w-4" />
+          </Button>
+        </div>
+        {showPinyin && message.reply.pinyin && (
+          <p className="text-sm text-primary">{message.reply.pinyin}</p>
+        )}
+        {showVi && message.reply.vi && (
+          <p className="text-sm text-muted-foreground">{message.reply.vi}</p>
+        )}
+            {message.kind === "reply" && message.provider && (
+              <p className="text-[11px] text-muted-foreground">
+                AI:
+                {message.provider === "gemini"
+                  ? "Gemini"
+                  : message.provider === "groq"
+                    ? "Groq"
+                    : message.provider === "openrouter"
+                      ? "OpenRouter"
+                      : message.provider === "ollama"
+                        ? "Ollama (local)"
+                        : message.provider}
+              </p>
+            )}
+      </div>
     </div>
   );
 }

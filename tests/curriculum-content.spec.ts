@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { getIntroLesson, INTRO_LESSONS } from "../src/lib/content/intro-lessons";
 import { buildPeriodicTest } from "../src/lib/content/periodic-tests";
-import { MAX_SPEAKING_ERRORS, TURN_RESPONSE_SCHEMA } from "../src/lib/content/speaking";
+import { LEVELS, MAX_SPEAKING_ERRORS, SCENARIOS, TURN_RESPONSE_SCHEMA } from "../src/lib/content/speaking";
 import { GRADED_READING } from "../src/lib/content/graded-reading";
 
 test("intro sequence has unique IDs, audio, a valid answer and a completion criterion", () => {
@@ -47,5 +47,20 @@ test("graded passages have unique IDs and valid answer keys", () => {
     expect(passage.wordCount).toBeGreaterThan(30);
     expect(passage.check?.options).toContain(passage.check?.answer);
     expect(passage.check?.explanation).toBeTruthy();
+  }
+});
+
+test("Speaking scenarios have stable unique IDs and one opening question at each level", () => {
+  expect(LEVELS.map(level => SCENARIOS.filter(scene => scene.level === level).length)).toEqual([3, 12, 15, 2, 2, 2, 2, 2]);
+  expect(new Set(SCENARIOS.map(scene => scene.id)).size).toBe(SCENARIOS.length);
+  expect(new Set(SCENARIOS.map(scene => scene.openingZh)).size).toBe(SCENARIOS.length);
+  for (const scene of SCENARIOS) {
+    expect(scene.openingZh.match(/[?？]/g)).toHaveLength(1);
+    expect(scene.openingPinyin).toBeTruthy();
+    expect(scene.openingVi).toBeTruthy();
+    expect(scene.roleplay).toBeTruthy();
+    expect(scene.objective).toBeTruthy();
+    expect(scene.practice).toBeTruthy();
+    expect(scene.keywords.length).toBeGreaterThan(0);
   }
 });

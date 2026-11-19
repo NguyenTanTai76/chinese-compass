@@ -1,3 +1,5 @@
+import { AUTHORED_SCENARIOS } from "./speaking-scenarios";
+
 export type ScenarioKeyword = {
   zh: string;
   pinyin: string;
@@ -6,6 +8,9 @@ export type ScenarioKeyword = {
 
 export type Scenario = {
   id: string;
+  level: Level;
+  objective: string;
+  practice: string;
   label: string;
   description: string;
   roleplay: string;
@@ -18,6 +23,9 @@ export type Scenario = {
 export const SCENARIOS: Scenario[] = [
   {
     id: "intro",
+    level: "Mới bắt đầu",
+    objective: "Chào và tự giới thiệu tên bằng một câu.",
+    practice: "Giới thiệu lại bằng tên khác, sau đó hỏi tên người đối diện.",
     label: "Giới thiệu bản thân",
     description: "Làm quen với một người bạn Trung Quốc",
     roleplay:
@@ -36,6 +44,9 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     id: "food",
+    level: "HSK 1",
+    objective: "Gọi một món và một đồ uống.",
+    practice: "Đổi món và gọi lại với một yêu cầu như không cay.",
     label: "Gọi món",
     description: "Gọi đồ ăn, đồ uống trong nhà hàng",
     roleplay:
@@ -54,6 +65,9 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     id: "shopping",
+    level: "HSK 1",
+    objective: "Chỉ món đồ, hỏi giá và xác nhận mua.",
+    practice: "Chọn món khác rồi hỏi giá trước khi trả lời.",
     label: "Mua sắm",
     description: "Hỏi giá và mặc cả khi mua đồ",
     roleplay: "người bán hàng ở chợ, đang bán quần áo và đồ lưu niệm",
@@ -71,6 +85,9 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     id: "directions",
+    level: "HSK 1",
+    objective: "Nói nơi muốn đến và hỏi đường.",
+    practice: "Đổi điểm đến và nhắc lại một chỉ dẫn đã nghe.",
     label: "Hỏi đường",
     description: "Hỏi đường và phương tiện đi lại",
     roleplay: "một người dân địa phương ở Bắc Kinh, đang chỉ đường cho người học",
@@ -88,6 +105,9 @@ export const SCENARIOS: Scenario[] = [
   },
   {
     id: "work",
+    level: "HSK 2",
+    objective: "Mô tả một việc trong ngày và một kế hoạch sau giờ làm.",
+    practice: "Đổi sang ngày mai và nêu một lý do cho kế hoạch.",
     label: "Công việc",
     description: "Trò chuyện với đồng nghiệp ở công ty",
     roleplay: "một đồng nghiệp Trung Quốc thân thiện, đang trò chuyện trong giờ nghỉ",
@@ -103,6 +123,7 @@ export const SCENARIOS: Scenario[] = [
       { zh: "一起吃饭", pinyin: "yī qǐ chī fàn", vi: "ăn cơm cùng nhau" },
     ],
   },
+  ...AUTHORED_SCENARIOS,
 ];
 
 export const FREE_TALK_KEYWORDS: ScenarioKeyword[] = [
@@ -114,7 +135,7 @@ export const FREE_TALK_KEYWORDS: ScenarioKeyword[] = [
   { zh: "再说一遍", pinyin: "zài shuō yī biàn", vi: "nói lại lần nữa" },
 ];
 
-export const LEVELS = ["Mới bắt đầu", "HSK 1", "HSK 2"] as const;
+export const LEVELS = ["Mới bắt đầu", "HSK 1", "HSK 2", "HSK 3", "HSK 4", "HSK 5", "HSK 6", "HSK 7–9"] as const;
 export type Level = (typeof LEVELS)[number];
 
 export const CORRECTION_MODES = [
@@ -212,7 +233,7 @@ export function buildTurnSystemPrompt({
 }): string {
   const context =
     mode === "topic" && scenario
-      ? `Bạn đang nhập vai: ${scenario.roleplay}. Tình huống: ${scenario.description}.`
+      ? `Bạn đang nhập vai: ${scenario.roleplay}. Tình huống: ${scenario.description}. Mục tiêu người học: ${scenario.objective}.`
       : "Chế độ nói tự do: người học có thể nói hoặc hỏi bất cứ điều gì. Bạn là gia sư thân thiện, trả lời đúng trọng tâm câu hỏi của người học.";
 
   const correctionRule =
@@ -230,7 +251,7 @@ ${correctionRule}
 ${retryRule}
 
 Quy tắc hội thoại:
-1. Luôn nói tiếng Trung đơn giản, câu ngắn (ưu tiên dưới 15 chữ Hán). Với trình độ Mới bắt đầu, dùng từ thông dụng nhất.
+1. Dùng tiếng Trung phù hợp cấp. Với người mới, ưu tiên từ thông dụng và câu dưới 15 chữ Hán. Với mức cao, dùng văn phong đúng vai và hỏi sâu vào lập luận.
 2. Chỉ hỏi tối đa MỘT câu tiếp theo mỗi lượt, và chỉ khi phù hợp.
 3. Nếu người học đặt câu hỏi, trả lời đúng câu hỏi đó trước; không né tránh, không đổi chủ đề khi người học muốn hỏi.
 4. TUYỆT ĐỐI không đưa câu mẫu hay câu sửa trước khi người học thử nói.

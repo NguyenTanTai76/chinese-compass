@@ -105,6 +105,7 @@ test.describe("speaking recorder 5-minute limit", () => {
     await page.getByTestId("stop-button").click();
 
     await expect(page.locator("textarea")).toHaveValue(/最后一句是蓝色的/);
+    await expect(page.getByLabel("Nghe lại bản ghi")).toHaveAttribute("src", /^blob:/);
     const requests: { idempotencyKey: string; transcript: string }[] = [];
     await page.route("**/api/speaking", async route => {
       requests.push(route.request().postDataJSON());
@@ -166,5 +167,58 @@ test.describe("speaking recorder 5-minute limit", () => {
     ).toBeVisible();
     await page.getByTestId("send-recording-button").click();
     await expect(page.locator("textarea")).toHaveValue(/最后一句是蓝色的/);
+    await expect(page.getByLabel("Nghe lại bản ghi")).toHaveAttribute("src", /^blob:/);
+  });
+
+  test("free conversation answers before feedback and retries the selected turn", async ({ page }) => {
+    await signIn(page, emailA!, passwordA!);
+    await page.goto("/speaking");
+    const topic = page.getByLabel("Tình huống");
+    for (const [level, count] of [["Mới bắt đầu", 3], ["HSK 1", 12], ["HSK 2", 15], ["HSK 3", 2], ["HSK 4", 2], ["HSK 5", 2], ["HSK 6", 2], ["HSK 7–9", 2]] as const) {
+      await page.getByLabel("Trình độ").selectOption(level);
+      await expect(topic.locator("option")).toHaveCount(count);
+    }
+    await page.getByRole("button", { name: "Nói tự do", exact: true }).click();
+    await page.getByRole("button", { name: "Nhập bằng bàn phím" }).click();
+    const requests: { mode: string; transcript: string; retryOf?: { transcript: string } }[] = [];
+    await page.route("**/api/speaking", route => {
+      requests.push(route.request().postDataJSON());
+      const number = requests.length;
+      return route.fulfill({ json: {
+        reply: { zh: number === 1 ? "图书馆在学校旁边。" : "好的，我明白了。", pinyin: "Túshūguǎn zài xuéxiào pángbiān.", vi: "Thư viện ở cạnh trường." },
+        feedback: {
+          insufficient: false, score: 8, breakdown: { intent: 4, vocabulary: 2, grammar: 2 },
+          overallVi: "Góp ý diễn đạt " + number,
+          errors: Array.from({ length: 6 }, (_, index) => ({ said: "片段" + index, shouldSay: "改写" + index, explanationVi: "Lỗi mẫu " + index })),
+          corrected: null, retryNote: "",
+        },
+      } });
+    });
+    const input = page.getByPlaceholder("Nhập câu tiếng Trung của bạn...");
+    const original = "请问图书馆在哪儿？";
+    await input.fill(original);
+    await page.getByRole("button", { name: "Gửi cho AI" }).click();
+    const reply = page.getByText("图书馆在学校旁边。", { exact: true });
+    const feedback = page.getByText("Góp ý diễn đạt 1", { exact: true });
+    await expect(reply).toBeVisible();
+    await expect(feedback).toBeVisible();
+    const feedbackElement = await feedback.elementHandle();
+    expect(await reply.evaluate((element, next) => Boolean(element.compareDocumentPosition(next!) & Node.DOCUMENT_POSITION_FOLLOWING), feedbackElement)).toBe(true);
+    await expect(page.getByText("Lỗi mẫu 4", { exact: true })).toBeVisible();
+    await expect(page.getByText("Lỗi mẫu 5", { exact: true })).toHaveCount(0);
+    await page.getByRole("button", { name: "Pinyin", exact: true }).click();
+    await page.getByRole("button", { name: "Nghĩa Việt", exact: true }).click();
+    await expect(page.getByText("Thư viện ở cạnh trường.", { exact: true })).toHaveCount(0);
+    await expect(reply).toBeVisible();
+
+    await input.fill("谢谢，我现在去。");
+    await page.getByRole("button", { name: "Gửi cho AI" }).click();
+    await expect(page.getByText("Góp ý diễn đạt 2")).toBeVisible();
+    await page.getByTestId("retry-button").first().click();
+    await input.fill("请问，图书馆在哪里？");
+    await page.getByRole("button", { name: "Gửi cho AI" }).click();
+    await expect(page.getByText("Góp ý diễn đạt 3")).toBeVisible();
+    expect(requests[0].mode).toBe("free");
+    expect(requests[2].retryOf?.transcript).toBe(original);
   });
 });

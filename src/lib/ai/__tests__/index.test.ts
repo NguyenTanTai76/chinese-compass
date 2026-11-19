@@ -72,6 +72,31 @@ const TURN_JSON = JSON.stringify({
 });
 
 describe("callAiJson", () => {
+  test("validates the requested schema for non-conversation tasks", async () => {
+    restoreEnv();
+    process.env.AI_LOCAL_MODE = "true";
+    process.env.OLLAMA_BASE_URL = "http://localhost:11434";
+    process.env.OLLAMA_MODEL = "test-model";
+    const payload = { strengths: "Rõ ý", revision: "我同意。", explanation: "Thêm lý do." };
+    globalThis.fetch = mockFetch(() => ollamaResponse(JSON.stringify(payload))).fake;
+    try {
+      const result = await callAiJson({
+        systemPrompt: "Nhận xét bài viết",
+        userPrompt: "我同意",
+        responseSchema: { type: "OBJECT", required: ["strengths", "revision", "explanation"] },
+      });
+      assert.deepEqual(result.data, payload);
+      await assert.rejects(callAiJson({
+        systemPrompt: "Hội thoại",
+        userPrompt: "你好",
+        responseSchema: { type: "OBJECT", required: ["reply_zh"] },
+      }), AiUnavailableError);
+    } finally {
+      globalThis.fetch = originalFetch;
+      restoreEnv();
+    }
+  });
+
   test("returns parsed JSON from Gemini on first success", async () => {
     restoreEnv();
     process.env.GEMINI_API_KEY = "test-key";

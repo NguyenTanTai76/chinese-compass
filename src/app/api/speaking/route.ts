@@ -8,7 +8,9 @@ import {
   readText,
 } from "@/lib/ai";
 import { withApiGuard } from "@/lib/api-guard";
-import { MAX_SPEAKING_ERRORS,
+import {
+  LEVELS,
+  MAX_SPEAKING_ERRORS,
   TURN_RESPONSE_SCHEMA,
   buildTurnSystemPrompt,
   buildTurnUserPrompt,
@@ -93,10 +95,10 @@ async function handler(request: Request): Promise<NextResponse> {
   }
 
   const mode = body.mode === "free" ? "free" : "topic";
-  const level = typeof body.level === "string" ? body.level : "HSK 1";
+  const level = LEVELS.find(item => item === body.level) ?? "HSK 1";
   const correctionMode: CorrectionMode =
     body.correctionMode === "end" ? "end" : "per_turn";
-  const transcript = (body.transcript ?? "").trim();
+  const transcript = typeof body.transcript === "string" ? body.transcript.trim() : "";
 
   if (!transcript) {
     return NextResponse.json(
@@ -104,6 +106,7 @@ async function handler(request: Request): Promise<NextResponse> {
       { status: 400 },
     );
   }
+  if (transcript.length > 6000) return NextResponse.json({ error: "Bản chép lời quá dài (tối đa 6.000 ký tự)." }, { status: 400 });
 
   const scenario = getScenario(body.scenarioId ?? "");
   if (mode === "topic" && !scenario) {
@@ -132,7 +135,7 @@ async function handler(request: Request): Promise<NextResponse> {
     const { data, provider } = await callAiJson({
       systemPrompt: buildTurnSystemPrompt({
         mode,
-        level,
+        level: scenario && mode === "topic" ? scenario.level : level,
         scenario,
         correctionMode,
         retry: Boolean(retryOf),
@@ -140,6 +143,7 @@ async function handler(request: Request): Promise<NextResponse> {
       userPrompt: buildTurnUserPrompt({ transcript, history, retryOf }),
       responseSchema: TURN_RESPONSE_SCHEMA,
       budgetMs: 10000,
+      accept: data => mode === "free" || (readText(data, "reply_zh").match(/[?？]+/g) ?? []).length <= Number(!retryOf),
     });
 
     const replyZh = readText(data, "reply_zh");
@@ -159,7 +163,7 @@ async function handler(request: Request): Promise<NextResponse> {
           const record = item as Record<string, unknown>;
           const said = readText(record, "said");
           const shouldSay = readText(record, "should_say");
-          if (!said || !shouldSay) return null;
+          if (!said || !shouldSay || said === shouldSay || !transcript.includes(said)) return null;
           return {
             said,
             shouldSay,
@@ -173,15 +177,16 @@ async function handler(request: Request): Promise<NextResponse> {
         .slice(0, MAX_SPEAKING_ERRORS);
 
       const correctedZh = readText(data, "corrected_zh");
+      const breakdown = {
+        intent: insufficient ? 0 : readInt(data, "intent_score", 0, 0, 4),
+        vocabulary: insufficient ? 0 : readInt(data, "vocabulary_score", 0, 0, 3),
+        grammar: insufficient ? 0 : readInt(data, "grammar_score", 0, 0, 3),
+      };
 
       feedback = {
-        score: insufficient ? -1 : rawScore,
+        score: insufficient ? -1 : breakdown.intent + breakdown.vocabulary + breakdown.grammar,
         insufficient,
-        breakdown: {
-          intent: insufficient ? 0 : readInt(data, "intent_score", 0, 0, 4),
-          vocabulary: insufficient ? 0 : readInt(data, "vocabulary_score", 0, 0, 3),
-          grammar: insufficient ? 0 : readInt(data, "grammar_score", 0, 0, 3),
-        },
+        breakdown,
         overallVi: readText(
           data,
           "overall_vi",

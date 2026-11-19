@@ -8,7 +8,7 @@ Cập nhật 20/11/2026. Baseline là `3cae659`, đã chứa Platform/Curriculum
 | 1 · Tài khoản | Bị chặn nghiệm thu thật | Migration 001/002 và test SQL A/B, mock từ Platform được kế thừa. Cần staging riêng và hai tài khoản QA để kiểm tra thiết bị, isolation và retry. |
 | 2 · Giáo trình | Một phần | 7/7 bài Nhập môn bản mới có mục tiêu, bài trước, TTS, tự kiểm tra và tiêu chí hoàn thành. Giữ URL bài cũ. HSK 1 chưa đủ 24 bài và cần người duyệt. Kho có 407 mục từ (399 dạng chữ), 37 bài đọc (15 gán HSK 1, 17 gán HSK 2, 5 gán các mức cao hơn), 45 mục Hán Việt, 200 câu ngữ pháp, 200 câu phản xạ và 40 câu nghe chép dùng TTS. Các số trong nguồn cần kiểm tra phân cấp và chất lượng trước khi tính độ phủ. |
 | 3 · Lộ trình, đánh giá | Một phần | Một bài đầu vào và hai đề định kỳ 20 câu, mỗi đề 8 từ vựng, 7 ngữ pháp, 5 nghe bằng TTS. Lịch sử theo tài khoản. Sinh lại lịch dùng điểm đề gần nhất, giữ bài đã xong. Có câu kiểm tra cuối bài cho 7 bài Nhập môn và 6 bài đọc mới. Còn ngân hàng cuối đơn vị cho HSK 1 và kiểm thử trên staging. |
-| 4 · Luyện tập | Một phần | Giữ chức năng Kilo đã nhập. Speaking dùng cùng giới hạn 5 lỗi trong prompt, API, schema và UI. Test schema local. Kiểm chứng giọng thật, bản ghi 2/5 phút có đánh dấu cuối, retry và provider còn mở. |
+| 4 · Luyện tập | Một phần | Giữ chức năng Kilo đã nhập. Speaking có hai chế độ, phát lại bản ghi, sửa bản chép, retry giữ khóa và nói lại đúng lượt được chọn. Giới hạn 5 lỗi qua prompt/API/schema/UI. Điểm diễn đạt cộng từ ý/ngữ cảnh 4, từ vựng 3 và ngữ pháp 3. Kiểm chứng STT/AI và audio thật còn mở. |
 | 5 · Beta | Một phần | Tìm kiếm mở thẳng từ/câu/bài đọc theo ID. Next.js 16.4.6 và React 19.3.1 qua npm ci với lockfile cuối. Build Turbopack xử lý Tailwind qua PostCSS. PWA có icon 192/512 và trang ngoại tuyến công khai. Còn nghiệm thu cài trên thiết bị thật, staging và tải thật 50/10. |
 | 6 · HSK 2–4 | Một phần | Có 17 bài đọc gán mức HSK 2 và 1 bài mới mỗi mức HSK 3, 4, kèm 3 đề bài viết. Còn tuyến bài hoàn chỉnh, nói và bộ đề HSK/HSKK/TOCFL có thời lượng và cấu trúc được kiểm định. Ngân hàng đề cần gắn phiên bản cụ thể vì HSK 3.0 có lịch ra mắt riêng. |
 | 7 · HSK 5–9 | Một phần | Mỗi nhóm HSK 5, 6 và 7–9 có một bài đọc và một nhiệm vụ viết tự biên soạn. Đọc lọc theo chủ đề, câu cuối bài lưu kết quả. Viết có tiêu chí tự rà và API góp ý sau đăng nhập. Giáo trình đầy đủ, phát âm, báo cáo kỹ năng và chứng nhận còn thiếu. |
@@ -17,6 +17,24 @@ Cập nhật 20/11/2026. Baseline là `3cae659`, đã chứa Platform/Curriculum
 Bài Nhập môn mới do Chinese Compass tự biên soạn, tham chiếu chuẩn ở cấp độ mục tiêu học tập. Audio phát bằng TTS thiết bị. Độ phủ từ/chữ và quyền phân phối các danh mục bên ngoài còn cần đối chiếu. [Văn bản GF0025-2021](https://hudong.moe.gov.cn/jyb_xwfb/moe_2082/siju/yywzxxgls/ztzl_yywzgfbz/202111/t20211118_580755.html)
 
 Nguồn dùng để đối chiếu cấu trúc đề. Học liệu mới được tự biên soạn trong repo, mức gán là tham khảo nội bộ và chờ duyệt. Giấy phép phân phối dữ liệu bên ngoài chưa được xác nhận. [HSK và thông báo 3.0](https://www.chinesetest.cn/HSK?lang=en) · [HSKK](https://www.chinesetest.cn/HSKK) · [TOCFL](https://tocfl.edu.tw/tocfl/index.php/test/cat/list/2)
+
+## Speaking chuyên sâu
+
+| Mức | Chỉ tiêu | Có trong dữ liệu | Mở được trên UI (Chromium mock) | Đã duyệt độc lập | Còn thiếu biên soạn |
+|---|---:|---:|---:|---:|---:|
+| Nhập môn | 3 | 3 | 3 | 0 xác nhận | 0 |
+| HSK 1 | 12 | 12 | 12 | 0 xác nhận | 0 |
+| HSK 2 | 15 | 15 | 15 | 0 xác nhận | 0 |
+| HSK 3 | 18 | 2 | 2 | 0 xác nhận | 16 |
+| HSK 4 | 20 | 2 | 2 | 0 xác nhận | 18 |
+| HSK 5 | 22 | 2 | 2 | 0 xác nhận | 20 |
+| HSK 6 | 24 | 2 | 2 | 0 xác nhận | 22 |
+| HSK 7–9 | 30 | 2 | 2 | 0 xác nhận | 28 |
+| Tổng | 144 | 40 | 40 | 0 xác nhận | 104 |
+
+Tình huống mới do Chinese Compass tự biên soạn, pinyin sinh tự động từ chữ Hán và chờ rà ngôn ngữ. Trình ghi ghép các sự kiện dữ liệu theo thứ tự thành một tệp, gửi một bản chép đã xác nhận cho chat. Fallback Gemini → Groq → OpenRouter chia chung 10 giây, có nhánh Ollama local đã cấu hình. Điểm diễn đạt lấy từ bản chép. Chấm từng âm/thanh cần bộ audio gắn nhãn và tiêu chí kiểm định riêng.
+
+Hồi quy sau checkpoint: build/lint/typecheck đạt, Playwright 15 đạt và 1 skip A/B staging, Node 22 test AI/quota mock và 3 test tiến độ đạt. Test Chromium dùng WAV im lặng và đồng hồ giả lập, chèn câu cuối qua STT mock. Các ca này kiểm tra giữ bản ghi, sửa bản chép, khóa retry, thứ tự câu trả lời/góp ý, nút ẩn pinyin/nghĩa và tổng kết. STT thật chưa có dịch vụ local được phép và mẫu tiếng Trung liên tục 2/5 phút kèm câu đánh dấu. AI thật chưa có nhà cung cấp thử nghiệm được xác nhận. Ollama local không lắng nghe. Muốn tự thử, mở /speaking, chọn cấp và tình huống, hoặc Nói tự do → Nhập bằng bàn phím. Ghi âm, nghe lại, chỉnh bản chép và nộp. Cần cấu hình QA trước khi chạy test trên staging.
 
 ## Cách thử checkpoint
 
