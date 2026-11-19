@@ -3,9 +3,8 @@
 **Repo:** https://github.com/NguyenTanTai76/chinese-compass  
 **Local path:** `C:\Users\LENOVO\Desktop\chinese-compass`  
 **Nhánh:** `master`  
-**HEAD / SHA:** `82d5d31` (`feat: complete Phase 6 HSK 2–4 curriculum and Speaking chuyên sâu scenario inventory`)  
-**Trạng thái push:** đã push lên `origin/master`, working tree sạch tại baseline  
-**Thay đổi chưa commit:** `src/lib/content/speaking-scenarios.ts` (+6 tình huống Speaking để đóng kín HSK 4–9); `docs/FULL_ACCEPTANCE_AUDIT.md` (file này, mới tạo)  
+**HEAD / SHA:** `44a861b` (`feat: close Speaking scenario gap and add full acceptance audit`)  
+**Trạng thái push:** đã push lên `origin/master`, working tree sạch  
 **Ngày kiểm tra:** 2026-11-19  
 **Môi trường:** Windows 11, Node.js 22+, Next.js 16.4.6, React 19.3.1  
 
@@ -25,11 +24,11 @@
 
 | Lệnh | Kết quả | Chi tiết |
 |---|---|---|
-| `git status` / `git log --oneline -3` | ĐẠT | Clean, HEAD `82d5d31`, up-to-date origin/master |
+| `git status` / `git log --oneline -3` | ĐẠT | Clean, HEAD `44a861b`, up-to-date origin/master, working tree sạch |
 | `npm run typecheck` (`tsc --noEmit`) | ĐẠT | Không lỗi, không xuất ra |
 | `npm run lint` (`eslint src`) | ĐẠT | 0 errors; 37 warnings pre-existing (setState trong effect, biến chưa dùng) |
 | `npm run build` (`next build`) | ĐẠT | 43 route (42 static/dynamic + proxy middleware) |
-| `npx playwright test tests/curriculum-content.spec.ts` | 4 ĐẠT / 1 SKIP-ish | 4 case ĐẠT; case Speaking scenario count khớp mức HSK 2–7–9, Mới bắt đầu (4≥3) và HSK 1 (14≥12) vượt chuẩn |
+| `npx playwright test tests/curriculum-content.spec.ts` | 8 ĐẠT / 0 fail | Tất cả 8 case ĐẠT (4 curriculum-content + 3 beta-curriculum + 1 speaking scenario count khớp >= mỗi cấp, ID unique, openingZh có duy nhất 1 dấu hỏi) |
 | `npx playwright test tests/beta-curriculum.spec.ts` | 3 ĐẠT | Lập kế hoạch 10p/30p, điều lịch giữ bài đã xong |
 | `speaking-limit.spec.ts` | BỊ CHẶN | Cần Supabase URL/anon key + 2 tài khoản QA + dev server |
 | `beta-platform.spec.ts`, `beta-learner-flow.spec.ts`, `pwa.spec.ts` | BỊ CHẶN | Cần credentials staging, dev server, thiết bị thật |
@@ -129,35 +128,50 @@ Mã trạng thái: ĐẠT = đủ bằng chứng; MỘT PHẦN =UI có nhưng ch
 - Chưa đủ đích Phase 0–8: HSK 5–9, cộng đồng, Supabase production, API key thật, staging + 2 tài khoản QA.
 - Điều kiện còn thiếu: migration Supabase + RLS A/B, API key thử nghiệm, cấu hình QA/staging, chạy `speaking-limit` + `beta-platform` E2E.
 
+### Cố gắng mở chặn beta trên staging (yêu cầu #3)
+
+Đã kiểm tra môi trường: không có Supabase staging URL/anon key, không có API key Gemini/Groq, không có tài khoản QA, không có thiết bị thật, không có Ollama local lắng nghe. Do đó:
+
+- Không chạy migration (production hoặc staging) — thiếu credentials và quyền.
+- Không chạy `speaking-limit.spec.ts` / `beta-platform.spec.ts` — cần Supabase + 2 tài khoản QA + dev server.
+- Không verify STT/AI thật — thiếu API key và audio gắn nhãn.
+- Không verify `/tutor` với API thật — thiếu key.
+
+Các bước sẽ thực hiện khi có staging được phép:
+1. Áp dụng migration Supabase lên staging (không production), kiểm tra RLS A/B: A học/thi rồi đổi thiết bị thấy đúng tiến độ; B không thấy/sửa dữ liệu A; đổi tài khoản cùng browser không lẫn cache; gửi lại lượt ôn/thi không nhân đôi lịch sử/điểm/XP.
+2. Cấu hình API key STT/AI (Gemini/Groq), chạy `speaking-limit.spec.ts`: ghi âm 2/5 phút có câu đánh dấu cuối, xác nhận transcript giữ câu cuối, chỉ tạo một lượt chat, ngân sách chat 10s sau STT, retry và lưu lịch sử theo phạm vi.
+3. Chạy `/tutor` với API thật: kiểm tra dừng, retry, quota, trích nguồn nội bộ, lịch sử riêng tư.
+4. Chạy `beta-platform.spec.ts` và `pwa.spec.ts` trên thiết bị thật.
+
 ---
 
 ## 6. Danh sách việc còn lại (theo ưu tiên)
 
 | # | Việc | Loại | Route / file | Bước tái hiện | Điều kiện đóng |
 |---|---|---|---|---|---|
-| 1 | Commit `speaking-scenarios.ts` (+6 tình huống) để chốt 147 Speaking | Chặn beta | `src/lib/content/speaking-scenarios.ts` | `git add` + commit | Commit trên master |
+| 1 | Commit `speaking-scenarios.ts` (+6 tình huống) để chốt 147 Speaking | ✅ ĐÃ LÀM | `src/lib/content/speaking-scenarios.ts` | Commit `44a861b` trên master, đã push | Commit trên master |
 | 2 | Xây giáo trình HSK 5–9 (ngữ pháp, từ, đọc, nói) | Cần sửa | `vocab.ts`, `reading.ts`, `grammar-questions.ts`, `speaking-scenarios.ts` | Thêm nội dung cấp 5/6/7–9 | Đủ mục tiêu cấp |
 | 3 | Thêm đề HSKK / TOCFL mock | Cần sửa | `hsk-mock.ts` | Tạo đề theo cấu trúc | Có đề HSKK/TOCFL |
 | 4 | Xây P8 cộng đồng (nhắc học, huy hiệu, diễn đàn, CMS, phân quyền) | Cải tiến | `src/app/(app)/` mới | Xây route + UI | Có UI cộng đồng |
-| 5 | Chạy migration Supabase production + kiểm thử RLS A/B | Chặn beta | `prisma/`, `supabase/` | Migration + 2 tài khoản QA | RLS verify staging |
+| 5 | Chạy migration Supabase staging + kiểm thử RLS A/B (không production) | Chặn beta | `prisma/`, `supabase/` | Migration + 2 tài khoản QA | RLS verify staging |
 | 6 | Cấu hình API key thử nghiệm (Gemini/Groq) + Ollama local | Chặn beta | `.env.local`, `api/stt`, `api/speaking`, `api/tutor` | Nhập key, chạy E2E | STT/AI verify |
 | 7 | Chạy `speaking-limit.spec.ts` + `beta-platform.spec.ts` trên staging | Chặn beta | `tests/*` | `npx playwright test` | Test xanh staging |
-| 8 | Cập nhật `docs/BETA_READINESS.md` speaking bảng (sửa 144/144 → 147 thực tế) | Cần sửa | `docs/BETA_READINESS.md` | Sửa bảng Speaking | Bảng khớp thực tế |
+| 8 | Cập nhật `docs/BETA_READINESS.md` speaking bảng (144/144 → 147 thực tế) | Cần sửa | `docs/BETA_READINESS.md` | Sửa bảng Speaking | Bảng khớp thực tế |
 
 ---
 
 ## 7. SHA và trạng thái làm việc
 
-- Baseline HEAD: `82d5d31` (đã push origin/master).
-- Working tree: 2 file chưa commit — `src/lib/content/speaking-scenarios.ts` (+6) và `docs/FULL_ACCEPTANCE_AUDIT.md` (mới tạo).
+- HEAD / SHA: `44a861b` (đã commit và push lên `origin/master`).
+- Working tree: sạch, không có thay đổi chưa commit.
 - Không tạo nhánh mới, không force-push, không commit secrets.
 
 ---
 
 ## 8. Trả lời cuối (ngắn)
 
-- **Đã đáp ứng đủ từng prompt A/B/C chưa?** A: một phần (P0–P6 đủ, P7–P8 chưa); B: đủ dữ liệu (147 Speaking, mọi cấp đạt/vượt), chưa verify thực thi thật; C: một phần (route tutor tồn tại, chưa verify API key/lưu server).
+- **Đã đáp ứng đủ từng prompt A/B/C chưa?** A: một phần (P0–P6 đủ, P7–P8 chưa); B: đủ dữ liệu (147 Speaking, mọi cấp đạt/vượt; test 8/8 pass), chưa verify thực thi thật (STT/AI cần staging + key); C: một phần (route tutor + API tồn tại, build pass), chưa verify API key/lưu server thật.
 - **Tính năng nào có thể dùng thật ngay?** Nhập môn–HSK 1: onboarding, placement, dashboard, từ vựng flashcard, đọc, ngữ pháp, speaking HSK 1 (14 tình huống), mock HSK 1, cài đặt/xuất JSON/xóa tài khoản cục bộ.
 - **Học liệu đã nghiệm thu bao nhiêu trên mục tiêu?** Từ vựng 491/~430 (vượt), đọc 43/38+ (vượt), ngữ pháp 250/200 (đủ), Speaking 147/144 (vượt), bài học 7/7 (đủ), đề thi HSK 1–4 đủ.
 - **Có thể mời 50 người chưa?** Chưa — chỉ thử nội bộ Nhập môn–HSK 1. Cần Supabase production + RLS, API key thật, staging + 2 tài khoản QA trước khi mở beta 50.
-- **5 việc quan trọng nhất cần làm tiếp:** (1) commit speaking-scenarios.ts; (2) HSK 5–9 giáo trình; (3) HSKK/TOCFL mock; (4) Supabase migration + RLS A/B; (5) API key thử nghiệm + chạy E2E staging. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`.
+- **5 việc quan trọng nhất cần làm tiếp:** (1) HSK 5–9 giáo trình; (2) HSKK/TOCFL mock; (3) Supabase migration staging + RLS A/B; (4) API key thử nghiệm + chạy E2E staging (`speaking-limit`, `beta-platform`, `/tutor`); (5) xây P8 cộng đồng. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`. SHA đã push: `44a861b`.
