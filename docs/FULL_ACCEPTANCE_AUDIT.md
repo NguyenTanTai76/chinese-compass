@@ -172,8 +172,8 @@ Các bước sẽ thực hiện khi có staging được phép:
 
 ## 7. SHA và trạng thái làm việc
 
-- HEAD / SHA: `pending-commit` (sẽ cập nhật sau khi commit và push).
-- Working tree: có thay đổi chưa commit (grammar-questions.ts, vocab.ts, hsk-mock.ts, tests/speaking-limit.spec.ts, docs/FULL_ACCEPTANCE_AUDIT.md).
+- HEAD / SHA: `39c035a` (đã commit và push lên `origin/master`; chain: `82d5d31` → `44a861b` → `751f2df` → `8deb4bd` → `39c035a`).
+- Working tree: sạch, không có thay đổi chưa commit.
 - Không tạo nhánh mới, không force-push, không commit secrets.
 
 ---
@@ -184,4 +184,4 @@ Các bước sẽ thực hiện khi có staging được phép:
 - **Tính năng nào có thể dùng thật ngay?** Nhập môn–HSK 1: onboarding, placement, dashboard, từ vựng flashcard, đọc, ngữ pháp, speaking HSK 1 (14 tình huống), mock HSK 1, cài đặt/xuất JSON/xóa tài khoản cục bộ.
 - **Học liệu đã nghiệm thu bao nhiêu trên mục tiêu?** Từ vựng ~536/~430 (vượt), đọc 43/38+ (vượt), ngữ pháp 283/200 (đủ +83), Speaking 147/144 (vượt), bài học 7/7 (đủ), đề thi HSK 1–4 + HSKK + TOCFL đủ.
 - **Có thể mời 50 người chưa?** Chưa — chỉ thử nội bộ Nhập môn–HSK 1. Cần Supabase production + RLS, API key thật, staging + 2 tài khoản QA, bảng ProgressEvent trước khi mở beta 50.
-- **5 việc quan trọng nhất cần làm tiếp:** (1) Tạo ProgressEvent + RLS trên staging; (2) HSK 5–9 giáo trình (đọc/viết/nói); (3) API key thử nghiệm + chạy E2E staging (`speaking-limit` đã 3/3 ĐẠT, `beta-platform` A/B bị chặn); (4) Xây P8 cộng đồng; (5) Cập nhật BETA_READINESS.md. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`.
+- **5 việc quan trọng nhất cần làm tiếp:** (1) Tạo ProgressEvent + RLS trên staging; (2) HSK 5–9 giáo trình (đọc/viết/nói); (3) API key thử nghiệm + chạy E2E staging (`speaking-limit` đã 3/3 ĐẠT, `beta-platform` A/B bị chặn); (4) Xây P8 cộng đồng; (5) Cập nhật BETA_READINESS.md. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`. SHA đã push: `39c035a`.
