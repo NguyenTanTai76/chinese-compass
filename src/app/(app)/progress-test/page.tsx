@@ -1,98 +1,36 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowRight, CheckCircle2, Loader2, RotateCcw, Trophy, XCircle } from "lucide-react";
 
-import { DICTATION_ITEMS } from "@/lib/content/dictation";
+import { buildPeriodicTest, type PeriodicQuestion } from "@/lib/content/periodic-tests";
 import { speakChinese, stopSpeaking } from "@/lib/speech";
-import { PERIODIC_EXAM_ID } from "@/lib/study-plan";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { PERIODIC_EXAM_ID, SECOND_PERIODIC_EXAM_ID } from "@/lib/study-plan";
 import { Button } from "@/components/ui/button";
-import { GRAMMAR_QUESTIONS } from "@/lib/content/grammar-questions";
-import { VOCAB, type VocabEntry } from "@/lib/content/vocab";
-import { logSession } from "@/lib/progress";
+import { logSession, useStudyState } from "@/lib/progress";
 import { cn } from "@/lib/utils";
 
-type TestQuestion = {
-  id: string;
-  kind: "vocab" | "grammar" | "listening";
-  audio?: string;
-  hanzi?: string;
-  prompt: string;
-  options: string[];
-  answer: string;
-  note: string;
-};
-
-function shuffle<T>(items: T[]): T[] {
-  const copy = [...items];
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
-}
-
-function buildVocabQuestion(word: VocabEntry, pool: VocabEntry[]): TestQuestion {
-  const meanings = [...new Set(pool.map(item => item.meaningVi))];
-  const options = shuffle([word.meaningVi, ...shuffle(meanings.filter(meaning => meaning !== word.meaningVi)).slice(0, 3)]);
-  return {
-    id: `v-${word.hanzi}`,
-    kind: "vocab",
-    hanzi: word.hanzi,
-    prompt: "Chọn nghĩa đúng của từ sau",
-    options,
-    answer: word.meaningVi,
-    note: `${word.hanzi} (${word.pinyin}) — ${word.meaningVi}`,
-  };
-}
-
-function buildTest(): TestQuestion[] {
-  const vocabPool = VOCAB.filter((word) => word.hskLevel === 1);
-  const vocabPicks = shuffle([...new Map(vocabPool.map(word => [word.hanzi, word])).values()]).slice(0, 8);
-  const grammarPicks = shuffle(GRAMMAR_QUESTIONS.filter(item => item.level === 1)).slice(0, 7);
-
-  const vocabQuestions = vocabPicks.map((word) => buildVocabQuestion(word, vocabPool));
-  const grammarQuestions: TestQuestion[] = grammarPicks.map((item) => ({
-    id: item.id,
-    kind: "grammar",
-    hanzi: item.sentence.replace("___", "____"),
-    prompt: item.hintVi,
-    options: item.options,
-    answer: item.options[item.answer],
-    note: item.explanation,
-  }));
-
-  const audioPool = DICTATION_ITEMS.filter(item => item.level === 1);
-  const listeningQuestions: TestQuestion[] = shuffle(audioPool).slice(0, 5).map(item => {
-    const wrongMeanings = [...new Set(audioPool.map(option => option.meaningVi))].filter(meaning => meaning !== item.meaningVi);
-    return {
-      id: item.id,
-      kind: "listening",
-      audio: item.hanzi,
-      prompt: "Nghe câu tiếng Trung và chọn nghĩa đúng.",
-      options: shuffle([item.meaningVi, ...shuffle(wrongMeanings).slice(0, 3)]),
-      answer: item.meaningVi,
-      note: `${item.hanzi} (${item.pinyin}) · ${item.meaningVi}`,
-    };
-  });
-
-  return [...shuffle([...vocabQuestions, ...grammarQuestions]), ...listeningQuestions];
-}
-
 export default function ProgressTestPage() {
-  const [questions, setQuestions] = useState<TestQuestion[]>([]);
+  const form = useSearchParams().get("lesson") === SECOND_PERIODIC_EXAM_ID ? 1 : 0;
+  const examId = form === 1 ? SECOND_PERIODIC_EXAM_ID : PERIODIC_EXAM_ID;
+  const results = useStudyState().state.results.filter(result => result.examKind === "periodic");
+  const submitted = useRef(false);
+  const [questions, setQuestions] = useState<PeriodicQuestion[]>([]);
   const [index, setIndex] = useState(0);
   const [choice, setChoice] = useState<string | null>(null);
-  const [answers, setAnswers] = useState<{ question: TestQuestion; chosen: string }[]>([]);
+  const [answers, setAnswers] = useState<{ question: PeriodicQuestion; chosen: string }[]>([]);
   const [done, setDone] = useState(false);
 
   const start = useCallback(() => {
-    setQuestions(buildTest());
+    submitted.current = false;
+    setQuestions(buildPeriodicTest(form));
     setIndex(0);
     setChoice(null);
     setAnswers([]);
     setDone(false);
-  }, []);
+  }, [form]);
 
   useEffect(() => {
     start();
@@ -113,18 +51,20 @@ export default function ProgressTestPage() {
   );
 
   const next = useCallback(() => {
+    if (!choice || submitted.current || answers.length !== index + 1) return;
     if (index + 1 >= questions.length) {
+      submitted.current = true;
       const finalScore = answers.filter((item) => item.chosen === item.question.answer).length;
       logSession({
         type: "test", score: finalScore, total: questions.length,
-        examId: PERIODIC_EXAM_ID, examKind: "periodic",
+        examId, examKind: "periodic",
       }, finalScore * 3);
       setDone(true);
       return;
     }
     setIndex((prev) => prev + 1);
     setChoice(null);
-  }, [answers, index, questions.length]);
+  }, [answers, choice, examId, index, questions.length]);
 
   if (questions.length === 0) {
     return (
@@ -141,7 +81,11 @@ export default function ProgressTestPage() {
     return (
       <div className="mx-auto max-w-3xl space-y-6">
         <header>
-          <h1 className="text-2xl font-bold text-primary">Kiểm tra định kỳ</h1>
+          <h1 className="text-2xl font-bold text-primary">Kiểm tra định kỳ · Đề {form + 1}</h1>
+          <nav aria-label="Chọn đề" className="flex gap-4 text-sm">
+            <Link className="underline" href={`/progress-test?lesson=${PERIODIC_EXAM_ID}`}>Đề 1</Link>
+            <Link className="underline" href={`/progress-test?lesson=${SECOND_PERIODIC_EXAM_ID}`}>Đề 2</Link>
+          </nav>
         </header>
 
         <section className="rounded-2xl border border-border bg-card p-8 text-center shadow-sm">
@@ -158,10 +102,22 @@ export default function ProgressTestPage() {
                 : "Hãy học lại bài và thử lại, mỗi lần sẽ khá hơn."}
           </p>
           <Button className="mt-5" onClick={start}>
-            <RotateCcw className="h-4 w-4" /> Làm đề mới
+            <RotateCcw className="h-4 w-4" /> Làm lại đề
           </Button>
         </section>
 
+        {results.length > 0 && (
+        <section className="space-y-2">
+          <h2 className="font-semibold">Lịch sử kiểm tra</h2>
+          <ul className="space-y-1 text-sm">
+            {results.slice(0, 10).map(result => (
+              <li key={result.id}>
+                {result.examId === SECOND_PERIODIC_EXAM_ID ? "Đề 2" : result.examId === PERIODIC_EXAM_ID ? "Đề 1" : "Đề trước đây"} · {result.score}/{result.total} · {new Date(result.at).toLocaleDateString("vi-VN", {timeZone:"Asia/Ho_Chi_Minh"})}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
         {wrong.length > 0 && (
           <section className="rounded-2xl border border-border bg-card p-5 shadow-sm">
             <h2 className="text-sm font-semibold text-foreground">
@@ -190,7 +146,11 @@ export default function ProgressTestPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <header className="space-y-1">
-        <h1 className="text-2xl font-bold text-primary">Kiểm tra định kỳ</h1>
+        <h1 className="text-2xl font-bold text-primary">Kiểm tra định kỳ · Đề {form + 1}</h1>
+          <nav aria-label="Chọn đề" className="flex gap-4 text-sm">
+            <Link className="underline" href={`/progress-test?lesson=${PERIODIC_EXAM_ID}`}>Đề 1</Link>
+            <Link className="underline" href={`/progress-test?lesson=${SECOND_PERIODIC_EXAM_ID}`}>Đề 2</Link>
+          </nav>
         <p className="text-sm text-muted-foreground">
           20 câu HSK 1 gồm 8 câu từ vựng, 7 câu ngữ pháp và 5 câu nghe.
         </p>

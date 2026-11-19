@@ -8,7 +8,7 @@ import {
   readText,
 } from "@/lib/ai";
 import { withApiGuard } from "@/lib/api-guard";
-import {
+import { MAX_SPEAKING_ERRORS,
   TURN_RESPONSE_SCHEMA,
   buildTurnSystemPrompt,
   buildTurnUserPrompt,
@@ -55,7 +55,7 @@ function parseRetry(raw: unknown) {
             typeof (item as { said?: unknown }).said === "string" &&
             typeof (item as { shouldSay?: unknown }).shouldSay === "string",
         )
-        .slice(0, 5)
+        .slice(0, MAX_SPEAKING_ERRORS)
     : [];
   return { transcript: value.transcript.trim(), errors };
 }
@@ -170,7 +170,7 @@ async function handler(request: Request): Promise<NextResponse> {
           (item): item is { said: string; shouldSay: string; explanationVi: string } =>
             Boolean(item),
         )
-        .slice(0, 5);
+        .slice(0, MAX_SPEAKING_ERRORS);
 
       const correctedZh = readText(data, "corrected_zh");
 

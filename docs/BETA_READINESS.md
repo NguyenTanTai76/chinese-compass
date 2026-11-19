@@ -1,3 +1,31 @@
+# Chinese Compass — nghiệm thu Phase 0–8
+
+Cập nhật 19/11/2026. Baseline là `3cae659`, đã chứa Platform/Curriculum `98e87ce` và phần luyện tập `1004815`. Handoff Kilo khớp SHA. **Chưa sẵn sàng mở beta 50.**
+
+| Phase | Trạng thái | Bằng chứng và phần còn thiếu |
+|---|---|---|
+| 0 · Tích hợp | Đã đạt kiểm kê | Ba checkpoint nói trên nằm trên master. Audit bên dưới giữ làm lịch sử. |
+| 1 · Tài khoản | Bị chặn nghiệm thu thật | Migration 001/002 và test SQL A/B, mock từ Platform được kế thừa. Cần staging riêng và hai tài khoản QA để kiểm tra thiết bị, isolation và retry. |
+| 2 · Giáo trình | Một phần | 7/7 bài Nhập môn bản mới có mục tiêu, bài trước, TTS, tự kiểm tra và tiêu chí hoàn thành. Giữ URL bài cũ. HSK 1 chưa đủ 24 bài và cần người duyệt. Kho có 407 mục từ (399 dạng chữ), 31 bài đọc (15 gán HSK 1, 16 gán HSK 2), 45 mục Hán Việt, 200 câu ngữ pháp, 200 câu phản xạ và 40 câu nghe chép dùng TTS. Các số trong nguồn cần kiểm tra phân cấp và chất lượng trước khi tính độ phủ. |
+| 3 · Lộ trình, đánh giá | Một phần | Một bài đầu vào và hai đề định kỳ 20 câu, mỗi đề 8 từ vựng, 7 ngữ pháp, 5 nghe bằng TTS. Lịch sử theo tài khoản. Sinh lại lịch dùng điểm đề gần nhất, giữ bài đã xong. Còn cần bài cuối đơn vị đầy đủ và kiểm thử trên staging. |
+| 4 · Luyện tập | Một phần | Giữ chức năng Kilo đã nhập. Speaking dùng cùng giới hạn 5 lỗi trong prompt, API, schema và UI. Test schema local. Kiểm chứng giọng thật, bản ghi 2/5 phút có đánh dấu cuối, retry và provider còn mở. |
+| 5 · Beta | Một phần | Tìm kiếm mở thẳng từ/câu/bài đọc theo ID. Còn Next.js 16, PWA desktop/mobile, staging và tải thật 50/10. |
+| 6 · HSK 2–4 | Một phần | Có học liệu gán cấp HSK 2 trong kho. Còn tuyến bài theo cấp, nhiệm vụ viết, nói và các đề HSK/HSKK/TOCFL. |
+| 7 · HSK 5–9 | Chưa nghiệm thu | Còn giáo trình, AI sửa bài, kiểm chứng phát âm, báo cáo kỹ năng và chứng nhận. |
+| 8 · Cộng đồng | Chưa nghiệm thu | Còn nhắc học, hoạt động nhóm, kiểm duyệt, CMS, chỉ số giữ chân và phân quyền gói. |
+
+Bài Nhập môn mới do Chinese Compass tự biên soạn, tham chiếu chuẩn ở cấp độ mục tiêu học tập. Audio phát bằng TTS thiết bị. Độ phủ từ/chữ và quyền phân phối các danh mục bên ngoài còn cần đối chiếu. [Văn bản GF0025-2021](https://hudong.moe.gov.cn/jyb_xwfb/moe_2082/siju/yywzxxgls/ztzl_yywzgfbz/202111/t20211118_580755.html)
+
+## Cách thử checkpoint
+
+- Mở /intro và theo thứ tự Pinyin → Kiểm tra. Thử TTS và chọn đáp án từng bài.
+- Mở /progress-test, chọn Đề 1 hoặc Đề 2. Nộp đủ 20 câu và xem lịch sử. Tạo lại lịch từ /onboarding với mục tiêu thi, 30 phút và kỹ năng đọc.
+- Kiểm tra tự động: Playwright 6 bài logic cấp dữ liệu và Node 3 bài tiến độ đã đạt. Kết quả cũ của SQL A/B local và browser mock áp dụng cho checkpoint Platform. Staging A/B và STT/AI thật vẫn chờ.
+- Khi có staging riêng, dùng hai tài khoản QA và chạy các bước trong [BETA_PLATFORM_HANDOFF.md](BETA_PLATFORM_HANDOFF.md).
+
+<details>
+<summary>Audit lịch sử tại checkpoint Kilo 1004815</summary>
+
 # BETA_READINESS.md — Chinese Compass Beta 50 Users Audit
 
 **Audit date:** 2026-11-19  
@@ -323,3 +351,5 @@
 ---
 
 *End of BETA_READINESS.md*
+
+</details>

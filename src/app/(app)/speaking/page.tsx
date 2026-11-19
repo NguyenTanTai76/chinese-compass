@@ -23,7 +23,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRecorder } from "@/hooks/use-recorder";
-import {
+import { MAX_SPEAKING_ERRORS,
   CORRECTION_MODES,
   FREE_TALK_KEYWORDS,
   LEVELS,
@@ -826,7 +826,7 @@ export default function SpeakingPage() {
 
                     <p className="text-foreground">{message.feedback.overallVi}</p>
 
-                    {message.feedback.errors.map((error, index) => (
+                    {message.feedback.errors.slice(0, MAX_SPEAKING_ERRORS).map((error, index) => (
                       <div key={index} className="rounded-lg bg-muted/50 p-2.5">
                         <p className="text-foreground">
                           <span className="text-xs text-muted-foreground">Bạn nói: </span>

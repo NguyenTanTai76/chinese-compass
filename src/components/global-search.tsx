@@ -50,7 +50,7 @@ export function GlobalSearch({
         id: `v-${word.hanzi}`,
         title: `${word.hanzi} · ${word.pinyin}`,
         subtitle: word.meaningVi,
-        href: "/reading",
+        href: `/vocab?lesson=${encodeURIComponent(word.hanzi)}`,
         group: "Từ vựng",
       }));
 
@@ -65,7 +65,7 @@ export function GlobalSearch({
         id: `p-${phrase.id}`,
         title: `${phrase.chinese} · ${phrase.vietnamese}`,
         subtitle: phrase.pinyin,
-        href: "/reflex",
+        href: `/reflex?lesson=${encodeURIComponent(phrase.id)}`,
         group: "Mẫu câu",
       }));
 
@@ -74,10 +74,10 @@ export function GlobalSearch({
     )
       .slice(0, 4)
       .map((passage) => ({
-        id: `r-${passage.title}`,
+        id: `r-${passage.id}`,
         title: passage.title,
         subtitle: `HSK ${passage.level} · ${passage.sentences.length} câu`,
-        href: "/reading",
+        href: `/reading?lesson=${encodeURIComponent(passage.id)}`,
         group: "Bài đọc",
       }));
 

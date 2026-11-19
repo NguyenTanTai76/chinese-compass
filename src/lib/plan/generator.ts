@@ -4,7 +4,8 @@ import { READING_PASSAGES } from "@/lib/content/reading";
 import { PHRASES } from "@/lib/content/phrases";
 import { VOCAB } from "@/lib/content/vocab";
 import { DICTATION_ITEMS } from "@/lib/content/dictation";
-import { PERIODIC_EXAM_ID, type StudyContentKind, type StudyPlan, type StudyPlanTask } from "@/lib/study-plan";
+import { PERIODIC_EXAM_ID, SECOND_PERIODIC_EXAM_ID, type StudyContentKind, type StudyPlan, type StudyPlanTask } from "@/lib/study-plan";
+import type { StudyState } from "@/lib/progress-model";
 import type { OnboardingInput, Skill } from "./types";
 
 const vietnamDate = new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Ho_Chi_Minh" });
@@ -46,18 +47,23 @@ function pools(level: OnboardingInput["level"]): Record<Skill, Lesson[]> {
   };
 }
 
-export function generateWeekPlan(input: OnboardingInput, start: string, existing?: StudyPlan | null): StudyPlan {
+export function generateWeekPlan(input: OnboardingInput, start: string, existing?: StudyPlan | null, results: StudyState["results"] = []): StudyPlan {
   const completed = existing?.tasks.filter(task => task.completedAt !== undefined) ?? [];
   const used = new Set(completed.map(task => `${task.content.kind}:${task.content.id}`));
   const available = pools(input.level);
   const examGoal = input.goal === "exam" || input.goal === "hsk";
+  const lastExam = results.find(result => result.examKind === "periodic");
+  const needsReview = lastExam !== undefined && lastExam.total > 0 && lastExam.score / lastExam.total < 0.7;
+  const nextExamId = lastExam?.examId === PERIODIC_EXAM_ID && !needsReview ? SECOND_PERIODIC_EXAM_ID : PERIODIC_EXAM_ID;
+  const examTitle = nextExamId === PERIODIC_EXAM_ID ? "Kiểm tra định kỳ HSK 1 · Đề 1" : "Kiểm tra định kỳ HSK 1 · Đề 2";
   const preferred: Skill[] = input.minutesPerDay === 10 && !examGoal
     ? ["listening", "speaking"]
     : examGoal && input.minutesPerDay >= 30 ? ["reading"] : [];
   const selected = preferred.filter(skill => input.skills.includes(skill));
-  const skills = selected.length && input.minutesPerDay === 10
+  const skillRotation = selected.length && input.minutesPerDay === 10
     ? selected
     : [...selected, ...selected, ...new Set(input.skills.filter(skill => !selected.includes(skill)))];
+  const skills = examGoal && needsReview ? [...skillRotation, "grammar" as const] : skillRotation;
   const scheduledDays = WEEKDAY_LABELS.map((_, i) => i).filter(i => input.preferredDays.includes((i + 1) % 7));
   const tasks: StudyPlanTask[] = [...completed];
   let cursor = 0;
@@ -73,7 +79,7 @@ export function generateWeekPlan(input: OnboardingInput, start: string, existing
       const skill = skills[(cursor++) % skills.length] ?? "vocab";
       const exam = examGoal && offset === scheduledDays.at(-1) && i === count - 1;
       const options = [
-        ...(exam ? [lesson("test", PERIODIC_EXAM_ID, "Kiểm tra định kỳ HSK 1 · 20 câu", "progress-test")] : []),
+        ...(exam ? [lesson("test", nextExamId, examTitle, "progress-test")] : []),
         ...available[skill], ...available.vocab,
       ];
       const item = options.find(candidate => !used.has(`${candidate.content.kind}:${candidate.content.id}`));

@@ -15,6 +15,7 @@ import {
   type Skill,
 } from "@/lib/plan/types";
 import { loadOnboarding, saveOnboarding, updateWeekPlan } from "@/lib/plan/storage";
+import { useStudyState } from "@/lib/progress";
 import { generateWeekPlan, weekStart } from "@/lib/plan/generator";
 
 const LEVELS: { value: Level; label: string }[] = [
@@ -40,6 +41,7 @@ const SKILLS: { value: Skill; label: string }[] = [
 ];
 
 export default function OnboardingPage() {
+  const { state: { results } } = useStudyState();
   const { user, loading: authLoading } = useAuth();
   const suggested = useSearchParams().get("level");
   const userId = user?.id;
@@ -81,14 +83,14 @@ export default function OnboardingPage() {
         skills: [...skills], startedAt: Date.now(),
       };
       const start = weekStart();
-      await updateWeekPlan(userId, start, existing => generateWeekPlan(input, start, existing));
+      await updateWeekPlan(userId, start, existing => generateWeekPlan(input, start, existing, results));
       saveOnboarding(userId, input);
       setStep("result");
       toast.success("Đã tạo lịch học 7 ngày.");
     } catch {
       toast.error("Chưa lưu được lịch học. Vui lòng thử lại.");
     } finally { setLoading(false); }
-  }, [level, goal, minutesPerDay, preferredDays, skills, userId]);
+  }, [level, goal, minutesPerDay, preferredDays, results, skills, userId]);
 
   const pick = (arr: { value: string | number; label: string }[], v: string) =>
     arr.find((x) => String(x.value) === String(v))?.label ?? String(v);

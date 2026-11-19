@@ -1,4 +1,7 @@
 export type IntroLesson = {
+  exercise?: { prompt: string; options: string[]; answer: string };
+  audio?: string;
+  completion?: string;
   id: string;
   title: string;
   level: 1 | 2;
@@ -11,7 +14,7 @@ export type IntroLesson = {
 };
 
 /** Chuỗi 7 bài nhập môn người Việt (HSK 1–2, GF0025-2021). Mỗi bài kèm từ vựng (VOCAB), câu giao tiếp (PHRASES) và giải thích tiếng Việt. */
-export const INTRO_LESSONS: IntroLesson[] = [
+const LEGACY_INTRO_LESSONS: IntroLesson[] = [
   { id:"intro-01", title:"Chào hỏi & lịch sự", level:1, description:"Chào hỏi, cảm ơn, xin lỗi, tạm biệt.", content:"# Bài 1: Chào hỏi & lịch sự\n- 你好 (nǐ hǎo) Xin chào · 谢谢 (xiè xiè) Cảm ơn · 不客气 Không có chi · 对不起 Xin lỗi · 没关系 Không sao · 再见 Tạm biệt\n- Cú pháp: 你好 chào chung. Cảm ơn: 谢谢 (+ 对). Đáp lại: 不客气. Xin lỗi: 对不起 / 没关系.\n- Luyện: gặp bạn bè sáng sớm, nói gì?", vocab:["你好","谢谢","不客气","对不起","没关系","再见"], phrases:["p01","p02","p03","p04","p05"], order:1, source:"HSK 1 · GF0025-2021 cấp Đầu tiên" },
   { id:"intro-02", title:"Giới thiệu bản thân", level:1, description:"Tên, quốc gia, nghề nghiệp, gia đình.", content:"# Bài 2: Giới thiệu bản thân\n- 我 Tôi · 你 Bạn · 他 Anh ấy · 她 Cô ấy · 我们 Chúng ta · 是 Là · 不 Không · 有 Có\n- Cú pháp: 我是 + danh từ (Ví dụ: 我是学生). Phủ định: 不是 (Tôi không phải giáo viên). Tên: 我叫小明 (Tôi tên là Tiểu Minh)\n- Luyện: giới thiệu bản thân 3 câu (tên, quốc gia, nghề).", vocab:["我","你","他","她","我们","是","不","有"], phrases:["p06","p07","p08","p09","p10","p11","p12"], order:2, source:"HSK 1 · GF0025-2021 cấp Đầu tiên" },
   { id:"intro-03", title:"Hỏi đáp cơ bản", level:1, description:"Từ hỏi và liên từ: thông tin, lý do, kết quả.", content:"# Bài 3: Hỏi đáp cơ bản\n- 什么 Cái gì · 谁 Ai · 哪 Nào/đâu · 怎么 Như thế nào · 为什么 Tại sao · 因为 Bởi vì · 所以 Vì vậy · 和 Và\n- Cú pháp: 这是什么？ (Cái gì?). Nhân quả: 因为...所以... (Bởi vì... nên...). Hỏi cách: 怎么去？\n- Luyện: \"Tại sao bạn học Trung?\" Trả lời bằng 因为...所以... .", vocab:["什么","谁","哪","怎么","为什么","因为","所以","和"], phrases:["p13","p14","p15","p16","p17","p18"], order:3, source:"HSK 1 · GF0025-2021 cấp Đầu tiên" },
@@ -21,8 +24,166 @@ export const INTRO_LESSONS: IntroLesson[] = [
   { id:"intro-07", title:"Giao dịch & di chuyển", level:2, description:"Hỏi đường, gọi xe, đặt khách sạn, du lịch cơ bản.", content:"# Bài 7: Giao dịch & di chuyển\n- 洗手间在哪里？Nhà vệ sinh ở đâu? · 坐地铁 Đi tàu điện ngầm · 坐出租车 Đi taxi · 订酒店 Đặt khách sạn · 机场 Sân bay · 火车站 Ga tàu · 护照 Hộ chiếu · 行李 Hành lý\n- Cú pháp: Hỏi đường ...在哪里？. Đi bằng: 坐 + phương tiện (Ví dụ: 坐地铁). Đặt chỗ: 订 + khách sạn / vé.\n- Luyện: \"Tôi muốn đi sân bay, đi taxi bao nhiêu tiền?\"", vocab:["洗手间","地铁","出租车","酒店","机场","火车站","护照","行李"], phrases:["p38","p39","p40","p41","p42","p43","p44"], order:7, source:"HSK 2 · GF0025-2021 cấp Cơ bản" },
 ];
 
+export const INTRO_LESSONS: IntroLesson[] = [
+  {
+    "id": "intro-pinyin",
+    "title": "Pinyin",
+    "level": 1,
+    "description": "Phân biệt bốn thanh qua cùng một âm tiết.",
+    "content": "# Pinyin\n- mā (thanh 1) cao và ngang. má (thanh 2) đi lên. mǎ (thanh 3) xuống thấp rồi lên khi đọc riêng. mà (thanh 4) hạ mạnh.",
+    "vocab": [],
+    "phrases": [],
+    "order": 1,
+    "source": "Chinese Compass tự biên soạn · tham chiếu GF0025-2021",
+    "exercise": {
+      "prompt": "Âm nào mang thanh đi lên?",
+      "options": [
+        "mā",
+        "má",
+        "mǎ",
+        "mà"
+      ],
+      "answer": "má"
+    },
+    "audio": "妈 麻 马 骂",
+    "completion": "Nghe và nhắc lại bốn thanh, rồi nhận ra thanh 2."
+  },
+  {
+    "id": "intro-greetings",
+    "title": "Chào hỏi",
+    "level": 1,
+    "description": "Chào và đáp lời cảm ơn.",
+    "content": "# Chào hỏi\n- 你好 (nǐ hǎo) là lời chào thông dụng. 谢谢 (xièxie) là cảm ơn. 不客气 (bú kèqi) là lời đáp lịch sự.",
+    "vocab": [],
+    "phrases": [],
+    "order": 2,
+    "source": "Chinese Compass tự biên soạn · tham chiếu GF0025-2021",
+    "exercise": {
+      "prompt": "Bạn đáp thế nào khi nghe 谢谢?",
+      "options": [
+        "再见",
+        "不客气",
+        "对不起"
+      ],
+      "answer": "不客气"
+    },
+    "audio": "你好！谢谢！不客气！",
+    "completion": "Chào và đáp lời cảm ơn thành tiếng."
+  },
+  {
+    "id": "intro-name",
+    "title": "Tên",
+    "level": 1,
+    "description": "Hỏi tên và giới thiệu tên.",
+    "content": "# Tên\n- Dùng 我叫 + tên (wǒ jiào) để giới thiệu. 你叫什么名字？ (nǐ jiào shénme míngzi) nghĩa là Bạn tên gì?",
+    "vocab": [],
+    "phrases": [],
+    "order": 3,
+    "source": "Chinese Compass tự biên soạn · tham chiếu GF0025-2021",
+    "exercise": {
+      "prompt": "Câu nào dùng để giới thiệu tên?",
+      "options": [
+        "我叫小安。",
+        "你好吗？",
+        "我有书。"
+      ],
+      "answer": "我叫小安。"
+    },
+    "audio": "你叫什么名字？我叫小安。",
+    "completion": "Nói mẫu với tên của mình và hỏi tên người đối diện."
+  },
+  {
+    "id": "intro-numbers",
+    "title": "Số",
+    "level": 1,
+    "description": "Đọc số từ 1 đến 99 và nói giờ tròn.",
+    "content": "# Số\n- 一 yī, 二 èr, 三 sān, 四 sì, 五 wǔ, 六 liù, 七 qī, 八 bā, 九 jiǔ, 十 shí. Ghép 二十 + 五 thành 25. Dùng số + 点 để nói giờ.",
+    "vocab": [],
+    "phrases": [],
+    "order": 4,
+    "source": "Chinese Compass tự biên soạn · tham chiếu GF0025-2021",
+    "exercise": {
+      "prompt": "Cách đọc 25 là gì?",
+      "options": [
+        "十五",
+        "五十二",
+        "二十五"
+      ],
+      "answer": "二十五"
+    },
+    "audio": "一、二、三、二十五、八点。",
+    "completion": "Đọc 25 và nói một giờ tròn."
+  },
+  {
+    "id": "intro-family",
+    "title": "Gia đình",
+    "level": 1,
+    "description": "Giới thiệu người thân bằng câu ngắn.",
+    "content": "# Gia đình\n- 这是 (zhè shì) nghĩa là Đây là. 我妈妈 (wǒ māma) nghĩa là mẹ tôi. Khi nói về người thân có thể lược 的 sau đại từ.",
+    "vocab": [],
+    "phrases": [],
+    "order": 5,
+    "source": "Chinese Compass tự biên soạn · tham chiếu GF0025-2021",
+    "exercise": {
+      "prompt": "Câu nào nghĩa là Đây là mẹ tôi?",
+      "options": [
+        "这是我爸爸。",
+        "这是我妈妈。",
+        "她是老师。"
+      ],
+      "answer": "这是我妈妈。"
+    },
+    "audio": "这是我妈妈。这是我爸爸。",
+    "completion": "Nói hai câu giới thiệu người thân."
+  },
+  {
+    "id": "intro-routine",
+    "title": "Sinh hoạt",
+    "level": 1,
+    "description": "Nói giờ của một hoạt động thường ngày.",
+    "content": "# Sinh hoạt\n- Trong 我八点去学校 (wǒ bā diǎn qù xuéxiào), thời gian 八点 đứng trước động từ 去. 起床 (qǐchuáng) nghĩa là thức dậy.",
+    "vocab": [],
+    "phrases": [],
+    "order": 6,
+    "source": "Chinese Compass tự biên soạn · tham chiếu GF0025-2021",
+    "exercise": {
+      "prompt": "Câu nào nghĩa là Tôi thức dậy lúc bảy giờ?",
+      "options": [
+        "我七点起床。",
+        "我八点起床。",
+        "我七点去学校。"
+      ],
+      "answer": "我七点起床。"
+    },
+    "audio": "我七点起床。我八点去学校。",
+    "completion": "Nói hai hoạt động kèm giờ của mình."
+  },
+  {
+    "id": "intro-review",
+    "title": "Kiểm tra",
+    "level": 1,
+    "description": "Vận dụng chào hỏi, tên, số, gia đình và sinh hoạt.",
+    "content": "# Kiểm tra\n- Tự nói một đoạn ngắn: chào, giới thiệu tên và một người thân, rồi nói giờ thức dậy. Nghe đoạn mẫu sau khi tự nói.",
+    "vocab": [],
+    "phrases": [],
+    "order": 7,
+    "source": "Chinese Compass tự biên soạn · tham chiếu GF0025-2021",
+    "exercise": {
+      "prompt": "Từ nào trong câu mẫu dùng để giới thiệu tên?",
+      "options": [
+        "起床",
+        "叫",
+        "点"
+      ],
+      "answer": "叫"
+    },
+    "audio": "你好！我叫小安。这是我妈妈。我七点起床。",
+    "completion": "Nói đủ bốn ý trong đoạn tự giới thiệu và trả lời đúng câu tự kiểm tra."
+  }
+];
+
 export function getIntroLesson(id: string): IntroLesson | undefined {
-  return INTRO_LESSONS.find((l) => l.id === id);
+  return INTRO_LESSONS.find((lesson) => lesson.id === id) ?? LEGACY_INTRO_LESSONS.find((lesson) => lesson.id === id);
 }
 
 export function getIntroLessonsByLevel(level: 1 | 2): IntroLesson[] {
