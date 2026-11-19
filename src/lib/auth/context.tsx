@@ -9,7 +9,7 @@ type AuthContextType = {
   session: Session | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
-  signUp: (email: string, password: string) => Promise<{ error: Error | null }>;
+  signUp: (email: string, password: string) => Promise<{ error: Error | null; signedIn: boolean }>;
   signOut: () => Promise<void>;
 };
 
@@ -23,15 +23,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const supabase = createSupabaseBrowserClient();
 
   useEffect(() => {
-    const initAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    };
-
-    initAuth();
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
@@ -47,12 +38,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({ email, password });
-    return { error };
+    const emailRedirectTo = new URL("/auth/callback", window.location.origin).toString();
+    const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo } });
+    return { error, signedIn: !!data.session };
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut({ scope: "local" });
+    if (error) throw error;
+    window.location.replace("/auth/sign-in");
   };
 
   return (

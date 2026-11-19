@@ -98,7 +98,10 @@ export default function ProgressTestPage() {
   const next = useCallback(() => {
     if (index + 1 >= questions.length) {
       const finalScore = answers.filter((item) => item.chosen === item.question.answer).length;
-      logSession({ type: "test", score: finalScore, total: questions.length }, finalScore * 3);
+      logSession({
+        type: "test", score: finalScore, total: questions.length,
+        examId: "periodic-hsk1-2-v1", examKind: "periodic",
+      }, finalScore * 3);
       setDone(true);
       return;
     }
