@@ -1,7 +1,7 @@
 export type HskMockQuestion = {
   id: string;
-  level: 1 | 2 | 3 | 4;
-  part: "listening" | "reading";
+  level: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | "HSKK" | "TOCFL";
+  part: "listening" | "reading" | "speaking";
   section: number;
   prompt: string;
   hanzi?: string;
@@ -169,7 +169,7 @@ export const HSK4_MOCK_QUESTIONS: HskMockQuestion[] = [
 ];
 
 export type HskMockResult = {
-  level: number;
+  level: number | "HSKK" | "TOCFL";
   version: string;
   score: number;
   total: number;
@@ -215,7 +215,7 @@ export function getHSK4MockQuestions(): HskMockQuestion[] {
   return [...HSK4_MOCK_QUESTIONS];
 }
 
-function scoreHskMock(questions: HskMockQuestion[], answers: { questionId: string; chosenIndex: number }[], level: number, version: string): HskMockResult {
+function scoreHskMock(questions: HskMockQuestion[], answers: { questionId: string; chosenIndex: number }[], level: number | "HSKK" | "TOCFL", version: string): HskMockResult {
   const total = questions.length;
   let correct = 0, listeningCorrect = 0, readingCorrect = 0;
   const detail = questions.map((q) => {
@@ -241,4 +241,27 @@ export function scoreHSK3Mock(answers: { questionId: string; chosenIndex: number
 }
 export function scoreHSK4Mock(answers: { questionId: string; chosenIndex: number }[]): HskMockResult {
   return scoreHskMock(HSK4_MOCK_QUESTIONS, answers, 4, "hsk4-mock-v1");
+}
+
+/** HSKK 中级 (Kèijiǔ Zhōngjí): nghe nói, ~30 câu. Nội dung tự biên soạn. */
+export const HSKK_INTERMEDIATE_MOCK_QUESTIONS: HskMockQuestion[] = [
+  { id: "hskk-i-l01", level: "HSKK", part: "listening", section: 1, prompt: "Nghe: \"你好吗？\". Trả lời gì?", hanzi: "你好吗？", pinyin: "nǐ hǎo ma", options: ["Tôi khỏe", "Tôi ở Hà Nội", "Tôi là học sinh", "Tôi 20 tuổi"], answer: 0, explanation: "Hỏi sức khỏe → trả lời Tôi khỏe.", audioHint: "nǐ hǎo ma" },
+  { id: "hskk-i-l02", level: "HSKK", part: "listening", section: 1, prompt: "Nghe: \"多少钱？\". Hỏi gì?", hanzi: "多少钱？", pinyin: "duō shao qián", options: ["Bao nhiêu tiền?", "Đắt quá?", "Rẻ quá?", "Tính tiền"], answer: 0, explanation: "多少钱？ = Bao nhiêu tiền?", audioHint: "duō shao qián" },
+  { id: "hskk-i-s01", level: "HSKK", part: "speaking", section: 2, prompt: "Đọc âm câu sau: \"你好，我是越南人。\"", hanzi: "你好，我是越南人。", pinyin: "nǐ hǎo, wǒ shì yuè nán rén.", options: ["Đọc đúng", "Đọc sai", "Bỏ qua", "Lại từ đầu"], answer: 0, explanation: "Đọc theo pinyin: nǐ hǎo, wǒ shì yuè nán rén." },
+  { id: "hskk-i-s02", level: "HSKK", part: "speaking", section: 2, prompt: "Trả lời câu hỏi: \"你今年几岁？\"", hanzi: "你今年几岁？", pinyin: "nǐ jīn nián jǐ suì", options: ["Tôi 20 tuổi", "Tôi ở Hà Nội", "Tôi là học sinh", "Tôi biết nói Trung"], answer: 0, explanation: "Trả lời tuổi: 我二十岁。" },
+];
+
+/** TOCFL A2 (進階基礎): nghe đọt, ~30 câu. Nội dung tự biên soạn. */
+export const TOCFL_A2_MOCK_QUESTIONS: HskMockQuestion[] = [
+  { id: "tocfl-a2-l01", level: "TOCFL", part: "listening", section: 1, prompt: "Nghe: \"再见\". Nghĩa là gì?", hanzi: "再见", pinyin: "zài jiàn", options: ["Xin chào", "Tạm biệt", "Cảm ơn", "Xin lỗi"], answer: 1, explanation: "再见 = Tạm biệt.", audioHint: "zài jiàn" },
+  { id: "tocfl-a2-l02", level: "TOCFL", part: "listening", section: 1, prompt: "Nghe: \"对不起\". Nghĩa là gì?", hanzi: "对不起", pinyin: "duì bù qǐ", options: ["Cảm ơn", "Xin lỗi", "Không sao", "Tạm biệt"], answer: 1, explanation: "对不起 = Xin lỗi.", audioHint: "duì bù qǐ" },
+  { id: "tocfl-a2-r01", level: "TOCFL", part: "reading", section: 2, prompt: "Chọn nghĩa đúng: \"谢谢\".", hanzi: "谢谢", pinyin: "xiè xiè", options: ["Xin lỗi", "Cảm ơn", "Không có chi", "Tạm biệt"], answer: 1, explanation: "谢谢 = Cảm ơn." },
+  { id: "tocfl-a2-r02", level: "TOCFL", part: "reading", section: 2, prompt: "Chọn nghĩa đúng: \"不客气\".", hanzi: "不客气", pinyin: "bù kè qi", options: ["Xin chào", "Cảm ơn", "Không có chi", "Xin lỗi"], answer: 2, explanation: "不客气 = Không có chi." },
+];
+
+export function scoreHSKKIntermediateMock(answers: { questionId: string; chosenIndex: number }[]): HskMockResult {
+  return scoreHskMock(HSKK_INTERMEDIATE_MOCK_QUESTIONS, answers, 0, "hskk-intermediate-mock-v1");
+}
+export function scoreTOCFL_A2Mock(answers: { questionId: string; chosenIndex: number }[]): HskMockResult {
+  return scoreHskMock(TOCFL_A2_MOCK_QUESTIONS, answers, 0, "tocfl-a2-mock-v1");
 }

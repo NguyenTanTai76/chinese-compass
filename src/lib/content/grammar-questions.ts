@@ -1,6 +1,6 @@
 export type GrammarQuestion = {
   id: string;
-  level: 1 | 2 | 3 | 4;
+  level: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
   topic: string;
   sentence: string;
   hintVi: string;
@@ -260,4 +260,37 @@ export const GRAMMAR_QUESTIONS: GrammarQuestion[] = [
   { id: "g248", level: 4, topic: "趋向补语", sentence: "请走___下来。", hintVi: "Mời đi xuống dưới.", options: ["下来", "上去", "进去", "出来"], answer: 0, explanation: "V + 下来: 走下来." },
   { id: "g249", level: 4, topic: "被字句", sentence: "我___他批评了。", hintVi: "Tôi bị anh ấy chỉ trích.", options: ["被", "把", "给", "让"], answer: 0, explanation: "S + 被 + O + V: 我被他批评了." },
   { id: "g250", level: 4, topic: "把字句", sentence: "我___书放在桌子上。", hintVi: "Tôi đặt sách lên bàn.", options: ["把", "被", "给", "让"], answer: 0, explanation: "S + 把 + O + V + 地点: 我把书放在桌子上." },
+  { id: "g251", level: 5, topic: "被字句", sentence: "这件事___大家都知道了。", hintVi: "Việc này mọi người đều biết rồi.", options: ["被", "把", "给", "让"], answer: 0, explanation: "S + 被 + O + V: 这件事被大家都知道了." },
+  { id: "g252", level: 5, topic: "把字句", sentence: "我___这封信写完了。", hintVi: "Tôi đã viết xong bức thư này.", options: ["把", "被", "给", "让"], answer: 0, explanation: "S + 把 + O + V: 我把这封信写完了." },
+  { id: "g253", level: 5, topic: "虽然...但是...", sentence: "___他很忙，___他还是来了。", hintVi: "Mặc dù anh ấy rất bận, anh ấy vẫn đến.", options: ["虽然", "但是"], answer: 0, explanation: "虽然...但是...: 虽然他很忙，但是他还是来了." },
+  { id: "g254", level: 5, topic: "不仅...而且...", sentence: "他___会说中文___会说英文___会说法文。", hintVi: "Anh ấy không chỉ nói Trung và Anh, còn nói Pháp nữa.", options: ["不仅", "而且"], answer: 0, explanation: "不仅...而且...: 他不仅会说中文还会说英文和法文." },
+  { id: "g255", level: 5, topic: "不仅...而且...", sentence: "这本书___便宜___好。", hintVi: "Cuốn sách này không chỉ rẻ còn tốt nữa.", options: ["不仅", "而且"], answer: 0, explanation: "不仅...而且...: 这本书不仅便宜而且好." },
+  { id: "g256", level: 5, topic: "趋向补语", sentence: "请拿___过来。", hintVi: "Mời lấy qua đây.", options: ["过来", "过去", "上来", "下来"], answer: 0, explanation: "V + 过来: 拿过来." },
+  { id: "g257", level: 5, topic: "趋向补语", sentence: "请走___进去。", hintVi: "Mời đi vào trong.", options: ["进去", "出来", "上去", "下去"], answer: 0, explanation: "V + 进去: 走进去." },
+  { id: "g258", level: 5, topic: "方向补语", sentence: "他___跑上来了。", hintVi: "Anh ấy chạy lên đây.", options: ["跑", "走", "飞", "游"], answer: 0, explanation: "V + 上来: 跑上来." },
+  { id: "g259", level: 5, topic: "程度补语", sentence: "他说得___好。", hintVi: "Anh ấy nói rất tốt.", options: ["很", "太", "最", "比较"], answer: 0, explanation: "V + 得 + 程度: 他说得很好." },
+  { id: "g260", level: 5, topic: "数量补语", sentence: "我___了三本书。", hintVi: "Tôi đã đọc ba cuốn sách.", options: ["读", "看", "买", "借"], answer: 0, explanation: "V + 数量 + 量词: 我读了三本书." },
+  { id: "g261", level: 6, topic: "被字句", sentence: "窗户___风吹坏了。", hintVi: "Cửa sổ bị gió hoạn hỏng.", options: ["被", "把", "给", "让"], answer: 0, explanation: "S + 被 + 原因 + V: 窗户被风吹坏了." },
+  { id: "g262", level: 6, topic: "把字句", sentence: "我___这件事办妥了。", hintVi: "Tôi đã làm xong việc này.", options: ["把", "被", "给", "让"], answer: 0, explanation: "S + 把 + O + V: 我把这件事办妥了." },
+  { id: "g263", level: 6, topic: "虽然...但是...", sentence: "___下雨，___我们还是出发。", hintVi: "Mặc dù trời mưa, chúng ta vẫn xuất phát.", options: ["虽然", "但是"], answer: 0, explanation: "虽然...但是...: 虽然下雨，我们还是出发." },
+  { id: "g264", level: 6, topic: "不仅...而且...", sentence: "他___精通中文___精通英文。", hintVi: "Anh ấy không chỉ thành thạo Trung còn thành thạo Anh nữa.", options: ["不仅", "而且"], answer: 0, explanation: "不仅...而且...: 他不仅精通中文而且精通英文." },
+  { id: "g265", level: 6, topic: "趋向补语", sentence: "请把书拿___来。", hintVi: "Mời lấy sách qua đây.", options: ["过来", "过去", "上来", "下来"], answer: 0, explanation: "V + 过来: 拿过来." },
+  { id: "g266", level: 6, topic: "趋向补语", sentence: "他___跑下去了。", hintVi: "Anh ấy chạy xuống dưới.", options: ["跑", "走", "飞", "游"], answer: 0, explanation: "V + 下去: 跑下去." },
+  { id: "g267", level: 6, topic: "结果补语", sentence: "我___做完了。", hintVi: "Tôi đã làm xong.", options: ["做", "写", "看", "听"], answer: 0, explanation: "V + 完: 做完." },
+  { id: "g268", level: 6, topic: "结果补语", sentence: "他___看懂了。", hintVi: "Anh ấy đã hiểu đọc.", options: ["看", "听", "读", "写"], answer: 0, explanation: "V + 懂: 看懂." },
+  { id: "g269", level: 7, topic: "被字句", sentence: "这件事___大家讨论了很久。", hintVi: "Việc này đã được mọi người thảo luận rất lâu.", options: ["被", "把", "给", "让"], answer: 0, explanation: "S + 被 + O + V: 这件事被大家讨论了很久." },
+  { id: "g270", level: 7, topic: "虽然...但是...", sentence: "___他很有名___他很低调。", hintVi: "Mặc dù anh ấy rất nổi tiếng, anh ấy rất thầm lặng.", options: ["虽然", "但是"], answer: 0, explanation: "虽然...但是...: 虽然他很有名，但是他很低调." },
+  { id: "g271", level: 7, topic: "不仅...而且...", sentence: "这个方案___可行___经济。", hintVi: "Kế hoạch này không chỉ khả thi còn tiết kiệm nữa.", options: ["不仅", "而且"], answer: 0, explanation: "不仅...而且...: 这个方案不仅可行而且经济." },
+  { id: "g272", level: 7, topic: "趋向补语", sentence: "请把文件___过来。", hintVi: "Mời đưa hồ sơ qua đây.", options: ["过来", "过去", "上来", "下来"], answer: 0, explanation: "V + 过来: 把文件拿过来." },
+  { id: "g273", level: 7, topic: "结果补语", sentence: "我___听明白了。", hintVi: "Tôi đã nghe hiểu rồi.", options: ["听", "看", "读", "写"], answer: 0, explanation: "V + 懂: 听懂." },
+  { id: "g274", level: 8, topic: "被字句", sentence: "他的建议___大家接受了。", hintVi: "Đề xuất của anh ấy được mọi người chấp nhận.", options: ["被", "把", "给", "让"], answer: 0, explanation: "S + 被 + O + V: 他的建议被大家接受了." },
+  { id: "g275", level: 8, topic: "虽然...但是...", sentence: "___任务很重，___我们必须完成。", hintVi: "Mặc dù nhiệm vụ rất nặng, chúng ta phải hoàn thành.", options: ["虽然", "但是"], answer: 0, explanation: "虽然...但是...: 虽然任务很重，我们必须完成." },
+  { id: "g276", level: 8, topic: "不仅...而且...", sentence: "他___是工程师___还是经理。", hintVi: "Anh ấy không chỉ là kỹ sư còn là giám đốc nữa.", options: ["不仅", "而且"], answer: 0, explanation: "不仅...而且...: 他不仅是工程师还是经理." },
+  { id: "g277", level: 8, topic: "趋向补语", sentence: "请把椅子___搬过来。", hintVi: "Mời di chuyển ghế qua đây.", options: ["过来", "过去", "上来", "下来"], answer: 0, explanation: "V + 过来: 把椅子搬过来." },
+  { id: "g278", level: 8, topic: "结果补语", sentence: "我___读完了这本书。", hintVi: "Tôi đã đọc xong cuốn sách này.", options: ["读", "看", "写", "听"], answer: 0, explanation: "V + 完: 读完." },
+  { id: "g279", level: 9, topic: "被字句", sentence: "这个问题___专家们研究了多年。", hintVi: "Vấn đề này đã được các chuyên gia nghiên cứu nhiều năm.", options: ["被", "把", "给", "让"], answer: 0, explanation: "S + 被 + O + V: 这个问题被专家们研究了多年." },
+  { id: "g280", level: 9, topic: "虽然...但是...", sentence: "___困难重重，___我们不退缩。", hintVi: "Mặc dù khó khăn nhiều, chúng ta không lùi bước.", options: ["虽然", "但是"], answer: 0, explanation: "虽然...但是...: 虽然困难重重，我们不退缩." },
+  { id: "g281", level: 9, topic: "不仅...而且...", sentence: "这个项目___创新___实用。", hintVi: "Dự án này không chỉ đổi mới còn thực dụng nữa.", options: ["不仅", "而且"], answer: 0, explanation: "不仅...而且...: 这个项目不仅创新而且实用." },
+  { id: "g282", level: 9, topic: "趋向补语", sentence: "请把资料___发过去。", hintVi: "Mời gửi tài liệu qua đó.", options: ["过去", "过来", "上来", "下来"], answer: 0, explanation: "V + 过去: 把资料发过去." },
+  { id: "g283", level: 9, topic: "结果补语", sentence: "我们___做出了决定。", hintVi: "Chúng ta đã ra quyết định.", options: ["做", "看", "读", "写"], answer: 0, explanation: "V + 出: 做出." },
 ];

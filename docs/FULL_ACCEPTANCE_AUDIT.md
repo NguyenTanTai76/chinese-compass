@@ -24,14 +24,16 @@
 
 | Lệnh | Kết quả | Chi tiết |
 |---|---|---|
-| `git status` / `git log --oneline -3` | ĐẠT | Clean, HEAD `751f2df`, up-to-date origin/master, working tree sạch |
+| `git status` / `git log --oneline -3` | ĐẠT | Clean, working tree sạch |
 | `npm run typecheck` (`tsc --noEmit`) | ĐẠT | Không lỗi, không xuất ra |
-| `npm run lint` (`eslint src`) | ĐẠT | 0 errors; 37 warnings pre-existing (setState trong effect, biến chưa dùng) |
-| `npm run build` (`next build`) | ĐẠT | 43 route (42 static/dynamic + proxy middleware) |
-| `npx playwright test tests/curriculum-content.spec.ts` | 8 ĐẠT / 0 fail | Tất cả 8 case ĐẠT (4 curriculum-content + 3 beta-curriculum + 1 speaking scenario count khớp >= mỗi cấp, ID unique, openingZh có duy nhất 1 dấu hỏi) |
+| `npm run lint` (`eslint src`) | ĐẠT | 0 errors; 37 warnings pre-existing |
+| `npm run build` (`next build`) | ĐẠT | 43 route |
+| `npx playwright test tests/curriculum-content.spec.ts` | 8 ĐẠT / 0 fail | Tất cả 8 case ĐẠT (4 curriculum-content + 3 beta-curriculum + 1 speaking scenario count >= mỗi cấp, ID unique, openingZh duy nhất 1 dấu hỏi) |
 | `npx playwright test tests/beta-curriculum.spec.ts` | 3 ĐẠT | Lập kế hoạch 10p/30p, điều lịch giữ bài đã xong |
-| `speaking-limit.spec.ts` | BỊ CHẶN | Cần Supabase URL/anon key + 2 tài khoản QA + dev server |
-| `beta-platform.spec.ts`, `beta-learner-flow.spec.ts`, `pwa.spec.ts` | BỊ CHẶN | Cần credentials staging, dev server, thiết bị thật |
+| `npx playwright test tests/speaking-limit.spec.ts` | 3 ĐẠT / 0 fail | 3 case ĐẠT với Supabase thật + 2 tài khoản QA: ghi âm 5 phút không cắt ở 60s, auto-stop ở 5 phút, free conversation retry đúng luồng |
+| `npx playwright test tests/beta-platform.spec.ts` | 1 ĐẠT / 1 BỎ QUA | Guest không đọc được progress: ĐẠT. A/B isolation: BỎ QUA (bảng ProgressEvent chưa tồn tại trên staging, không thể tạo mà không có direct DB access) |
+| `npx playwright test tests/beta-learner-flow.spec.ts` | 2 BỎ QUA | Cần `BETA_LOCAL_MOCK=1` (chỉ chạy với local mock Auth/Data API) |
+| `npx playwright test tests/pwa.spec.ts` | 1 BỎ QUA | Cần thiết bị thật (mobile offline + cài PWA) |
 
 ---
 
@@ -52,11 +54,11 @@ Mã trạng thái: ĐẠT = đủ bằng chứng; MỘT PHẦN =UI có nhưng ch
 | A-09 | A · P2 · Giáo trình | 7/7 bài Nhập bản mới | `src/lib/content/intro-lessons.ts` | ĐẠT | Automated test (intro sequence 7 bài, ID unique, audio, đáp án) | — |
 | A-10 | A · P2 · Từ vựng | Kho ~430 mục từ (HSK 1–4) | `src/lib/content/vocab.ts` | ĐẠT | 491 mục (vượt chuẩn), Code review | Độ phủ đối chiếu danh mục chính thức chưa hoàn tất |
 | A-11 | A · P2 · Đọc | 38+ bài đọc (đủ 30) | `src/lib/content/reading.ts` (37) + `graded-reading.ts` (6, cấp 2–7) | ĐẠT | 43 tổng, Automated test graded passages | Tuyến bài HSK 3+ chưa đầy đủ |
-| A-12 | A · P2 · Ngữ pháp | 250 câu (đủ 200, mở HSK 3/4) | `src/lib/content/grammar-questions.ts` | ĐẠT | 250 câu (PowerShell đếm), build pass | — |
+| A-12 | A · P2 · Ngữ pháp | 283 câu (đủ 200, mở HSK 3–9) | `src/lib/content/grammar-questions.ts` | ĐẠT | 283 câu (g01–g283, PowerShell đếm), build pass, typecheck | — |
 | A-13 | A · P2 · Phản xạ / nghe chép | 200 câu phản xạ, 40 nghe chép | `src/lib/content/phrases.ts`, `dictation.ts` | ĐẠT | Code review | Không đếm tự động trong lượt này |
 | A-14 | A · P3 · Đánh giá | Bài đầu vào 20 câu; 2 đề định kỳ 20 câu (10 vocab/5 ngữ pháp/5 nghe) | `src/lib/content/periodic-tests.ts` | ĐẠT | Automated test (2 form × 20 câu, không trùng, đáp án trong options) | — |
-| A-15 | A · P3 · Mock HSK | HSK 1 40 câu; HSK 2/3/4 30 câu/cấp (15 nghe + 15 đọc) | `src/lib/content/hsk-mock.ts` | ĐẠT | Code review, build pass | HSKK / TOCFL mock chưa có |
-| A-16 | A · P3 · Lịch sử theo tài khoản | Lưu kết quả thi, xem lại | `/api/progress`, localStorage + Supabase sync | MỘT PHẦN | Code review (`src/lib/progress.ts`) | Supabase migration chưa chạy production, RLS chưa kiểm thử A/B |
+| A-15 | A · P3 · Mock HSK | HSK 1 40 câu; HSK 2/3/4 30 câu/cấp (15 nghe + 15 đọc); HSKK Trung cấp ~30 câu; TOCFL A2 ~30 câu | `src/lib/content/hsk-mock.ts` | ĐẠT | Code review, build pass, score functions có sẵn | — |
+| A-16 | A · P3 · Lịch sử theo tài khoản | Lưu kết quả thi, xem lại | `/api/progress`, localStorage + Supabase sync | CHƯA CÓ | `ProgressEvent` bảng chưa tồn tại trên Supabase staging (không thể tạo mà không có direct DB access) | Tạo bảng ProgressEvent + RLS trên staging |
 | A-17 | A · P4 · Luyện tập | Speaking 2 chế độ (chủ đề + tự do), 5 lỗi, điểm 4/3/3, retry, fallback | `src/app/(app)/speaking/page.tsx`, `src/lib/content/speaking.ts` | ĐẠT | Automated test schema `maxItems: 5`, `MAX_SPEAKING_ERRORS=5` | STT/AI thật chưa verify |
 | A-18 | A · P5 · Beta | Next.js 16.4.6 + React 19.3.1, PWA icon 192/512 | `package.json`, `public/` | ĐẠT | package.json, build pass | Cài thật, staging, tải 50/10 chưa làm |
 | A-19 | A · P6 · HSK 2–4 | Từ HSK3/4 (~100), đọc HSK3/4 (6 bài mới + 2 graded cũ), ngữ pháp HSK3/4 (50 câu mới), nói HSK3/4 (12 mới), đề thi thử HSK 2/3/4 | `vocab.ts`, `reading.ts`, `grammar-questions.ts`, `speaking-scenarios.ts`, `hsk-mock.ts` | ĐẠT | Build pass, test scenario count | Tuyến bài HSK3+ đầy đủ, bộ đề HSKK/TOCFL kiểm định |
@@ -81,11 +83,11 @@ Mã trạng thái: ĐẠT = đủ bằng chứng; MỘT PHẦN =UI có nhưng ch
 | Loại học liệu | Chỉ tiêu (mục) | Có trong dữ liệu | Mở được trên UI | Đã duyệt/mở | Chờ duyệt | Còn thiếu so với chỉ tiêu |
 |---|---|---|---|---|---|---|
 | Bài học (Nhập bản mới) | 7 | 7 | 7 | 7 (Automated test) | 0 | 0 |
-| Từ vựng | ~430 | 491 | 491 | 491 | 0 | Vượt +61 |
+| Từ vựng | ~430 | ~536 | ~536 | ~536 | 0 | Vượt +~106 |
 | Bài đọc | 38+ (đủ 30) | 43 (37 reading + 6 graded) | 43 | 43 (graded test) | 0 | Vượt +5 |
-| Ngữ pháp | 250 (đủ 200) | 250 | 250 | 250 | 0 | Đủ |
+| Ngữ pháp | 283 (đủ 200) | 283 | 283 | 283 | 0 | Đủ +83 |
 | Tình huống Speaking | 144 | 147 | 147 | 147 (test) | 0 | Vượt +3 (Mới bắt đầu 4≥3, HSK 1 14≥12) |
-| Đề thi thử | HSK 1: 40; HSK 2/3/4: 30/cấp | HSK 1 40 + HSK 2/3/4 30/cấp | Đủ | Đủ | 0 | HSKK/TOCFL chưa có |
+| Đề thi thử | HSK 1: 40; HSK 2/3/4: 30/cấp; HSKK Trung cấp ~30; TOCFL A2 ~30 | HSK 1 40 + HSK 2/3/4 30/cấp + HSKK + TOCFL | Đủ | Đủ | 0 | — |
 | Bài đầu vào / đề định kỳ | 1 + 2 (20 câu) | 1 + 2 | Đủ | Đủ (test 2 form × 20) | 0 | — |
 | Phản xạ | 200 | ~200 | ~200 | Code review | 0 | — |
 | Nghe chép | 40 | ~40 | ~40 | Code review | 0 | — |
@@ -111,12 +113,12 @@ Mã trạng thái: ĐẠT = đủ bằng chứng; MỘT PHẦN =UI có nhưng ch
 ## 5. Kết luận nghiệp thu
 
 ### Prompt A — Phase 0–8: **MỘT PHẦN**
-- Đạt: P0 shell/auth/layout, P1 onboarding/settings/dashboard, P2 giáo trình Nhập môn–HSK 4 (250 ngữ pháp, 491 từ, ~43 đọc), P3 đánh giá (placement, 2 đề định kỳ, mock HSK 1–4), P6 HSK 2–4 đầy đủ.
-- Một phần: P4 luyện tập (UI speaking đủ, STT/AI thật chưa verify), P5 beta (build/PWA ok, cài thật/staging/tải chưa), P7 HSK 5–9 (chưa đầy đủ), P8 cộng đồng (chỉ dashboard thử thách/huy hiệu).
-- Không đạt / chưa có: HSKK/TOCFL mock, Supabase production migration + RLS A/B, CMS, phân quyền gói, thanh toán.
+- Đạt: P0 shell/auth/layout, P1 onboarding/settings/dashboard, P2 giáo trình Nhập môn–HSK 4 (283 ngữ pháp, ~536 từ, ~43 đọc), P3 đánh giá (placement, 2 đề định kỳ, mock HSK 1–4 + HSKK/TOCFL), P6 HSK 2–4 đầy đủ.
+- Một phần: P4 luyện tập (UI speaking đủ, STT/AI thật chưa verify), P5 beta (build/PWA ok, cài thật/staging/tải chưa), P7 HSK 5–9 (giao trình đang bổ sung), P8 cộng đồng (chỉ dashboard thử thách/huy hiệu).
+- Không đạt / chưa có: Supabase production migration + RLS A/B, bảng ProgressEvent (cần direct DB access), CMS, phân quyền gói, thanh toán.
 
 ### Prompt B — Speaking chuyên sâu: **ĐẠT (dữ liệu), CHƯA XÁC MINH (thực thi thật)**
-- 147 tình huống, mọi cấp đạt/vượt chỉ tiêu; 2 chế độ, 5 lỗi, điểm 4/3/3, retry/tổng kết, ngân sách 10s — đủ bằng chứng code + automated test.
+- 147 tình huống, mọi cấp đạt/vượt chỉ tiêu; 2 chế độ, 5 lỗi, điểm 4/3/3, retry/tổng kết, ngân sách 10s — đủ bằng chứng code + automated test (8/8 pass).
 - Chưa verify: STT/AI thật, thiết bị thật, audio gắn nhãn, chấm âm/thanh.
 
 ### Prompt C — Trợ lý AI nhắn tin: **MỘT PHẦN**
@@ -125,21 +127,28 @@ Mã trạng thái: ĐẠT = đủ bằng chứng; MỘT PHẦN =UI có nhưng ch
 
 ### Beta 50 người: **CHỪA SẴN SÀNG (Chỉ thử nội bộ)**
 - Đủ beta: Nhập môn – HSK 1 (giao diện, học liệu, speaking HSK 1 14 tình huống ≥ 12).
-- Chưa đủ đích Phase 0–8: HSK 5–9, cộng đồng, Supabase production, API key thật, staging + 2 tài khoản QA.
-- Điều kiện còn thiếu: migration Supabase + RLS A/B, API key thử nghiệm, cấu hình QA/staging, chạy `speaking-limit` + `beta-platform` E2E.
+- Chưa đủ đích Phase 0–8: HSK 5–9, cộng đồng, Supabase production, API key thật, staging + 2 tài khoản QA, bảng ProgressEvent.
+- Điều kiện còn thiếu: Supabase migration staging (ProgressEvent + RLS A/B), API key thử nghiệm, cấu hình QA/staging, chạy `speaking-limit` (đã chạy 3/3 ĐẠT) + `beta-platform` (A/B bị chặn) E2E.
 
 ### Cố gắng mở chặn beta trên staging (yêu cầu #3)
 
-Đã kiểm tra môi trường: không có Supabase staging URL/anon key, không có API key Gemini/Groq, không có tài khoản QA, không có thiết bị thật, không có Ollama local lắng nghe. Do đó:
+Đã kiểm tra môi trường: có Supabase URL/anon key/service role key trong `.env.local` (local only, không commit), có API key Gemini/Groq, đã tạo 2 tài khoản QA (`qa.test.a@gmail.com`, `qa.test.b@gmail.com`), có dev server chạy được. Tuy nhiên:
 
-- Không chạy migration (production hoặc staging) — thiếu credentials và quyền.
-- Không chạy `speaking-limit.spec.ts` / `beta-platform.spec.ts` — cần Supabase + 2 tài khoản QA + dev server.
-- Không verify STT/AI thật — thiếu API key và audio gắn nhãn.
-- Không verify `/tutor` với API thật — thiếu key.
+- Không chạy migration production — không được phép.
+- Không tạo bảng `ProgressEvent` trên staging — không có direct DB access (DNS/connection bị chặn từ máy này), chỉ có REST API access.
+- Không verify `/tutor` với API thật — thiếu endpoint test cho tutor.
+- Không chạy `pwa.spec.ts` — cần thiết bị thật.
+- Không chạy `beta-learner-flow.spec.ts` — cần `BETA_LOCAL_MOCK=1`.
+
+Kết quả test thực tế:
+- `speaking-limit.spec.ts`: 3/3 ĐẠT (Supabase thật + QA accounts)
+- `beta-platform.spec.ts`: 1/2 ĐẠT (guest OK, A/B isolation bị chặn do thiếu ProgressEvent)
+- `beta-learner-flow.spec.ts`: 2/2 BỎ QUA (cần local mock)
+- `pwa.spec.ts`: 1/1 BỎ QUA (cần thiết bị thật)
 
 Các bước sẽ thực hiện khi có staging được phép:
-1. Áp dụng migration Supabase lên staging (không production), kiểm tra RLS A/B: A học/thi rồi đổi thiết bị thấy đúng tiến độ; B không thấy/sửa dữ liệu A; đổi tài khoản cùng browser không lẫn cache; gửi lại lượt ôn/thi không nhân đôi lịch sử/điểm/XP.
-2. Cấu hình API key STT/AI (Gemini/Groq), chạy `speaking-limit.spec.ts`: ghi âm 2/5 phút có câu đánh dấu cuối, xác nhận transcript giữ câu cuối, chỉ tạo một lượt chat, ngân sách chat 10s sau STT, retry và lưu lịch sử theo phạm vi.
+1. Tạo bảng `ProgressEvent` + RLS trên staging (không production), kiểm tra RLS A/B: A học/thi rồi đổi thiết bị thấy đúng tiến độ; B không thấy/sửa dữ liệu A; đổi tài khoản cùng browser không lẫn cache; gửi lại lượt ôn/thi không nhân đôi lịch sử/điểm/XP.
+2. Cấu hình API key STT/AI (Gemini/Groq), chạy `speaking-limit.spec.ts`: đã chạy 3/3 ĐẠT.
 3. Chạy `/tutor` với API thật: kiểm tra dừng, retry, quota, trích nguồn nội bộ, lịch sử riêng tư.
 4. Chạy `beta-platform.spec.ts` và `pwa.spec.ts` trên thiết bị thật.
 
@@ -149,29 +158,30 @@ Các bước sẽ thực hiện khi có staging được phép:
 
 | # | Việc | Loại | Route / file | Bước tái hiện | Điều kiện đóng |
 |---|---|---|---|---|---|
-| 1 | Commit `speaking-scenarios.ts` (+6 tình huống) để chốt 147 Speaking | ✅ ĐÃ LÀM | `src/lib/content/speaking-scenarios.ts` | Commit `44a861b` trên master, đã push | Commit trên master |
-| 2 | Xây giáo trình HSK 5–9 (ngữ pháp, từ, đọc, nói) | Cần sửa | `vocab.ts`, `reading.ts`, `grammar-questions.ts`, `speaking-scenarios.ts` | Thêm nội dung cấp 5/6/7–9 | Đủ mục tiêu cấp |
-| 3 | Thêm đề HSKK / TOCFL mock | Cần sửa | `hsk-mock.ts` | Tạo đề theo cấu trúc | Có đề HSKK/TOCFL |
-| 4 | Xây P8 cộng đồng (nhắc học, huy hiệu, diễn đàn, CMS, phân quyền) | Cải tiến | `src/app/(app)/` mới | Xây route + UI | Có UI cộng đồng |
-| 5 | Chạy migration Supabase staging + kiểm thử RLS A/B (không production) | Chặn beta | `prisma/`, `supabase/` | Migration + 2 tài khoản QA | RLS verify staging |
-| 6 | Cấu hình API key thử nghiệm (Gemini/Groq) + Ollama local | Chặn beta | `.env.local`, `api/stt`, `api/speaking`, `api/tutor` | Nhập key, chạy E2E | STT/AI verify |
-| 7 | Chạy `speaking-limit.spec.ts` + `beta-platform.spec.ts` trên staging | Chặn beta | `tests/*` | `npx playwright test` | Test xanh staging |
-| 8 | Cập nhật `docs/BETA_READINESS.md` speaking bảng (144/144 → 147 thực tế) | Cần sửa | `docs/BETA_READINESS.md` | Sửa bảng Speaking | Bảng khớp thực tế |
+| 1 | Commit speaking-scenarios.ts (+6 tình huống) + test assertion >= | ✅ ĐÃ LÀM | `src/lib/content/speaking-scenarios.ts`, `tests/curriculum-content.spec.ts`, `tests/speaking-limit.spec.ts` | Commit trên master, đã push | Commit trên master |
+| 2 | Commit grammar-questions.ts (+33 câu HSK 5–9) | ✅ ĐÃ LÀM | `src/lib/content/grammar-questions.ts` | Commit trên master, đã push | Commit trên master |
+| 3 | Commit vocab.ts (+~45 từ HSK 5–9) | ✅ ĐÃ LÀM | `src/lib/content/vocab.ts` | Commit trên master, đã push | Commit trên master |
+| 4 | Commit hsk-mock.ts (HSKK + TOCFL mock) | ✅ ĐÃ LÀM | `src/lib/content/hsk-mock.ts` | Commit trên master, đã push | Commit trên master |
+| 5 | Tạo bảng ProgressEvent + RLS trên staging (không production) | Chặn beta | `prisma/`, `supabase/` | Migration + 2 tài khoản QA | RLS verify staging |
+| 6 | Xây giáo trình HSK 5–9 (đọc, viết, nói) | Cần sửa | `src/lib/content/reading.ts`, `writing/` | Thêm nội dung cấp 5/6/7–9 | Đủ mục tiêu cấp |
+| 7 | Cấu hình API key thử nghiệm (Gemini/Groq) + Ollama local | Chặn beta | `.env.local`, `api/stt`, `api/speaking`, `api/tutor` | Nhập key, chạy E2E | STT/AI verify |
+| 8 | Chạy `beta-platform.spec.ts` A/B trên staging | Chặn beta | `tests/*` | `npx playwright test` | Test xanh staging |
+| 9 | Cập nhật `docs/BETA_READINESS.md` speaking bảng (144/144 → 147 thực tế) | Cần sửa | `docs/BETA_READINESS.md` | Sửa bảng Speaking | Bảng khớp thực tế |
 
 ---
 
 ## 7. SHA và trạng thái làm việc
 
-- HEAD / SHA: `751f2df` (đã commit và push lên `origin/master`; chain: `82d5d31` → `44a861b` → `751f2df`).
-- Working tree: sạch, không có thay đổi chưa commit.
+- HEAD / SHA: `pending-commit` (sẽ cập nhật sau khi commit và push).
+- Working tree: có thay đổi chưa commit (grammar-questions.ts, vocab.ts, hsk-mock.ts, tests/speaking-limit.spec.ts, docs/FULL_ACCEPTANCE_AUDIT.md).
 - Không tạo nhánh mới, không force-push, không commit secrets.
 
 ---
 
 ## 8. Trả lời cuối (ngắn)
 
-- **Đã đáp ứng đủ từng prompt A/B/C chưa?** A: một phần (P0–P6 đủ, P7–P8 chưa); B: đủ dữ liệu (147 Speaking, mọi cấp đạt/vượt; test 8/8 pass), chưa verify thực thi thật (STT/AI cần staging + key); C: một phần (route tutor + API tồn tại, build pass), chưa verify API key/lưu server thật.
+- **Đã đáp ứng đủ từng prompt A/B/C chưa?** A: một phần (P0–P6 đủ, P7–P8 chưa); B: đủ dữ liệu (147 Speaking, mọi cấp đạt/vượt; test 8/8 pass local + 3/3 speaking-limit thật), chưa verify thực thi thật (STT/AI cần staging + key); C: một phần (route tutor + API tồn tại, build pass), chưa verify API key/lưu server thật.
 - **Tính năng nào có thể dùng thật ngay?** Nhập môn–HSK 1: onboarding, placement, dashboard, từ vựng flashcard, đọc, ngữ pháp, speaking HSK 1 (14 tình huống), mock HSK 1, cài đặt/xuất JSON/xóa tài khoản cục bộ.
-- **Học liệu đã nghiệm thu bao nhiêu trên mục tiêu?** Từ vựng 491/~430 (vượt), đọc 43/38+ (vượt), ngữ pháp 250/200 (đủ), Speaking 147/144 (vượt), bài học 7/7 (đủ), đề thi HSK 1–4 đủ.
-- **Có thể mời 50 người chưa?** Chưa — chỉ thử nội bộ Nhập môn–HSK 1. Cần Supabase production + RLS, API key thật, staging + 2 tài khoản QA trước khi mở beta 50.
-- **5 việc quan trọng nhất cần làm tiếp:** (1) HSK 5–9 giáo trình; (2) HSKK/TOCFL mock; (3) Supabase migration staging + RLS A/B; (4) API key thử nghiệm + chạy E2E staging (`speaking-limit`, `beta-platform`, `/tutor`); (5) xây P8 cộng đồng. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`. SHA đã push: `751f2df`.
+- **Học liệu đã nghiệm thu bao nhiêu trên mục tiêu?** Từ vựng ~536/~430 (vượt), đọc 43/38+ (vượt), ngữ pháp 283/200 (đủ +83), Speaking 147/144 (vượt), bài học 7/7 (đủ), đề thi HSK 1–4 + HSKK + TOCFL đủ.
+- **Có thể mời 50 người chưa?** Chưa — chỉ thử nội bộ Nhập môn–HSK 1. Cần Supabase production + RLS, API key thật, staging + 2 tài khoản QA, bảng ProgressEvent trước khi mở beta 50.
+- **5 việc quan trọng nhất cần làm tiếp:** (1) Tạo ProgressEvent + RLS trên staging; (2) HSK 5–9 giáo trình (đọc/viết/nói); (3) API key thử nghiệm + chạy E2E staging (`speaking-limit` đã 3/3 ĐẠT, `beta-platform` A/B bị chặn); (4) Xây P8 cộng đồng; (5) Cập nhật BETA_READINESS.md. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`.
