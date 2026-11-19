@@ -3,6 +3,22 @@ import { test, expect } from "@playwright/test";
 const AUDIO_2MIN = "/audio-test/audio-2min.wav";
 const AUDIO_5MIN = "/audio-test/audio-5min.wav";
 
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const emailA = process.env.BETA_TEST_EMAIL_A;
+const passwordA = process.env.BETA_TEST_PASSWORD_A;
+
+async function signIn(page, email, password) {
+  await page.goto("/auth/sign-in");
+  await page.locator("#email").fill(email);
+  await page.locator("#password").fill(password);
+  await page.getByRole("button", { name: "Đăng nhập", exact: true }).click();
+  await expect(page).toHaveURL(/\/dashboard$/);
+  const response = await page.request.get("/api/auth/user");
+  expect(response.ok()).toBeTruthy();
+  return (await response.json()).user.id as string;
+}
+
 const initScript = () => {
   window.setupAudioMock = async (audioUrl) => {
     try {
@@ -45,9 +61,12 @@ test.describe("speaking recorder 5-minute limit", () => {
     await page.addInitScript(initScript);
   });
 
+  test.skip(!(url && anonKey && emailA && passwordA), "Configure a local or confirmed staging Supabase and a QA account");
+
   test("shows 5-minute limit in UI and does not cut recording at 60 seconds", async ({
     page,
   }) => {
+    await signIn(page, emailA!, passwordA!);
     await page.goto("/speaking");
 
     // Verify UI shows 5-minute limit before recording
@@ -82,6 +101,7 @@ test.describe("speaking recorder 5-minute limit", () => {
   test("auto-stops at 5 minutes and keeps the recording", async ({
     page,
   }) => {
+    await signIn(page, emailA!, passwordA!);
     await page.goto("/speaking");
 
     // Verify UI shows 5-minute limit before recording

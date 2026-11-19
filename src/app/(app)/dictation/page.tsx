@@ -5,12 +5,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   CheckCircle2,
+  Clock,
   Eye,
   Headphones,
   Loader2,
   RotateCcw,
   Turtle,
   Volume2,
+  X,
   XCircle,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -23,12 +25,48 @@ import { PASS_THRESHOLD } from "@/lib/types";
 import { speakChinese, stopSpeaking } from "@/lib/speech";
 import { cn } from "@/lib/utils";
 
+type HistoryItem = {
+  id: string;
+  itemId: string;
+  hanzi: string;
+  pinyin: string;
+  meaningVi: string;
+  level: number;
+  input: string;
+  score: number;
+  passed: boolean;
+  revealed: boolean;
+  timestamp: number;
+};
+
+const STORAGE_KEY = "cc_dictation_history_v1";
+const MAX_HISTORY = 50;
+
+function loadHistory(): HistoryItem[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const data = localStorage.getItem(STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveHistory(history: HistoryItem[]) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-MAX_HISTORY)));
+  } catch {
+    // ignore
+  }
+}
+
 export default function DictationPage() {
   const [order, setOrder] = useState(DICTATION_ITEMS);
   const [index, setIndex] = useState(0);
   const lesson = useSearchParams().get("lesson");
   useEffect(() => {
-    const index = DICTATION_ITEMS.findIndex(item => item.id === lesson);
+    const index = DICTATION_ITEMS.findIndex((item) => item.id === lesson);
     if (index >= 0) setIndex(index);
   }, [lesson]);
   const [input, setInput] = useState("");
@@ -36,9 +74,15 @@ export default function DictationPage() {
   const [revealed, setRevealed] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [stats, setStats] = useState({ attempts: 0, correct: 0, totalScore: 0 });
+  const [history, setHistory] = useState<HistoryItem[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
   const item = order[index % order.length];
+
+  useEffect(() => {
+    setHistory(loadHistory());
+  }, []);
 
   useEffect(() => {
     const shuffled = [...DICTATION_ITEMS];
@@ -82,7 +126,26 @@ export default function DictationPage() {
       correct: prev.correct + (result >= PASS_THRESHOLD ? 1 : 0),
       totalScore: prev.totalScore + result,
     }));
-  }, [input, item.hanzi]);
+
+    const newItem: HistoryItem = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      itemId: item.id,
+      hanzi: item.hanzi,
+      pinyin: item.pinyin,
+      meaningVi: item.meaningVi,
+      level: item.level,
+      input,
+      score: result,
+      passed: result >= PASS_THRESHOLD,
+      revealed,
+      timestamp: Date.now(),
+    };
+    setHistory((prev) => {
+      const next = [...prev, newItem].slice(-MAX_HISTORY);
+      saveHistory(next);
+      return next;
+    });
+  }, [input, item.id, item.hanzi, item.pinyin, item.meaningVi, item.level, revealed]);
 
   const next = useCallback(() => {
     stopSpeaking();
@@ -99,18 +162,30 @@ export default function DictationPage() {
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
 
+  const clearHistory = useCallback(() => {
+    if (confirm("Xoá toàn bộ lịch sử luyện tập?")) {
+      setHistory([]);
+      saveHistory([]);
+    }
+  }, []);
+
   const average = stats.attempts
     ? Math.round(stats.totalScore / stats.attempts)
     : 0;
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <header className="space-y-1">
-        <h1 className="text-2xl font-bold text-primary">Nghe và chép</h1>
-        <p className="text-sm text-muted-foreground">
-          Nghe audio tiếng Trung rồi gõ lại bằng chữ Hán. Hệ thống sẽ so sánh và
-          đánh dấu từng ký tự đúng/sai.
-        </p>
+      <header className="space-y-1 flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h1 className="text-2xl font-bold text-primary">Nghe và chép</h1>
+          <p className="text-sm text-muted-foreground">
+            Nghe audio tiếng Trung rồi gõ lại bằng chữ Hán. Hệ thống sẽ so sánh và
+            đánh dấu từng ký tự đúng/sai.
+          </p>
+        </div>
+        <Button variant="outline" size="sm" onClick={() => setShowHistory((prev) => !prev)}>
+          <Clock className="h-4 w-4 mr-1" /> {showHistory ? "Ẩn lịch sử" : "Lịch sử"}
+        </Button>
       </header>
 
       <div className="grid grid-cols-3 gap-3">
@@ -128,6 +203,51 @@ export default function DictationPage() {
           </div>
         ))}
       </div>
+
+      {showHistory && history.length > 0 && (
+        <section className="rounded-2xl border border-border bg-card p-4 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-semibold">Lịch sử gần đây ({history.length})</h3>
+            <Button variant="ghost" size="sm" onClick={clearHistory}>
+              <X className="h-4 w-4 mr-1" /> Xoá hết
+            </Button>
+          </div>
+          <div className="space-y-2 max-h-60 overflow-y-auto">
+            {history
+              .slice()
+              .reverse()
+              .map((h) => (
+                <div
+                  key={h.id}
+                  className="flex items-center justify-between gap-2 rounded-lg border border-border p-2 hover:bg-muted/50 transition"
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate hanzi">{h.hanzi}</p>
+                    <p className="text-xs text-muted-foreground">{h.meaningVi}</p>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span
+                      className={cn(
+                        "rounded-full border px-2 py-0.5 text-xs font-medium",
+                        h.passed
+                          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                          : "border-red-200 bg-red-50 text-red-700",
+                      )}
+                    >
+                      {h.score}%
+                    </span>
+                    {h.revealed && (
+                      <span className="text-xs text-amber-600">Đã xem đáp án</span>
+                    )}
+                    <span className="text-xs text-muted-foreground">
+                      {new Date(h.timestamp).toLocaleTimeString("vi-VN")}
+                    </span>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </section>
+      )}
 
       <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-2">

@@ -9,6 +9,7 @@ import {
   RotateCcw,
   Square,
   Volume2,
+  VolumeX,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -26,6 +27,7 @@ type ListenResult = {
   transcript: string;
   score: number;
   ops: CharDiff[];
+  audioUrl?: string;
 };
 
 export default function ShadowingPage() {
@@ -33,7 +35,9 @@ export default function ShadowingPage() {
   const [active, setActive] = useState(0);
   const [results, setResults] = useState<Record<string, ListenResult>>({});
   const [thinking, setThinking] = useState(false);
+  const [playingUserAudio, setPlayingUserAudio] = useState<string | null>(null);
   const completedRef = useRef(false);
+  const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
 
   const passage = READING_PASSAGES[passageIndex];
   const sentence = passage.sentences[active] ?? "";
@@ -54,9 +58,10 @@ export default function ShadowingPage() {
         }
         const score = scorePercent(sentence, data.text);
         const diff = diffChars(sentence, data.text);
+        const audioUrl = URL.createObjectURL(file);
         setResults((prev) => ({
           ...prev,
-          [key]: { transcript: data.text!, score, ops: diff.ops },
+          [key]: { transcript: data.text!, score, ops: diff.ops, audioUrl },
         }));
       } catch {
         toast.error("Mất kết nối, thử lại nhé");
@@ -74,11 +79,27 @@ export default function ShadowingPage() {
   }, [recorder.error]);
 
   useEffect(() => {
-    return () => stopSpeaking();
+    return () => {
+      stopSpeaking();
+      Object.values(audioRefs.current).forEach((audio) => {
+        audio.pause();
+        audio.src = "";
+      });
+      audioRefs.current = {};
+    };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      Object.values(results).forEach((r) => {
+        if (r.audioUrl) URL.revokeObjectURL(r.audioUrl);
+      });
+    };
+  }, [results]);
+
   const totalDone = useMemo(
-    () => passage.sentences.filter((_, index) => results[`${passageIndex}-${index}`]).length,
+    () =>
+      passage.sentences.filter((_, index) => results[`${passageIndex}-${index}`]).length,
     [passage.sentences, passageIndex, results],
   );
 
@@ -108,6 +129,45 @@ export default function ShadowingPage() {
     }
     await recorder.start();
   }, [recorder, submit]);
+
+  const playUserAudio = useCallback(
+    (audioUrl: string, resultKey: string) => {
+      if (playingUserAudio === audioUrl) {
+        const audio = audioRefs.current[resultKey];
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+        setPlayingUserAudio(null);
+        return;
+      }
+      if (playingUserAudio) {
+        const prevKey = Object.keys(audioRefs.current).find(
+          (k) => audioRefs.current[k].src === playingUserAudio,
+        );
+        if (prevKey) {
+          const prevAudio = audioRefs.current[prevKey];
+          prevAudio.pause();
+          prevAudio.currentTime = 0;
+        }
+      }
+      let audio = audioRefs.current[resultKey];
+      if (!audio) {
+        audio = new Audio(audioUrl);
+        audioRefs.current[resultKey] = audio;
+        audio.onended = () => {
+          setPlayingUserAudio(null);
+        };
+      }
+      audio.currentTime = 0;
+      audio.play().catch(() => {
+        toast.error("Không thể phát lại bản ghi");
+        setPlayingUserAudio(null);
+      });
+      setPlayingUserAudio(audioUrl);
+    },
+    [playingUserAudio],
+  );
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
@@ -252,6 +312,23 @@ export default function ShadowingPage() {
                 Hệ thống nghe được:{" "}
                 <span className="hanzi text-sm text-foreground">{result.transcript}</span>
               </p>
+              {result.audioUrl && (
+                <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/50">
+                  <Button
+                    variant={playingUserAudio === result.audioUrl ? "secondary" : "outline"}
+                    size="sm"
+                    onClick={() => playUserAudio(result.audioUrl!, key)}
+                  >
+                    {playingUserAudio === result.audioUrl ? (
+                      <VolumeX className="h-4 w-4" />
+                    ) : (
+                      <Volume2 className="h-4 w-4" />
+                    )}
+                    {playingUserAudio === result.audioUrl ? "Đang phát..." : "Nghe lại bản ghi của bạn"}
+                  </Button>
+                  <span className="text-xs text-muted-foreground">So sánh với mẫu</span>
+                </div>
+              )}
               <CharDiffView ops={result.ops} />
             </div>
           )}

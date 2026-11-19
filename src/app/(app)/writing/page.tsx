@@ -83,9 +83,11 @@ export default function WritingPage() {
       const factory = factoryRef.current;
       writerRef.current?.cancelQuiz();
       container.innerHTML = "";
+      const isMobile = window.innerWidth < 640;
+      const canvasSize = isMobile ? 280 : 320;
       writerRef.current = factory.create(container, character, {
-        width: 280,
-        height: 280,
+        width: canvasSize,
+        height: canvasSize,
         padding: 12,
         showOutline: true,
         strokeAnimationSpeed: 1.2,
@@ -164,7 +166,7 @@ export default function WritingPage() {
           </div>
 
           <div className="flex min-h-[300px] items-center justify-center rounded-xl border border-dashed border-border bg-muted/20 p-3">
-            <div className="relative">
+            <div className="relative w-full max-w-xs">
               <div ref={containerRef} className="relative" />
               {status === "loading" && (
                 <div className="absolute inset-0 flex items-center justify-center bg-white/70">

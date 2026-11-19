@@ -5,11 +5,13 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   CheckCircle2,
+  Clock,
   Loader2,
   Mic,
   RotateCcw,
   Square,
   Volume2,
+  X,
   XCircle,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -32,25 +34,65 @@ type ReflexResponse = {
   phrase: { id: string; vietnamese: string; chinese: string; pinyin: string };
 };
 
+type HistoryItem = {
+  id: string;
+  phraseId: string;
+  vietnamese: string;
+  chinese: string;
+  pinyin: string;
+  transcript: string;
+  score: number;
+  matched: boolean;
+  timestamp: number;
+};
+
 const DIFFICULTY_LABEL: Record<number, string> = {
   1: "Dễ",
   2: "Trung bình",
   3: "Khó",
 };
 
+const STORAGE_KEY = "cc_reflex_history_v1";
+const MAX_HISTORY = 50;
+
+function loadHistory(): HistoryItem[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const data = localStorage.getItem(STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveHistory(history: HistoryItem[]) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-MAX_HISTORY)));
+  } catch {
+    // ignore
+  }
+}
+
 export default function ReflexPage() {
   const [order, setOrder] = useState(PHRASES);
   const [index, setIndex] = useState(0);
   const lesson = useSearchParams().get("lesson");
   useEffect(() => {
-    const index = PHRASES.findIndex(item => item.id === lesson);
+    const index = PHRASES.findIndex((item) => item.id === lesson);
     if (index >= 0) setIndex(index);
   }, [lesson]);
   const [result, setResult] = useState<ReflexResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState({ attempts: 0, correct: 0, totalScore: 0 });
+  const [history, setHistory] = useState<HistoryItem[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
 
   const phrase = order[index % order.length];
+
+  useEffect(() => {
+    setHistory(loadHistory());
+  }, []);
 
   const submit = useCallback(
     async (file: File) => {
@@ -74,13 +116,30 @@ export default function ReflexPage() {
           correct: prev.correct + (data.matched ? 1 : 0),
           totalScore: prev.totalScore + data.score,
         }));
+
+        const newItem: HistoryItem = {
+          id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+          phraseId: phrase.id,
+          vietnamese: phrase.vietnamese,
+          chinese: phrase.chinese,
+          pinyin: phrase.pinyin,
+          transcript: data.transcript,
+          score: data.score,
+          matched: data.matched,
+          timestamp: Date.now(),
+        };
+        setHistory((prev) => {
+          const next = [...prev, newItem].slice(-MAX_HISTORY);
+          saveHistory(next);
+          return next;
+        });
       } catch {
         toast.error("Mất kết nối, vui lòng thử lại");
       } finally {
         setLoading(false);
       }
     },
-    [phrase.id],
+    [phrase.id, phrase.vietnamese, phrase.chinese, phrase.pinyin],
   );
 
   const recorder = useRecorder(10, submit);
@@ -121,6 +180,13 @@ export default function ReflexPage() {
     setResult(null);
   }, []);
 
+  const clearHistory = useCallback(() => {
+    if (confirm("Xoá toàn bộ lịch sử luyện tập?")) {
+      setHistory([]);
+      saveHistory([]);
+    }
+  }, []);
+
   const average = useMemo(
     () =>
       stats.attempts === 0
@@ -133,17 +199,22 @@ export default function ReflexPage() {
     result && result.score >= PASS_THRESHOLD
       ? "text-emerald-700 bg-emerald-50 border-emerald-200"
       : result && result.score >= 50
-        ? "text-amber-700 bg-amber-50 border-amber-200"
-        : "text-red-700 bg-red-50 border-red-200";
+      ? "text-amber-700 bg-amber-50 border-amber-200"
+      : "text-red-700 bg-red-50 border-red-200";
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <header className="space-y-1">
-        <h1 className="text-2xl font-bold text-primary">Phản xạ giao tiếp</h1>
-        <p className="text-sm text-muted-foreground">
-          Đọc câu tiếng Việt, nói ngay bằng tiếng Trung. Groq Whisper sẽ chấm điểm
-          phát âm của bạn.
-        </p>
+      <header className="space-y-1 flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h1 className="text-2xl font-bold text-primary">Phản xạ giao tiếp</h1>
+          <p className="text-sm text-muted-foreground">
+            Đọc câu tiếng Việt, nói ngay bằng tiếng Trung. Groq Whisper sẽ chấm điểm
+            phát âm của bạn.
+          </p>
+        </div>
+        <Button variant="outline" size="sm" onClick={() => setShowHistory((prev) => !prev)}>
+          <Clock className="h-4 w-4 mr-1" /> {showHistory ? "Ẩn lịch sử" : "Lịch sử"}
+        </Button>
       </header>
 
       <div className="grid grid-cols-3 gap-3">
@@ -161,6 +232,48 @@ export default function ReflexPage() {
           </div>
         ))}
       </div>
+
+      {showHistory && history.length > 0 && (
+        <section className="rounded-2xl border border-border bg-card p-4 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-semibold">Lịch sử gần đây ({history.length})</h3>
+            <Button variant="ghost" size="sm" onClick={clearHistory}>
+              <X className="h-4 w-4 mr-1" /> Xoá hết
+            </Button>
+          </div>
+          <div className="space-y-2 max-h-60 overflow-y-auto">
+            {history
+              .slice()
+              .reverse()
+              .map((item) => (
+                <div
+                  key={item.id}
+                  className="flex items-center justify-between gap-2 rounded-lg border border-border p-2 hover:bg-muted/50 transition"
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate hanzi">{item.chinese}</p>
+                    <p className="text-xs text-muted-foreground">{item.vietnamese}</p>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span
+                      className={cn(
+                        "rounded-full border px-2 py-0.5 text-xs font-medium",
+                        item.matched
+                          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                          : "border-red-200 bg-red-50 text-red-700",
+                      )}
+                    >
+                      {item.score}%
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {new Date(item.timestamp).toLocaleTimeString("vi-VN")}
+                    </span>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </section>
+      )}
 
       <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -212,10 +325,10 @@ export default function ReflexPage() {
             {loading
               ? "Đang chấm điểm..."
               : recorder.isRecording
-                ? `Đang ghi âm… ${recorder.maxSeconds - recorder.seconds}s còn lại`
-                : recorder.isRequesting
-                  ? "Đang mở micro..."
-                  : "Bấm micro rồi nói, bấm lần nữa để dừng"}
+              ? `Đang ghi âm… ${recorder.maxSeconds - recorder.seconds}s còn lại`
+              : recorder.isRequesting
+              ? "Đang mở micro..."
+              : "Bấm micro rồi nói, bấm lần nữa để dừng"}
           </p>
         </div>
 
