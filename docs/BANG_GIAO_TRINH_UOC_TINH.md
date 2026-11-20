@@ -16,7 +16,7 @@ Số thực đếm từ dữ liệu HEAD. `target` lấy từ `roadmap.ts:20-29`
 | Cấp | Mục tiêu vocab | Thực vocab | Mục tiêu NP | Thực NP | Mục tiêu đọc | Thực đọc | Mục tiêu nói | Thực nói | Phù hợp bắt đầu | Phù hợp ôn đề | Sẵn sàng thi (đề mới) |
 |-----|---------------|------------|-------------|---------|--------------|----------|--------------|----------|-----------------|---------------|----------------------|
 | Nhập môn | 60 | 0* | 50 | 0* | 3 | 0* | 3 | 3 | Một phần | Không | Không |
-| HSK 1 | 150 | 153 | 200 | 88 | 10 | 15 | 12 | 12 | Một phần | Không | Không |
+| HSK 1 | 150 | 153 | 200 | 200 | 10 | 15 | 12 | 12 | Một phần | Không | Không |
 | HSK 2 | 300 | 246 | 200 | 203 | 15 | 16 | 15 | 24 | ĐẠT | Một phần | Không |
 | HSK 3 | 600 | 41 | 200 | 25 | 25 | 3 | 18 | 18 | Không | Không | Không |
 | HSK 4 | 1200 | 40 | 200 | 25 | 30 | 3 | 20 | 20 | Không | Không | Không |
@@ -73,7 +73,7 @@ Số thực đếm từ dữ liệu HEAD. `target` lấy từ `roadmap.ts:20-29`
 | 03 | Chữ Hán nhận diện/viết/bộ thủ/nét | chữ | 300 mới | 174 | 0 (không dữ liệu nét) | 300 | — | Chưa có dữ liệu nét/thứ tự nét |
 | 04 | Từ vựng mới + cộng dồn | mục | 500 mới / 500 cộng dồn | 150 | 153 (hskLevel 1) | 0 (vừa đủ official) | `vocab.ts` 153 mục HSK1 | Vừa đạt official 150; internal 500 thiếu 347 |
 | 05 | Flashcard/audio/ví dụ/Hán Việt | thẻ | 153 thẻ | — | 153 | 0 | `/vocab`, SM-2 | Âm Hán Việt chưa đối chiếu |
-| 06 | Điểm ngữ pháp + ví dụ + câu luyện + NT | điểm | 200 (internal) | — | 88 | 112 | `grammar-questions.ts` HSK1 = 88 (64 gốc + 24 mới g351–g374) | **Khoảng thiếu lớn:** cần +112 điểm đến 200 |
+| 06 | Điểm ngữ pháp + ví dụ + câu luyện + NT | điểm | 200 (internal) | — | 200 | 0 | `grammar-questions.ts` HSK1 = 200 (g1–g486, HSK1 = g1–g34 + g351–g486) | **ĐẠT** HSK 1 NP 200/200 |
 | 07 | Bài đọc giáo trình + văn bản + câu hỏi | bài | 12 | — | 15 (level 1) | 0 | `reading.ts` level 1 = 15 | Đủ số, chưa phân bài giáo trình vs luyện |
 | 08 | Bài nghe audio/clip/transcript/phút | phút | 30 | — | 0 (audio TTS chỉ) | 30 clip / 20–30h | `/dictation`, `/reflex` | Chưa đo phút audio độc nhất |
 | 09 | Dictation/Shadowing/Phản xạ | bài | — | — | 40 dictation, 80 reflex | Shadowing 0 | `/dictation`, `/reflex` | |
@@ -84,7 +84,7 @@ Số thực đếm từ dữ liệu HEAD. `target` lấy từ `roadmap.ts:20-29`
 | 14 | Lộ trình 7 ngày / 90 ngày / ôn / Học tiếp | kế hoạch | 1 lịch 7 ngày | — | 0 (bị chặn StudyPlan) | 1 | `/onboarding` | **BLOCKER staging StudyPlan** |
 | 15 | Game/thử thách/cộng đồng | hoạt động | XP, streak, huy hiệu | — | Một phần | Đa số | `/dashboard` | |
 
-**Kết luận HSK 1:** Đủ vocab official (153 ≥ 150). Không đủ NP (88/200), không đủ bài viết, không đủ đề mới, không đủ audio thật, StudyPlan bị chặn. **Không đủ để bắt đầu học đầy đủ HSK 1 theo chỉ tiêu nội bộ.**
+**Kết luận HSK 1:** Đủ vocab official (153 ≥ 150), **đủ NP (200/200 ĐẠT)**, đủ nói (12/12). Chưa đủ bài viết, đề mới, audio thật, StudyPlan bị chặn. **Không đủ để bắt đầu học đầy đủ HSK 1 theo chỉ tiêu nội bộ** (còn thiếu viết, đề, audio, StudyPlan).
 
 **Ước tính giờ công HSK 1 (phần thiếu):** NP +135 điểm × (soạn 0.25h + rà 0.1h + duyệt 0.1h) ≈ 60h; bài viết 12 × 0.5h = 6h; đề mới 3 × 1h = 3h; audio/tünstler 10h. Tổng sơ bộ ~80–100h. Phụ thuộc: chuyên gia duyệt NP, audio nét.
 
