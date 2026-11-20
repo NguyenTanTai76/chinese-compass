@@ -3,6 +3,7 @@ import { getIntroLesson, INTRO_LESSONS } from "../src/lib/content/intro-lessons"
 import { buildPeriodicTest } from "../src/lib/content/periodic-tests";
 import { LEVELS, MAX_SPEAKING_ERRORS, SCENARIOS, TURN_RESPONSE_SCHEMA } from "../src/lib/content/speaking";
 import { GRADED_READING } from "../src/lib/content/graded-reading";
+import { WRITING_PROMPTS } from "../src/lib/content/writing-prompts";
 
 test("intro sequence has unique IDs, audio, a valid answer and a completion criterion", () => {
   expect(INTRO_LESSONS.map(lesson => lesson.title)).toEqual([
@@ -65,4 +66,17 @@ test("Speaking scenarios have stable unique IDs and one opening question at each
     expect(scene.practice).toBeTruthy();
     expect(scene.keywords.length).toBeGreaterThan(0);
   }
+});
+
+test("writing prompts have unique IDs, instructions and checklists", () => {
+  const hsk1 = WRITING_PROMPTS.filter(p => p.level === "HSK 1");
+  expect(hsk1).toHaveLength(12);
+  expect(new Set(hsk1.map(p => p.id)).size).toBe(12);
+  for (const prompt of WRITING_PROMPTS) {
+    expect(prompt.id).toBeTruthy();
+    expect(prompt.instruction).toBeTruthy();
+    expect(prompt.checklist.length).toBeGreaterThan(0);
+  }
+  const allIds = new Set(WRITING_PROMPTS.map(p => p.id));
+  expect(allIds.size).toBe(WRITING_PROMPTS.length);
 });

@@ -23,6 +23,51 @@ export const WRITING_PROMPTS: WritingPrompt[] = [
     checklist: ["Ask what time it is", "Mention the meeting time", "Use a question mark"],
   },
   {
+    id: "hsk1-family", level: "HSK 1", title: "Giới thiệu gia đình",
+    instruction: "Viết 3–4 câu giới thiệu thành viên trong gia đình bạn. Nêu tên, mối quan hệ và một đặc điểm của mỗi người.",
+    checklist: ["Nêu ít nhất hai thành viên", "Gọi mối quan hệ đúng (mẹ, anh, em...)", "Mô tả một đặc điểm"],
+  },
+  {
+    id: "hsk1-daily-routine", level: "HSK 1", title: "Hoạt động hàng ngày",
+    instruction: "Viết về những việc bạn thường làm mỗi sáng. Nêu thời gian và hoạt động.",
+    checklist: ["Nêu thời gian (bảy giờ, tám giờ...)", "Nêu ít nhất hai hoạt động", "Dùng động từ đúng cách"],
+  },
+  {
+    id: "hsk1-food-drink", level: "HSK 1", title: "Thức ăn và đồ uống yêu thích",
+    instruction: "Viết về món ăn và đồ uống bạn thích hoặc không thích. Giải thích tại sao ngắn gọn.",
+    checklist: ["Nêu một món ăn thích", "Nêu một đồ uống thích", "Nêu lý do thích hoặc không thích"],
+  },
+  {
+    id: "hsk1-hobby", level: "HSK 1", title: "Sở thích",
+    instruction: "Viết về một hoạt động bạn thích làm vào rỗi. Nêu bạn làm khi nào và cùng ai.",
+    checklist: ["Nêu hoạt động sở thích", "Nêu thời gian làm", "Nêu người cùng làm"],
+  },
+  {
+    id: "hsk1-weather", level: "HSK 1", title: "Thời tiết hôm nay",
+    instruction: "Mô tả thời tiết hôm nay và nói bạn sẽ mặc gì hoặc đi đâu phù hợp.",
+    checklist: ["Mô tả thời tiết (nắng, mưa, lạnh...)", "Nêu hoạt động phù hợp", "Dùng câu đơn giản HSK 1"],
+  },
+  {
+    id: "hsk1-shopping", level: "HSK 1", title: "Mua sắm",
+    instruction: "Viết một ghi chú ngắn về vật phẩm bạn muốn mua. Nêu tên vật phẩm, màu sắc và giá cả.",
+    checklist: ["Nêu tên vật phẩm", "Nêu màu sắc", "Nêu giá hoặc \"đắt\" / \"rẻ\""],
+  },
+  {
+    id: "hsk1-location", level: "HSK 1", title: "Nơi bạn ở",
+    instruction: "Viết về nơi bạn sinh sống. Nêu thành phố, nước và một nơi bạn thích ở đó.",
+    checklist: ["Nêu thành phố hoặc quốc gia", "Nêu một địa điểm thích", "Dùng câu đơn, rõ ràng"],
+  },
+  {
+    id: "hsk1-nationality", level: "HSK 1", title: "Quốc gia và nghề nghiệp",
+    instruction: "Giới thiệu bản thân: tên, quốc gia, nghề nghiệp và một bằng ngôn ngữ bạn đang học.",
+    checklist: ["Nêu tên bản thân", "Nêu quốc gia và nghề", "Nêu ngôn ngữ đang học"],
+  },
+  {
+    id: "hsk1-friend", level: "HSK 1", title: "Bạn tốt",
+    instruction: "Viết về một người bạn. Nêu tên, nghề nghiệp và lý do bạn thích người đó.",
+    checklist: ["Nêu tên bạn", "Nêu nghề nghiệp", "Nêu lý do thích"],
+  },
+  {
     id: "hsk2-invitation", level: "HSK 2", title: "Rủ bạn đi ăn",
     instruction: "Viết 3–4 câu nhắn cho bạn. Rủ bạn đi ăn vào thứ Bảy, đề xuất giờ và nơi gặp rồi hỏi bạn có rảnh không.",
     checklist: ["Có lời mời, giờ và địa điểm", "Đặt thời gian trước động từ", "Có một câu hỏi dễ trả lời"],

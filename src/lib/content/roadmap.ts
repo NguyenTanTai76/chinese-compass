@@ -6,8 +6,8 @@ export type RoadmapLevel = {
   lessons: RoadmapItem[];
   review: RoadmapItem[];
   test: RoadmapItem[];
-  target: { vocab: number; grammar: number; reading: number; speaking: number };
-  actual: { vocab: number; grammar: number; reading: number; speaking: number };
+  target: { vocab: number; grammar: number; reading: number; speaking: number; writing: number };
+  actual: { vocab: number; grammar: number; reading: number; speaking: number; writing: number };
 };
 
 export type RoadmapItem = {
@@ -17,26 +17,26 @@ export type RoadmapItem = {
   level?: number;
 };
 
-const targets: Record<string, { vocab: number; grammar: number; reading: number; speaking: number }> = {
-  "Nhập môn": { vocab: 60, grammar: 50, reading: 3, speaking: 3 },
-  "HSK 1": { vocab: 150, grammar: 200, reading: 10, speaking: 12 },
-  "HSK 2": { vocab: 300, grammar: 200, reading: 15, speaking: 15 },
-  "HSK 3": { vocab: 600, grammar: 200, reading: 24, speaking: 18 },
-  "HSK 4": { vocab: 1200, grammar: 200, reading: 30, speaking: 20 },
-  "HSK 5": { vocab: 2500, grammar: 200, reading: 40, speaking: 22 },
-  "HSK 6": { vocab: 5000, grammar: 200, reading: 50, speaking: 24 },
-  "HSK 7–9": { vocab: 11000, grammar: 200, reading: 60, speaking: 30 },
+const targets: Record<string, { vocab: number; grammar: number; reading: number; speaking: number; writing: number }> = {
+  "Nhập môn": { vocab: 60, grammar: 50, reading: 3, speaking: 3, writing: 3 },
+  "HSK 1": { vocab: 150, grammar: 200, reading: 10, speaking: 12, writing: 12 },
+  "HSK 2": { vocab: 300, grammar: 200, reading: 15, speaking: 15, writing: 12 },
+  "HSK 3": { vocab: 600, grammar: 200, reading: 24, speaking: 18, writing: 10 },
+  "HSK 4": { vocab: 1200, grammar: 200, reading: 30, speaking: 20, writing: 10 },
+  "HSK 5": { vocab: 2500, grammar: 200, reading: 40, speaking: 22, writing: 8 },
+  "HSK 6": { vocab: 5000, grammar: 200, reading: 50, speaking: 24, writing: 8 },
+  "HSK 7–9": { vocab: 11000, grammar: 200, reading: 60, speaking: 30, writing: 6 },
 };
 
-const actual: Record<string, { vocab: number; grammar: number; reading: number; speaking: number }> = {
-  "Nhập môn": { vocab: 0, grammar: 0, reading: 0, speaking: 3 },
-  "HSK 1": { vocab: 153, grammar: 201, reading: 15, speaking: 11 },
-  "HSK 2": { vocab: 400, grammar: 203, reading: 16, speaking: 24 },
-  "HSK 3": { vocab: 467, grammar: 273, reading: 24, speaking: 18 },
-  "HSK 4": { vocab: 954, grammar: 200, reading: 30, speaking: 20 },
-  "HSK 5": { vocab: 1522, grammar: 36, reading: 5, speaking: 22 },
-  "HSK 6": { vocab: 1747, grammar: 25, reading: 3, speaking: 24 },
-  "HSK 7–9": { vocab: 5593, grammar: 62, reading: 7, speaking: 30 },
+const actual: Record<string, { vocab: number; grammar: number; reading: number; speaking: number; writing: number }> = {
+  "Nhập môn": { vocab: 0, grammar: 0, reading: 0, speaking: 3, writing: 0 },
+  "HSK 1": { vocab: 153, grammar: 201, reading: 15, speaking: 11, writing: 12 },
+  "HSK 2": { vocab: 400, grammar: 203, reading: 16, speaking: 24, writing: 1 },
+  "HSK 3": { vocab: 467, grammar: 273, reading: 24, speaking: 18, writing: 1 },
+  "HSK 4": { vocab: 954, grammar: 200, reading: 30, speaking: 20, writing: 1 },
+  "HSK 5": { vocab: 1522, grammar: 36, reading: 5, speaking: 22, writing: 1 },
+  "HSK 6": { vocab: 1747, grammar: 25, reading: 3, speaking: 24, writing: 1 },
+  "HSK 7–9": { vocab: 5593, grammar: 62, reading: 7, speaking: 30, writing: 1 },
 };
 
 export const ROADMAP: RoadmapLevel[] = [
@@ -82,6 +82,7 @@ export const ROADMAP: RoadmapLevel[] = [
       { title: "Nghe chép HSK 1", href: "/dictation", kind: "lesson" },
       { title: "Nói cùng AI HSK 1", href: "/speaking", kind: "lesson" },
       { title: "Luyện viết chữ HSK 1", href: "/writing", kind: "lesson", level: 1 },
+      { title: "Viết theo chủ đề HSK 1", href: "/writing-practice", kind: "lesson", level: 1 },
     ],
     review: [
       { title: "Ôn flashcard đến hạn HSK 1", href: "/vocab?hsk=1", kind: "review" },
