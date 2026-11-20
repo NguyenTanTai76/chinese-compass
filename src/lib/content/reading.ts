@@ -674,6 +674,226 @@ export const READING_PASSAGES: ReadingPassage[] = [
     },
   },
   {
+    "id": "hsk3-supermarket",
+    "title": "Mua sắm siêu thị",
+    "level": 3,
+    "sentences": [
+      "周末我去超市买东西。",
+      "超市里有蔬菜、水果、肉类和饮料。",
+      "苹果很甜，一斤五元。",
+      "我买了两公斤苹果和一瓶牛奶。",
+      "在收银台用手机付款，很快。"
+    ],
+    "wordCount": 68,
+    "topic": "Mua sắm",
+    "check": {
+      "prompt": "Tác giả mua gì ở siêu thị?",
+      "options": ["Táo và sữa", "Rau và thịt", "Nước ngọt và bánh"],
+      "answer": "Táo và sữa",
+      "explanation": "我买了两公斤苹果和一瓶牛奶 xác định mua táo và sữa."
+    },
+  },
+  {
+    "id": "hsk3-phone-call",
+    "title": "Gọi điện thoại",
+    "level": 3,
+    "sentences": [
+      "昨天下午我给朋友打电话。",
+      "他问我周末有没有空。",
+      "我说周六下午可以去公园。",
+      "他同意了，我们两点钟见。",
+      "挂断电话后我很开心。"
+    ],
+    "wordCount": 66,
+    "topic": "Giao tiếp",
+    "check": {
+      "prompt": "Hai người hẹn gặp nhau khi nào?",
+      "options": ["Thứ Bảy chiều", "Chủ Nhật sáng", "Thứ Bảy sáng"],
+      "answer": "Thứ Bảy chiều",
+      "explanation": "我说周六下午可以去公园 xác định Thứ Bảy chiều."
+    },
+  },
+  {
+    "id": "hsk3-weekend-plan",
+    "title": "Kế hoạch cuối tuần",
+    "level": 3,
+    "sentences": [
+      "这个周末我想回老家看看。",
+      "坐火车去需要六个小时。",
+      "爸爸妈妈很高兴，说会在车站接我。",
+      "我打算带一些水果给他们。",
+      "很久没有回家，想他们了。"
+    ],
+    "wordCount": 70,
+    "topic": "Gia đình",
+    "check": {
+      "prompt": "Tác giả đi về quê bằng phương tiện gì?",
+      "options": ["Máy bay", "Tàu hỏa", "Xe buýt"],
+      "answer": "Tàu hỏa",
+      "explanation": "坐火车去需要六个小时 xác định đi bằng tàu hỏa."
+    },
+  },
+  {
+    "id": "hsk3-chinese-food",
+    "title": "Món ăn Trung Quốc",
+    "level": 3,
+    "sentences": [
+      "中国菜很有名，种类很多。",
+      "北京烤鸭和四川火锅很受欢迎。",
+      "我喜欢吃饺子，尤其是冬天。",
+      "做饺子不难，面粉、肉和菜就可以。",
+      "全家一起包饺子，很热闹。"
+    ],
+    "wordCount": 72,
+    "topic": "Ẩm thực",
+    "check": {
+      "prompt": "Theo đoạn văn, món ăn nào được nhắc đến là phổ biến?",
+      "options": ["Bánh bao", "Bé京烤 vịt", "Mì Ý"],
+      "answer": "Bé京烤 vịt",
+      "explanation": "北京烤鸭和四川火锅很受欢迎 xác định Bắc Kinh cất vịt phổ biến."
+    },
+  },
+  {
+    "id": "hsk3-meet-friend",
+    "title": "Gặp bạn",
+    "level": 3,
+    "sentences": [
+      "昨天我在公园见到了老朋友。",
+      "他现在在一家公司做经理。",
+      "我们聊了很多，谈工作和生活。",
+      "他请我喝咖啡，聊了两个小时。",
+      "告别时我们约好下个月再见。"
+    ],
+    "wordCount": 68,
+    "topic": "Bạn bè",
+    "check": {
+      "prompt": "Bạn của tác giả làm nghề gì hiện tại?",
+      "options": ["Giảng viên", "Kinh doanh", "Quản lý"],
+      "answer": "Quản lý",
+      "explanation": "他现在在一家公司做经理 xác định bạn là quản lý."
+    },
+  },
+  {
+    "id": "hsk3-buy-clothes",
+    "title": "Mua quần áo",
+    "level": 3,
+    "sentences": [
+      "我去商场买一件外套。",
+      "这件蓝色外套很合适，价格不贵。",
+      "售货员说可以试穿一下。",
+      "我试穿后觉得很舒服，就买了。",
+      "付款时用了手机支付。"
+    ],
+    "wordCount": 66,
+    "topic": "Mua sắm",
+    "check": {
+      "prompt": "Tác giả mua áo loại gì?",
+      "options": ["Áo khoác màu xanh", "Áo thun màu đỏ", "Quần jeans"],
+      "answer": "Áo khoác màu xanh",
+      "explanation": "这件蓝色外套很合适 xác định mua áo khoác màu xanh."
+    },
+  },
+  {
+    "id": "hsk3-post-office",
+    "title": "Đi bưu điện",
+    "level": 3,
+    "sentences": [
+      "我想寄一个包裹给朋友。",
+      "在填单时需要写清楚地址和电话。",
+      "工作人员称重后说费用是二十元。",
+      "我买了邮票，把包裹交给他。",
+      "他说三天可以送到。"
+    ],
+    "wordCount": 68,
+    "topic": "Sinh hoạt",
+    "check": {
+      "prompt": "Phí gửi bưu kiện là bao nhiêu?",
+      "options": ["Mười元", "Hai mươi元", "Ba mươi元"],
+      "answer": "Hai mươi元",
+      "explanation": "工作人员称重后说费用是二十元 xác định phí hai mươi元."
+    },
+  },
+  {
+    "id": "hsk3-watch-movie",
+    "title": "Xem phim",
+    "level": 3,
+    "sentences": [
+      "周五晚上我和朋友去看电影。",
+      "这部电影是爱情片，很感人。",
+      "电影院里人很多，座位都坐满了。",
+      "看完后我们讨论剧情，觉得很好看。",
+      "出电影院时已经晚上十点了。"
+    ],
+    "wordCount": 72,
+    "topic": "Giải trí",
+    "check": {
+      "prompt": "Tác giả xem thể loại phim gì?",
+      "options": ["Hành động", "Tình cảm", "Kinh dị"],
+      "answer": "Tình cảm",
+      "explanation": "这部电影是爱情片 xác định là phim tình cảm."
+    },
+  },
+  {
+    "id": "hsk3-taxi",
+    "title": "Đi taxi",
+    "level": 3,
+    "sentences": [
+      "昨天下雨，我打了一辆车。",
+      "司机开得很快，十分钟就到了。",
+      "车费是二十五元，我给他三十元。",
+      "他找给我五元钱。",
+      "下次下雨我也想打车。"
+    ],
+    "wordCount": 64,
+    "topic": "Du lịch",
+    "check": {
+      "prompt": "Tác giả trả tiền taxi bao nhiêu?",
+      "options": ["Hai mươi元", "Ba mươi元", "Ba mươi lăm元"],
+      "answer": "Ba mươi元",
+      "explanation": "我给他三十元 xác định trả ba mươi元."
+    },
+  },
+  {
+    "id": "hsk3-birthday-party",
+    "title": "Tiệc sinh nhật",
+    "level": 3,
+    "sentences": [
+      "昨天是姐姐的生日，我们在家办了一个小派对。",
+      "我买了一个蛋糕，妈妈做了好多菜。",
+      "姐姐吹灯蜡烛，许了一个愿望。",
+      "大家一起唱生日歌，气氛很热闹。",
+      "姐姐很高兴，说这是最难忘的生日。"
+    ],
+    "wordCount": 74,
+    "topic": "Gia đình",
+    "check": {
+      "prompt": "Ai là sinh nhật nhân của tiệc?",
+      "options": ["Em gái", "Chị gái", "Bạn"],
+      "answer": "Chị gái",
+      "explanation": "昨天是姐姐的生日 xác định sinh nhật nhân là chị gái."
+    },
+  },
+  {
+    "id": "hsk3-learn-cook",
+    "title": "Học nấu ăn",
+    "level": 3,
+    "sentences": [
+      "我想学习做中国菜。",
+      "老师先教怎么切菜，再教怎么炒菜。",
+      "第一次做菜，我把盐放多了，菜太咸。",
+      "老师说不要急，慢慢来就会好。",
+      "现在我可以做两道菜了，很有成就感。"
+    ],
+    "wordCount": 70,
+    "topic": "Giáo dục",
+    "check": {
+      "prompt": "Lần đầu nấu ăn, tác giả đặt quá nhiều gì?",
+      "options": ["Đường", "Muối", "Nước tương"],
+      "answer": "Muối",
+      "explanation": "我把盐放多了 xác định đặt quá nhiều muối."
+    },
+  },
+  {
     "id": "hsk4-travel-plan",
     "title": "Kế hoạch du lịch",
     "level": 4,
@@ -832,6 +1052,446 @@ export const READING_PASSAGES: ReadingPassage[] = [
       "options": ["Học phí đắt", "Thiếu giao tiếp trực tiếp", "Không có giáo viên"],
       "answer": "Thiếu giao tiếp trực tiếp",
       "explanation": "但是，网上学习缺乏面对面的交流 xác định nhược điểm là thiếu giao tiếp mặt đối mặt."
+    },
+  },
+  {
+    "id": "hsk4-job-search",
+    "title": "Tìm việc làm",
+    "level": 4,
+    "sentences": [
+      "小王最近在找工作，他每天投递很多简历。",
+      "上周末他参加了一家公司的面试，表现得很好。",
+      "面试官询问他的工作经验和技能。",
+      "小王自信地回答，最后拿到了录用通知。",
+      "他很快就要开始新工作了。"
+    ],
+    "wordCount": 90,
+    "topic": "Công việc",
+    "check": {
+      "prompt": "Kết quả phỏng vấn của小王 là gì?",
+      "options": ["Bị từ chối", "Được nhận làm việc", "Chờ kết quả"],
+      "answer": "Được nhận làm việc",
+      "explanation": "最后拿到了录用通知 xác định đã được nhận công việc."
+    },
+  },
+  {
+    "id": "hsk4-healthy-living",
+    "title": "Sống khỏe mạnh",
+    "level": 4,
+    "sentences": [
+      "为了保持健康，很多人开始注重饮食和运动。",
+      "每天吃蔬菜和水果，少吃油腻的食物，对身体有好处。",
+      "坚持每天走一万步，可以增强体质。",
+      "充足的睡眠也非常重要，建议每天睡七到八个小时。",
+      "只有生活规律，才能精力充沛。"
+    ],
+    "wordCount": 92,
+    "topic": "Sức khỏe",
+    "check": {
+      "prompt": "Theo đoạn văn, mỗi ngày nên ngủ bao nhiêu giờ?",
+      "options": ["五到六 giờ", "七到八 giờ", "九到十 giờ"],
+      "answer": "七到八 giờ",
+      "explanation": "建议每天睡七到八个小时 xác định ngủ bảy đến tám giờ."
+    },
+  },
+  {
+    "id": "hsk4-city-life",
+    "title": "Cuộc sống đô thị",
+    "level": 4,
+    "sentences": [
+      "大城市生活节奏快，交通拥堵是常见现象。",
+      "很多人选择乘坐地铁上班，可以避开堵车。",
+      "城市里有很多购物中心和娱乐场所，生活很方便。",
+      "但是，生活压力大，人与人之间的交流变少了。",
+      "越来越多的人渴望回到安静的乡村生活。"
+    ],
+    "wordCount": 94,
+    "topic": "Sinh hoạt",
+    "check": {
+      "prompt": "Theo đoạn văn, nhược điểm của sống thành phố là gì?",
+      "options": ["Giao thông tắc", "Áp lực lớn, giao tiếp ít", "Không có trung tâm mua sắm"],
+      "answer": "Áp lực lớn, giao tiếp ít",
+      "explanation": "生活压力大，人与人之间的交流变少了 xác định nhược điểm."
+    },
+  },
+  {
+    "id": "hsk4-learning-chinese",
+    "title": "Học tiếng Trung",
+    "level": 4,
+    "sentences": [
+      "学习汉语不是一件容易的事，尤其是汉字。",
+      "很多外国人觉得汉字难写，也难记。",
+      "但是，只要每天坚持练习，进步就会很明显。",
+      "可以通过看电影、听歌曲和和中国人交流来提高。",
+      "兴趣是最好的老师，喜欢汉语就能学好。"
+    ],
+    "wordCount": 88,
+    "topic": "Giáo dục",
+    "check": {
+      "prompt": "Theo đoạn văn, cách nào không giúp提高 tiếng Trung?",
+      "options": ["Xem phim", "Nghe nhạc", "Chỉ học teoria"],
+      "answer": "Chỉ học teoria",
+      "explanation": "Can through xem phim, nghe nhạc và giao tiếp được đề cập; chỉ học lý thuyết không được nhắc."
+    },
+  },
+  {
+    "id": "hsk4-environment",
+    "title": "Bảo vệ môi trường",
+    "level": 4,
+    "sentences": [
+      "环境保护是每个人的责任。",
+      "我们可以从减少使用一次性塑料制品开始。",
+      "出门随身带购物袋，不使用塑料袋。",
+      "不用的时候记得关灯，节约用水。",
+      "只要大家都行动起来，地球会变得更美好。"
+    ],
+    "wordCount": 86,
+    "topic": "Môi trường",
+    "check": {
+      "prompt": "Theo đoạn văn, việc nào giúp bảo vệ môi trường?",
+      "options": ["Sử dụng túi nilon dùng một lần", "Mang túi mua sắm khi đi ngoài", "Bỏ rác vào đường"],
+      "answer": "Mang túi mua sắm khi đi ngoài",
+      "explanation": "出门随身带购物袋，不使用塑料袋 xác định mang túi mua sắm."
+    },
+  },
+  {
+    "id": "hsk4-family",
+    "title": "Gia đình",
+    "level": 4,
+    "sentences": [
+      "家是最温暖的地方，无论在哪里工作，都想回家。",
+      "父母一直支持孩子的梦想，鼓励他们勇敢追求。",
+      "周末全家人一起吃饭，分享一周的趣事。",
+      "虽然有时候会有意见分歧，但家人总是互相理解。",
+      "家庭的爱让人感到安心和幸福。"
+    ],
+    "wordCount": 90,
+    "topic": "Gia đình",
+    "check": {
+      "prompt": "Theo đoạn văn, điều gì khiến người ta cảm thấy an tâm?",
+      "options": ["Làm việc xa nhà", "Tình yêu của gia đình", "Có nhiều tiền"],
+      "answer": "Tình yêu của gia đình",
+      "explanation": "家庭的爱让人感到安心和幸福 xác định tình yêu gia đình."
+    },
+  },
+  {
+    "id": "hsk4-travel-experience",
+    "title": "Kinh nghiệm du lịch",
+    "level": 4,
+    "sentences": [
+      "暑假到了，很多人计划去旅游。",
+      "出发前要提前预订机票和酒店，这样更省钱。",
+      "旅游时要注意安全，保管好护照和财物。",
+      "尝试当地美食是旅行的一大乐趣。",
+      "旅行不仅能放松身心，还能开阔眼界。"
+    ],
+    "wordCount": 92,
+    "topic": "Du lịch",
+    "check": {
+      "prompt": "Theo đoạn văn, trước khi đi du lịch nên làm gì?",
+      "options": ["Đặt vé máy bay và khách sạn trước", "Mua nhiều đồ dùng", "Chuẩn bị áo hướng dẫn"],
+      "answer": "Đặt vé máy bay và khách sạn trước",
+      "explanation": "出发前要提前预订机票和酒店 xác định đặt trước."
+    },
+  },
+  {
+    "id": "hsk4-technology",
+    "title": "Công nghệ",
+    "level": 4,
+    "sentences": [
+      "科技的发展改变了我们的生活方式。",
+      "智能手机让人们随时随地都能上网。",
+      "网上购物、外卖配送让生活变得更加便利。",
+      "但是，过度使用电子产品会影响视力和睡眠。",
+      "我们应该合理使用科技，享受它带来的便利。"
+    ],
+    "wordCount": 88,
+    "topic": "Công nghệ",
+    "check": {
+      "prompt": "Theo đoạn văn, quá mức sử dụng điện tử gây ảnh hưởng gì?",
+      "options": ["Sức khỏe mắt và giấc ngủ", "Tính năng điện thoại", "Vận hành ứng dụng"],
+      "answer": "Sức khỏe mắt và giấc ngủ",
+      "explanation": "过度使用电子产品会影响视力和睡眠 xác định ảnh hưởng mắt và ngủ."
+    },
+  },
+  {
+    "id": "hsk4-work-pressure",
+    "title": "Áp lực công việc",
+    "level": 4,
+    "sentences": [
+      "现代职场竞争激烈，很多年轻人感到压力很大。",
+      "加班已经成为很多公司的常态。",
+      "长期处于高压状态下，容易产生焦虑情绪。",
+      "适当的休息和运动可以帮助缓解压力。",
+      "找到工作与生活的平衡，才能更长久地发展。"
+    ],
+    "wordCount": 90,
+    "topic": "Công việc",
+    "check": {
+      "prompt": "Theo đoạn văn, cách nào giúp giảm áp lực công việc?",
+      "options": ["Làm thêm giờ", "Nghỉ ngơi và tập thể dục thích độ", "Làm việc không nghỉ"],
+      "answer": "Nghỉ ngơi và tập thể dục thích độ",
+      "explanation": "适当的休息和运动可以帮助缓解压力 xác định cách giảm áp lực."
+    },
+  },
+  {
+    "id": "hsk4-shopping-habits",
+    "title": "Thói quen mua sắm",
+    "level": 4,
+    "sentences": [
+      "现在很多人喜欢网上购物，不再跑商场了。",
+      "网上购物不仅种类多，价格也往往更便宜。",
+      "但是，不能实物查看，有时候买到的东西不符合预期。",
+      "退货流程也比较麻烦，浪费时间。",
+      "理性消费，根据实际需求购买，才是明智之举。"
+    ],
+    "wordCount": 90,
+    "topic": "Mua sắm",
+    "check": {
+      "prompt": "Theo đoạn văn, nhược điểm của mua sắm online là gì?",
+      "options": ["Sản phẩm ít", "Không thể xem thực tế", "Giá thành đắt"],
+      "answer": "Không thể xem thực tế",
+      "explanation": "不能实物查看 xác định không thể xem sản phẩm thực tế."
+    },
+  },
+  {
+    "id": "hsk4-food-culture",
+    "title": "Văn hóa ẩm thực",
+    "level": 4,
+    "sentences": [
+      "中国饮食文化源远流长，各地区特色鲜明。",
+      "北方人喜欢吃面食，南方人则偏爱米饭。",
+      "茶文化也是中国人生活中不可或缺的一部分。",
+      "在餐桌上，尊重长辈是重要的礼仪。",
+      "通过美食，可以更好地了解一个地方的风俗习惯。"
+    ],
+    "wordCount": 88,
+    "topic": "Ẩm thực",
+    "check": {
+      "prompt": "Theo đoạn văn, người miền Bắc喜欢 ăn gì?",
+      "options": ["Cơm", "Mì", "Chè"],
+      "answer": "Mì",
+      "explanation": "北方人喜欢吃面食 xác định miền Bắc thích mì."
+    },
+  },
+  {
+    "id": "hsk4-transportation",
+    "title": "Giao thông",
+    "level": 4,
+    "sentences": [
+      "共享单车在城市里非常普遍，方便人们短途出行。",
+      "只需要用手机扫码，就可以解锁使用。",
+      "骑行不仅环保，还能锻炼身体。",
+      "但是，乱停放的单车也给城市管理带来麻烦。",
+      "希望大家遵守规则，文明骑行。"
+    ],
+    "wordCount": 90,
+    "topic": "Giao thông",
+    "check": {
+      "prompt": "Theo đoạn văn, vấn đề của xe đạp chia sẻ là gì?",
+      "options": ["Không thân thiện môi trường", "Đỗ xe không đúng quy định", "Không thể mở khóa"],
+      "answer": "Đỗ xe không đúng quy định",
+      "explanation": "乱停放的单车 xác định đỗ xe không đúng quy định."
+    },
+  },
+  {
+    "id": "hsk4-friendship",
+    "title": "Bạn bè",
+    "level": 4,
+    "sentences": [
+      "朋友在人生中扮演着重要的角色。",
+      "真正的朋友会在你困难时伸出援手。",
+      "平时多联系，多聊聊，感情会更深。",
+      "虽然大家都很忙，但抽出时间见面仍然很有意义。",
+      "友谊需要经营，才能长久。"
+    ],
+    "wordCount": 86,
+    "topic": "Bạn bè",
+    "check": {
+      "prompt": "Theo đoạn văn, điều gì làm tình bạn bền bỉ?",
+      "options": ["Không liên lạc", "Chăm sóc và giữ kết nối", "Chỉ gặp gỡ khi rảnh"],
+      "answer": "Chăm sóc và giữ kết nối",
+      "explanation": "友谊需要经营，才能长久 xác định cần chăm sóc."
+    },
+  },
+  {
+    "id": "hsk4-weather",
+    "title": "Thời tiết",
+    "level": 4,
+    "sentences": [
+      "春天天气温暖，万物复苏，适合出游。",
+      "夏天炎热，很多人喜欢去海边避暑。",
+      "秋天天气凉爽，是收获的季节。",
+      "冬天寒冷，下雪的地方景色很美。",
+      "每个季节都有自己的美丽，关键在于如何欣赏。"
+    ],
+    "wordCount": 84,
+    "topic": "Thời tiết",
+    "check": {
+      "prompt": "Theo đoạn văn, mùa nào là mùa thu hoạch?",
+      "options": ["Mùa Xuân", "Mùa Thu", "Mùa Đông"],
+      "answer": "Mùa Thu",
+      "explanation": "秋天天气凉爽，是收获的季节 xác định mùa Thu."
+    },
+  },
+  {
+    "id": "hsk4-hobby",
+    "title": "Sở thích",
+    "level": 4,
+    "sentences": [
+      "每个人都有自己的爱好，爱好能让生活更丰富。",
+      "有人喜欢读书，有人喜欢运动，也有人喜欢旅行。",
+      "培养一个爱好不仅能消磨时间，还能结识新朋友。",
+      "无论喜欢什么，只要能让自己快乐就好。",
+      "不要因为他人的目光而放弃自己的兴趣。"
+    ],
+    "wordCount": 86,
+    "topic": "Giải trí",
+    "check": {
+      "prompt": "Theo đoạn văn, sở thích mang lại gì ngoài giải trí?",
+      "options": ["Tiền bạc", "Bạn bè mới", "Công việc mới"],
+      "answer": "Bạn bè mới",
+      "explanation": "还能结识新朋友 xác định có thể gặp bạn mới."
+    },
+  },
+  {
+    "id": "hsk4-time-management",
+    "title": "Quản lý thời gian",
+    "level": 4,
+    "sentences": [
+      "时间是宝贵的，合理安排时间非常重要。",
+      "制定每日计划，把重要的事情放在前面。",
+      "拖延会导致任务堆积，压力增大。",
+      "学会拒绝不必要的社交，专注于自己的目标。",
+      "高效利用时间，才能实现人生价值。"
+    ],
+    "wordCount": 88,
+    "topic": "Sinh hoạt",
+    "check": {
+      "prompt": "Theo đoạn văn, hành động nào gây tải công việc dồn dập?",
+      "options": ["Lập kế hoạch hàng ngày", "Hoãn hoãn hãm", "Từ chối giao dịch không cần thiết"],
+      "answer": "Hoãn hoãn hãm",
+      "explanation": "拖延会导致任务堆积 xác định việc lười biếng."
+    },
+  },
+  {
+    "id": "hsk4-study-abroad",
+    "title": "Du học",
+    "level": 4,
+    "sentences": [
+      "越来越多的年轻人选择出国留学。",
+      "留学可以接触不同的文化，提高语言能力。",
+      "但是，在异国他乡生活，也会面临思乡和语言障碍。",
+      "提前做好准备，学习当地语言和风俗习惯。",
+      "留学经历将成为人生宝贵的财富。"
+    ],
+    "wordCount": 90,
+    "topic": "Giáo dục",
+    "check": {
+      "prompt": "Theo đoạn văn, thách thức của du học là gì?",
+      "options": ["Không có văn hóa", "Suoni nhà và rào cản ngôn ngữ", "Không cần chuẩn bị"],
+      "answer": "Suoni nhà và rào cản ngôn ngữ",
+      "explanation": "也会面临思乡和语言障碍 xác định thách thức là nhớ nhà và rào cản ngôn ngữ."
+    },
+  },
+  {
+    "id": "hsk4-internet-life",
+    "title": "Cuộc sống trên mạng",
+    "level": 4,
+    "sentences": [
+      "互联网已经深入我们生活的方方面面。",
+      "我们可以在网上阅读新闻、购物、社交。",
+      "网络信息传播速度快，但真伪难以辨别。",
+      "要学会分辨真假信息，不轻易相信谣言。",
+      "健康地使用互联网，才能受益匪浅。"
+    ],
+    "wordCount": 88,
+    "topic": "Công nghệ",
+    "check": {
+      "prompt": "Theo đoạn văn, thông tin trên mạng có điểm yếu gì?",
+      "options": ["Truyền tải chậm", "Khó phân biệt thật giả", "Không có tin tức"],
+      "answer": "Khó phân biệt thật giả",
+      "explanation": "真伪难以辨别 xác định khó phân biệt thật giả."
+    },
+  },
+  {
+    "id": "hsk4-weekend",
+    "title": "Cuối tuần",
+    "level": 4,
+    "sentences": [
+      "周末是人们放松自己的时间。",
+      "有人选择睡懒觉，有人喜欢外出运动。",
+      "和家人朋友一起聚餐，也是不错的选择。",
+      "阅读一本书，或者看一部电影，都能让心情放松。",
+      "充实的周末，让新一周的工作更有动力。"
+    ],
+    "wordCount": 84,
+    "topic": "Sinh hoạt",
+    "check": {
+      "prompt": "Theo đoạn văn, hoạt động nào không được nhắc đến?",
+      "options": ["Ngủ nướng", "Đọc sách", "Làm thêm giờ"],
+      "answer": "Làm thêm giờ",
+      "explanation": "Làm thêm giờ không được nhắc đến trong các hoạt động cuối tuần."
+    },
+  },
+  {
+    "id": "hsk4-gift",
+    "title": "Tặng quà",
+    "level": 4,
+    "sentences": [
+      "送礼是中国人重要的社交礼仪之一。",
+      "选择礼物时要考虑对方的喜好和文化禁忌。",
+      "例如，不宜送钟，因为“钟”与“终”谐音，寓意不吉。",
+      "精美的茶叶、水果或地方特产都是不错的选择。",
+      "用心挑选的礼物，能表达真诚的祝福。"
+    ],
+    "wordCount": 86,
+    "topic": "Giao tiếp",
+    "check": {
+      "prompt": "Theo đoạn văn, tại sao không nên tặng đồng hồ?",
+      "options": ["Giá quá đắt", "Phát âm giống chữ \"kết thúc\"", "Không đẹp"],
+      "answer": "Phát âm giống chữ \"kết thúc\"",
+      "explanation": "“钟”与“终”谐音 xác định phát âm giống chữ kết thúc."
+    },
+  },
+  {
+    "id": "hsk4-apology",
+    "title": "Xin lỗi",
+    "level": 4,
+    "sentences": [
+      "在人际交往中，难免会有冒犯他人的时候。",
+      "真诚地说“对不起”，是化解矛盾的第一步。",
+      "除了道歉，还应该弥补自己的错误。",
+      "原谅他人也是一种善良，能让关系更和谐。",
+      "学会道歉和原谅，才能维护良好的人际关系。"
+    ],
+    "wordCount": 88,
+    "topic": "Giao tiếp",
+    "check": {
+      "prompt": "Theo đoạn văn, bước đầu tiên để hóa giải mâu thuẫn là gì?",
+      "options": ["Bỏ qua vấn đề", "Thật lòng nói xin lỗi", "Trách bình người kia"],
+      "answer": "Thật lòng nói xin lỗi",
+      "explanation": "真诚地说“对不起”，是化解矛盾的第一步 xác định nói xin lỗi thật lòng."
+    },
+  },
+  {
+    "id": "hsk4-daily-routine",
+    "title": "Thói quen hàng ngày",
+    "level": 4,
+    "sentences": [
+      "每个人都有自己的作息时间，良好的作息有助于健康。",
+      "我通常七点起床，先喝一杯温水，然后吃早餐。",
+      "上午工作或学习，中午休息一小时。",
+      "下午继续完成任务，晚上六点左右下班或放学。",
+      "睡前阅读半小时，十点半左右入睡，保证充足睡眠。"
+    ],
+    "wordCount": 84,
+    "topic": "Sinh hoạt",
+    "check": {
+      "prompt": "Theo đoạn văn, tác giả thường bắt đầu ngày mới vào lúc mấy giờ?",
+      "options": ["Bảy giờ", "Sáu giờ", "Tám giờ"],
+      "answer": "Bảy giờ",
+      "explanation": "我通常七点起床 xác định bảy giờ."
     },
   },
   ...GRADED_READING,
