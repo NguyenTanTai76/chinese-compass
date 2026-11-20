@@ -132,3 +132,13 @@ model ProgressEvent {
   @@map("ProgressEvent")
   @@index([userId, sequence])
 }
+
+model StudyPlan {
+  userId    String   @map("user_id")
+  weekStart DateTime @db.Date @map("week_start")
+  plan      Json     @map("plan")
+  revision  String?
+
+  @@id([userId, weekStart])
+  @@map("StudyPlan")
+}

@@ -30,6 +30,7 @@ const NAV = [
   { href: "/shadowing", label: "Shadowing" },
   { href: "/progress-test", label: "Kiểm tra" },
   { href: "/hsk-mock", label: "Thi thử HSK" },
+  { href: "/roadmap", label: "Lộ trình HSK" },
 ];
 
 export function AppNav() {
