@@ -49,7 +49,7 @@ test("A/B isolation, switch in the same browser and reload from a clean browser"
 
   await page.goto("/vocab");
   await page.getByRole("button", { name: "Lật thẻ" }).click();
-  await page.getByRole("button", { name: "Tốt", exact: true }).click();
+  await page.getByRole("button", { name: "Tạm ổn" }).click();
 
   await page.goto("/reading");
   const terms = page.locator("p.hanzi button");
@@ -64,7 +64,7 @@ test("A/B isolation, switch in the same browser and reload from a clean browser"
 
   await page.goto("/progress-test");
   for (let index = 0; index < 20; index++) {
-    await page.locator("main section").getByRole("button").first().click();
+    await page.locator("main section").getByRole("button").filter({ hasNotText: /Nghe câu hỏi/ }).first().click();
     await page.getByRole("button", { name: index < 19 ? "Câu tiếp" : "Xem kết quả" }).click();
   }
   const scoreText = await page.getByText(/Đúng \d+\/20 câu/).textContent();
@@ -73,13 +73,13 @@ test("A/B isolation, switch in the same browser and reload from a clean browser"
   await expect.poll(async () => {
     const added = (await progress(page)).filter((event) => !before.has(event.id));
     return [...new Set(added.map((event) => event.kind))].sort();
-  }).toEqual(["save", "session", "xp"]);
+  }).toEqual(["review", "save", "session", "xp"]);
 
   const written = (await progress(page)).filter((event) => !before.has(event.id));
   const attempt = written.find((event) => event.kind === "session");
   expect(attempt).toMatchObject({
     kind: "session",
-    result: { type: "test", score, total: 20, examId: "periodic-hsk1-2-v1", examKind: "periodic" },
+    result: { type: "test", score, total: 20, examId: "periodic-hsk1-v3", examKind: "periodic" },
   });
   const replay = await page.request.post("/api/progress/sync", { data: { owner: ownerA, events: written } });
   expect(replay.ok()).toBeTruthy();
