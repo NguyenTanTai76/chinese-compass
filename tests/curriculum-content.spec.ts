@@ -80,3 +80,20 @@ test("writing prompts have unique IDs, instructions and checklists", () => {
   const allIds = new Set(WRITING_PROMPTS.map(p => p.id));
   expect(allIds.size).toBe(WRITING_PROMPTS.length);
 });
+
+test("dictation HSK 3 has 18 items, HSK 4 has 16 items, all with transcript and explanation", () => {
+  const { DICTATION_ITEMS } = require("../src/lib/content/dictation");
+  const hsk3 = DICTATION_ITEMS.filter(item => item.level === 3);
+  const hsk4 = DICTATION_ITEMS.filter(item => item.level === 4);
+  expect(hsk3).toHaveLength(18);
+  expect(hsk4).toHaveLength(16);
+  for (const item of [...hsk3, ...hsk4]) {
+    expect(item.id).toMatch(/^d\d+$/);
+    expect(item.hanzi.length).toBeGreaterThan(0);
+    expect(item.pinyin.length).toBeGreaterThan(0);
+    expect(item.meaningVi.length).toBeGreaterThan(0);
+    expect([3, 4]).toContain(item.level);
+  }
+  const allIds = new Set(DICTATION_ITEMS.map(item => item.id));
+  expect(allIds.size).toBe(DICTATION_ITEMS.length);
+});

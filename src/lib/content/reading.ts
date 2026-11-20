@@ -1784,5 +1784,766 @@ export const READING_PASSAGES: ReadingPassage[] = [
       "answer": "Phụ thuộc vào mỗi người",
       "explanation": "幸福的定义因人而异 khẳng định định nghĩa khác tùy theo mỗi người."
     }
-  }
+  },
+  {
+    "id": "hsk5-technology-reading",
+    "title": "Công nghệ thông tin",
+    "level": 5,
+    "sentences": [
+      "智能手机已经成为现代人不可或缺的工具。",
+      "人们可以用手机购物、付款、约车和社交。",
+      "但是，过度使用手机会影响注意力和睡眠质量。",
+      "专家建议每天限制屏幕使用时间，多与家人朋友交流。",
+      "科学使用科技产品，才能让生活更便利更健康。"
+    ],
+    "wordCount": 84,
+    "topic": "Công nghệ",
+    "check": {
+      "prompt": "Theo đoạn văn, điều gì sẽ bị ảnh hưởng nếu sử dụng điện thoại quá mức?",
+      "options": ["Tính năng của điện thoại", "Tập trung và ngủ ngon", "Giá của điện thoại"],
+      "answer": "Tập trung và ngủ ngon",
+      "explanation": "过度使用手机会影响注意力和睡眠质量 xác định ảnh hưởng tập trung và giấc ngủ."
+    },
+  },
+  {
+    "id": "hsk5-employment-reading",
+    "title": "Việc làm và việc nghiệp",
+    "level": 5,
+    "sentences": [
+      "大学毕业生在找工作时常常遇到困难。",
+      "一些大公司要求应聘者有工作经验，但应届生通常没有。",
+      "因此，很多学生在上学期间就参加实习积累经验。",
+      "实习不仅可以了解行业，还能增加就业机会。",
+      "找工作需要耐心，也要不断提升自己的能力。"
+    ],
+    "wordCount": 86,
+    "topic": "Công việc",
+    "check": {
+      "prompt": "Theo đoạn văn, tại sao sinh viên nên tham gia thực tập khi còn đang học?",
+      "options": ["Để không phải đi học", "Để tích lũy kinh nghiệm làm việc", "Để được lương cao"],
+      "answer": "Để tích lũy kinh nghiệm làm việc",
+      "explanation": "很多学生在上学期间就参加实习积累经验 xác định tham gia thực tập để tích lũy kinh nghiệm."
+    },
+  },
+  {
+    "id": "hsk5-family-reading",
+    "title": "Gia đình vàquant hệ",
+    "level": 5,
+    "sentences": [
+      "在中国文化中，孝顺父母是一种重要的美德。",
+      "很多年轻人工作后会常常回家陪伴父母。",
+      "节假日，全家人团聚吃饭，气氛非常热闹。",
+      "即使工作很忙，也要抽出时间打电话给父母。",
+      "家庭的温暖是人生最大的力量。"
+    ],
+    "wordCount": 82,
+    "topic": "Gia đình",
+    "check": {
+      "prompt": "Theo đoạn văn, hảo đạo với cha mẹ được xem là gì trong văn hóa Trung Quốc?",
+      "options": ["Một loại nhân cách xấu", "Một đức tính quan trọng", "Không cần thiết"],
+      "answer": "Một đức tính quan trọng",
+      "explanation": "孝顺父母是一种重要的美德 xác định hảo đạo là một đức tính quan trọng."
+    },
+  },
+  {
+    "id": "hsk5-transport-reading",
+    "title": "Giao thông thành phố",
+    "level": 5,
+    "sentences": [
+      "大城市的交通问题越来越严重，早晚高峰道路非常拥堵。",
+      "为了缓解交通压力，很多城市建设了地铁和轻轨。",
+      "乘坐公共交通不仅环保，还能节省时间。",
+      "政府鼓励市民绿色出行，减少私家车使用。",
+      "共享单车也为市民短途出行提供了便利。"
+    ],
+    "wordCount": 90,
+    "topic": "Giao thông",
+    "check": {
+      "prompt": "Theo đoạn văn, chính phủ khuyến khích dân dân làm gì để giảm áp lực giao thông?",
+      "options": ["Xe ô tô riêng", "Di chuyển màu xanh (công cộng, xe đạp chia sẻ)", "Đi taxi"],
+      "answer": "Di chuyển màu xanh (công cộng, xe đạp chia sẻ)",
+      "explanation": "政府鼓励市民绿色出行，减少私家车使用 xác định khuyến khích di chuyển bằng phương tiện công cộng."
+    },
+  },
+  {
+    "id": "hsk5-shopping-reading",
+    "title": "Thói quen tiêu dùng",
+    "level": 5,
+    "sentences": [
+      "双十一购物节是中国最大的网上购物活动之一。",
+      "很多商家会提前准备商品，吸引顾客下单。",
+      "消费者应该理性购物，不要盲目跟风消费。",
+      "买之前要比较价格，看清商品质量和售后服务。",
+      "适度消费才能避免不必要的经济压力。"
+    ],
+    "wordCount": 84,
+    "topic": "Mua sắm",
+    "check": {
+      "prompt": "Theo đoạn văn, người tiêu dùng nên làm gì trước khi mua hàng?",
+      "options": ["Mua ngay khi thấy giảm giá", "So sánh giá và xem chất lượng", "Mua theo xu hướng"],
+      "answer": "So sánh giá và xem chất lượng",
+      "explanation": "买之前要比较价格，看清商品质量和售后服务 xác định so sánh giá và kiểm tra chất lượng."
+    },
+  },
+  {
+    "id": "hsk5-language-reading",
+    "title": "Học ngôn ngữ",
+    "level": 5,
+    "sentences": [
+      "学习一门外国语言需要时间和耐心。",
+      "除了上课，还要多听、多说、多读、多写。",
+      "可以通过看电影、听歌曲和与外国人交流来提高。",
+      "不要害怕犯错，错误是学习进步的机会。",
+      "坚持每天练习，语言能力会逐渐提高。"
+    ],
+    "wordCount": 82,
+    "topic": "Giáo dục",
+    "check": {
+      "prompt": "Theo đoạn văn, khi học ngoại ngữ, học viên không nên làm gì?",
+      "options": ["Lắng nghe và nói nhiều", "Sợ phạm sai lầm", "Luyện tập mỗi ngày"],
+      "answer": "Sợ phạm sai lầm",
+      "explanation": "不要害怕犯错 khẳng định không nên sợ sai lầm, lỗi là cơ hội tiến bộ."
+    },
+  },
+  {
+    "id": "hsk5-festival-reading",
+    "title": "Lễ hội Trung thu",
+    "level": 5,
+    "sentences": [
+      "中秋节是中国传统的重要节日，每年农历八月十五。",
+      "家人会团聚在一起，吃月饼，赏月，讲古老的故事。",
+      "月饼象征团圆，有很多种馅料，比如豆沙和莲蓉。",
+      "除了中国，一些东南亚国家也过中秋节。",
+      "这个节日让人们感受到家庭的温暖和文化的魅力。"
+    ],
+    "wordCount": 84,
+    "topic": "Văn hóa",
+    "check": {
+      "prompt": "Theo đoạn văn, bánh trung thu tượng trưng cho điều gì?",
+      "options": ["Thành công", "Đội nhóm riun tập", "Sự giàu có"],
+      "answer": "Đội nhóm riun tập",
+      "explanation": "月饼象征团圆 xác định bánh trung thu tượng trưng sự reunited."
+    },
+  },
+  {
+    "id": "hsk5-city-reading",
+    "title": "Sống thành phố",
+    "level": 5,
+    "sentences": [
+      "越来越多的人喜欢住在大城市，因为那里有更多工作机会。",
+      "大城市的生活便利，有医院、学校和购物中心。",
+      "但是，生活成本高，空气污染和噪音也是问题。",
+      "有些人选择住在郊区，每天通勤上班。",
+      "选择住在哪里，取决于个人的需求和生活方式。"
+    ],
+    "wordCount": 84,
+    "topic": "Sinh hoạt",
+    "check": {
+      "prompt": "Theo đoạn văn, nhược điểm của sống thành phố lớn là gì?",
+      "options": ["Không có cơ sở hạ tầng", "Chi phí sống cao và ô nhiễm không khí", "Không có việc làm"],
+      "answer": "Chi phí sống cao và ô nhiễm không khí",
+      "explanation": "但是，生活成本高，空气污染和噪音也是问题 xác định nhược điểm."
+    },
+  },
+  {
+    "id": "hsk5-internet-reading",
+    "title": "Internet và cuộc sống",
+    "level": 5,
+    "sentences": [
+      "互联网改变了人们获取信息的方式。",
+      "现在很多人通过网络新闻了解时事，而不是看报纸。",
+      "网络信息传播速度快，但也有假消息。",
+      "我们要学会分辨真假信息，不要轻易相信谣言。",
+      "合理使用互联网，才能真正受益。"
+    ],
+    "wordCount": 80,
+    "topic": "Công nghệ",
+    "check": {
+      "prompt": "Theo đoạn văn, tin tức trên mạng có điểm yếu gì?",
+      "options": ["Truyền tải chậm", "Có thể có tin giả", "Không cập nhật"],
+      "answer": "Có thể có tin giả",
+      "explanation": "网络信息传播速度快，但也有假消息 xác định có thể có tin sai."
+    },
+  },
+  {
+    "id": "hsk5-study-reading",
+    "title": "Phương pháp học tập",
+    "level": 5,
+    "sentences": [
+      "高效的学习方法可以让人事半功倍。",
+      "制定计划，把大任务分解成小步骤，更容易完成。",
+      "学习时要专注，减少手机和其他干扰。",
+      "定期复习所学内容，可以加深记忆。",
+      "保持良好的作息，才能有充足的精力学习。"
+    ],
+    "wordCount": 80,
+    "topic": "Giáo dục",
+    "check": {
+      "prompt": "Theo đoạn văn, cách nào giúp học hiệu quả hơn?",
+      "options": ["Học nhiều giờ mà không nghỉ", "Lập kế hoạch và chia nhỏ nhiệm vụ", "Chỉ học trước ngày thi"],
+      "answer": "Lập kế hoạch và chia nhỏ nhiệm vụ",
+      "explanation": "制定计划，把大任务分解成小步骤，更容易完成 xác định lập kế hoạch và chia nhỏ."
+    },
+  },
+  {
+    "id": "hsk6-research-reading",
+    "title": "Nghiên cứu khoa học",
+    "level": 6,
+    "sentences": [
+      "科学研究需要严谨的态度和精确的数据。",
+      "研究者在得出结论之前，必须进行多次实验验证。",
+      "同行评审是保证学术质量的重要环节。",
+      "研究结果应该公开透明，方便其他学者复核。",
+      "科研诚信是学者应当遵守的基本原则。"
+    ],
+    "wordCount": 90,
+    "topic": "Học thuật",
+    "check": {
+      "prompt": "Theo đoạn văn, điều gì là yếu tố then chốt để đảm bảo chất lượng học thuật?",
+      "options": ["Xuất bản nhiều bài báo", "Đánh giá đồng nghiệp (peer review)", "Hỗ trợ kinh phí cao"],
+      "answer": "Đánh giá đồng nghiệp (peer review)",
+      "explanation": "同行评审是保证学术质量的重要环节 xác định đánh giá đồng nghiệp là yếu tố then chốt."
+    },
+  },
+  {
+    "id": "hsk6-economy-reading",
+    "title": "Kinh tế và phát triển",
+    "level": 6,
+    "sentences": [
+      "全球化促进了国家之间的贸易和交流。",
+      "跨国公司在发展中国家设立工厂，创造了就业机会。",
+      "但是，全球化也可能导致本地产业受到冲击。",
+      "政府需要制定政策，保护本地企业和劳动者。",
+      "在开放与保护之间找到平衡，是经济发展的关键。"
+    ],
+    "wordCount": 90,
+    "topic": "Kinh tế",
+    "check": {
+      "prompt": "Theo đoạn văn, toàn cầu hóa có thể gây ra vấn đề gì đối với ngành công nghiệp địa phương?",
+      "options": ["Tăng số lượng lao động", "Gây áp lực cạnh tranh ảnh hưởng ngành địa phương", "Tăng xuất khẩu"],
+      "answer": "Gây áp lực cạnh tranh ảnh hưởng ngành địa phương",
+      "explanation": "全球化也可能导致本地产业受到冲击 xác định toàn cầu hóa có thể gây áp lực cho ngành địa phương."
+    },
+  },
+  {
+    "id": "hsk6-aging-reading",
+    "title": "Đô thị hóa và dân số già",
+    "level": 6,
+    "sentences": [
+      "中国的人口老龄化问题越来越严重。",
+      "很多年轻人到大城市工作，留下老年人独自生活在农村。",
+      "政府需要加强农村医疗和养老服务建设。",
+      "子女也应该尽可能多陪伴年迈的父母。",
+      "构建老年友好型社会需要全社会共同努力。"
+    ],
+    "wordCount": 88,
+    "topic": "Xã hội",
+    "check": {
+      "prompt": "Theo đoạn văn, tại sao nhiều người lớn tuổi sống một mình ở nông thôn?",
+      "options": ["Con cái xuống thành phố làm việc", "Họ thích sống-alone", "Nông thôn có điều kiện y tế tốt"],
+      "answer": "Con cái xuống thành phố làm việc",
+      "explanation": "很多年轻人到大城市工作，留下老年人独自生活在农村 xác định con cái đi thành phố làm việc."
+    },
+  },
+  {
+    "id": "hsk6-education-reform-reading",
+    "title": "Cải cách giáo dục",
+    "level": 6,
+    "sentences": [
+      "近年来，中国教育改革注重培养学生的创新能力。",
+      "传统的应试教育越来越受到批评。",
+      "新的课程标准鼓励学生参与实践和探究。",
+      "教师的角色也从知识传授者变成学习引导者。",
+      "教育改革的目标是让学生更好地适应未来社会。"
+    ],
+    "wordCount": 88,
+    "topic": "Giáo dục",
+    "check": {
+      "prompt": "Theo đoạn văn, mục tiêu của cải cách giáo dục là gì?",
+      "options": ["Giúp học viên thi tốt hơn", "Học viên thích nghi tốt hơn với xã hội tương lai", "Giảm tải giảng viên"],
+      "answer": "Học viên thích nghi tốt hơn với xã hội tương lai",
+      "explanation": "教育改革的目标是让学生更好地适应未来社会 xác định mục tiêu là thích nghi với xã hội tương lai."
+    },
+  },
+  {
+    "id": "hsk6-medical-reading",
+    "title": "Y tế công cộng",
+    "level": 6,
+    "sentences": [
+      "公共卫生事件对社会产生深远影响。",
+      "疫情期间，人们要佩戴口罩，保持社交距离。",
+      "疫苗是预防传染病的有效手段。",
+      "政府应加强公共卫生体系建设，提高应急能力。",
+      "个人卫生习惯也是防控疾病的重要一环。"
+    ],
+    "wordCount": 86,
+    "topic": "Sức khỏe",
+    "check": {
+      "prompt": "Theo đoạn văn, gì là biện pháp phòng dịch hiệu quả?",
+      "options": ["Không đi ra ngoài", "Tiêm chủng", "Chỉ uống thuốc"],
+      "answer": "Tiêm chủng",
+      "explanation": "疫苗是预防传染病的有效手段 xác định tiêm chủng là biện pháp hiệu quả."
+    },
+  },
+  {
+    "id": "hsk6-art-reading",
+    "title": "Nghệ thuật và nghệ diễn",
+    "level": 6,
+    "sentences": [
+      "中国传统艺术包括书法、国画、京剧和剪纸等。",
+      "这些艺术形式承载着丰富的历史文化内涵。",
+      "现代年轻人对传统艺术的兴趣有所下降。",
+      "学校和社会应加强传统艺术的教育和推广。",
+      "保护非物质文化遗产，需要一代又一代人的传承。"
+    ],
+    "wordCount": 86,
+    "topic": "Văn hóa",
+    "check": {
+      "prompt": "Theo đoạn văn, điều gì cần được bảo tồn và truyền tải?",
+      "options": ["Công nghệ hiện đại", "Di sản văn hóa phi vật thể", "Kiến trúc Tây phương"],
+      "answer": "Di sản văn hóa phi vật thể",
+      "explanation": "保护非物质文化遗产，需要一代又一代人的传承 xác định cần bảo tồn di sản văn hóa phi vật thể."
+    },
+  },
+  {
+    "id": "hsk6-environment-reading",
+    "title": "Biến đổi khí hậu",
+    "level": 6,
+    "sentences": [
+      "气候变化已成为全球面临的严峻挑战。",
+      "极端天气现象，如洪涝和干旱，发生频率增加。",
+      "减少碳排放是应对气候变化的重要措施。",
+      "发展可再生能源，如太阳能和风能，可以降低对化石燃料的依赖。",
+      "每个人都可以从节能减排的小事做起。"
+    ],
+    "wordCount": 88,
+    "topic": "Môi trường",
+    "check": {
+      "prompt": "Theo đoạn văn, cách nào giúp giảm phụ thuộc nhiên liệu hóa thạch?",
+      "options": ["Sử dụng nhiều xe máy", "Phát triển năng lượng tái tạo (mặt trời, gió)", "Tăng sản xuất nhựa"],
+      "answer": "Phát triển năng lượng tái tạo (mặt trời, gió)",
+      "explanation": "发展可再生能源，如太阳能和风能，可以降低对化石燃料的依赖 xác định phát triển năng lượng tái tạo."
+    },
+  },
+  {
+    "id": "hsk6-psychology-reading",
+    "title": "Tâm lý và căng thẳng",
+    "level": 6,
+    "sentences": [
+      "现代生活节奏快，很多人感到压力和焦虑。",
+      "适度的压力可以激励人们进步，但过大的压力有害健康。",
+      "运动、冥想和与朋友交流可以帮助缓解压力。",
+      "必要时，应该寻求专业心理咨询师的帮助。",
+      "关注心理健康，才能拥有更高质量的生活。"
+    ],
+    "wordCount": 86,
+    "topic": "Sức khỏe",
+    "check": {
+      "prompt": "Theo đoạn văn, cách nào không giúp giảm căng thẳng?",
+      "options": ["Tập thể dục và thiền định", "Giữ kín tutti và không chia sẻ", "Hạn chế khi cần"],
+      "answer": "Giữ kín tutti và không chia sẻ",
+      "explanation": "运动、冥想和与朋友交流可以帮助缓解压力 khẳng định cần chia sẻ, không giữ kín."
+    },
+  },
+  {
+    "id": "hsk6-urban-reading",
+    "title": "Phát triển đô thị bền vững",
+    "level": 6,
+    "sentences": [
+      "可持续城市发展需要兼顾经济、社会和环境。",
+      "绿色建筑和公共交通可以减少能源消耗。",
+      "城市规划应保留足够的绿地和公共空间。",
+      "居民参与是城市治理的重要组成部分。",
+      "只有各方共同努力，城市才能宜居且有活力。"
+    ],
+    "wordCount": 86,
+    "topic": "Sinh hoạt",
+    "check": {
+      "prompt": "Theo đoạn văn, điều gì là thành phần quan trọng của quản trị thành phố?",
+      "options": ["Chỉ chính quyền quyết định một mình", "Công dân tham gia", "Xây dựng nhiều tòa nhà cao tầng"],
+      "answer": "Công dân tham gia",
+      "explanation": "居民参与是城市治理的重要组成部分 xác định công dân tham gia là thành phần quan trọng."
+    },
+  },
+  {
+    "id": "hsk6-international-reading",
+    "title": "Quan hệ quốc tế",
+    "level": 6,
+    "sentences": [
+      "国际合作在应对全球性挑战中显得尤为重要。",
+      "气候变化、流行病和网络安全等问题，没有一个国家能独自解决。",
+      "各国应加强对话与合作，寻求共同利益。",
+      "多边机构在协调国际事务中发挥重要作用。",
+      "在相互尊重的基础上合作，才能实现共赢。"
+    ],
+    "wordCount": 90,
+    "topic": "Quan hệ quốc tế",
+    "check": {
+      "prompt": "Theo đoạn văn, tại sao cần hợp tác quốc tế?",
+      "options": ["Mỗi quốc gia có thể giải quyết tất cả vấn đề", "Một số thách thức toàn cầu cần nhiều nước cùng giải quyết", "Để cạnh tranh giữa các nước"],
+      "answer": "Một số thách thức toàn cầu cần nhiều nước cùng giải quyết",
+      "explanation": "气候变化、流行病和网络安全等问题，没有一个国家能独自解决 xác định cần hợp tác quốc tế."
+    },
+  },
+  {
+    "id": "hsk7-ai-reading",
+    "title": "Trí tuệ nhân tạo và giáo dục",
+    "level": 7,
+    "sentences": [
+      "人工智能技术正在深刻改变教育领域。",
+      "智能辅导系统可以根据学生的进度提供个性化内容。",
+      "但是，AI无法完全取代教师的情感支持和引导作用。",
+      "未来的课堂应该是技术与教师协作的模式。",
+      "教育公平是技术应用需要特别关注的问题。"
+    ],
+    "wordCount": 84,
+    "topic": "Công nghệ",
+    "check": {
+      "prompt": "Theo đoạn văn, AI không thể thay thế hoàn toàn giáo viên vì lý do gì?",
+      "options": ["AI chạy chậm", "Không thể cung cấp hỗ trợ cảm xúc và hướng dẫn", "Chi phí quá cao"],
+      "answer": "Không thể cung cấp hỗ trợ cảm xúc và hướng dẫn",
+      "explanation": "AI无法完全取代教师的情感支持和引导作用 xác định AI không thể thay thế sự hỗ trợ cảm xúc của giáo viên."
+    },
+  },
+  {
+    "id": "hsk7-cross-culture-reading",
+    "title": "Giao tiếp văn hóa phân cấp",
+    "level": 7,
+    "sentences": [
+      "跨文化交流中，语言只是沟通的一部分。",
+      "肢体语言、社交距离和礼仪习惯在不同文化中差异很大。",
+      "缺乏文化意识容易导致误解甚至冲突。",
+      "了解目标文化的价值观和禁忌，有助于建立良好关系。",
+      "尊重和包容是成功跨文化交流的基础。"
+    ],
+    "wordCount": 86,
+    "topic": "Văn hóa",
+    "check": {
+      "prompt": "Theo đoạn văn, điều gì có thể gây ra hiểu lầm trong giao tiếp văn hóa phân cấp?",
+      "options": ["Chỉ nói nhiều ngôn ngữ", "Thiếu nhận thức về văn hóa", "Sử dụng công nghệ"],
+      "answer": "Thiếu nhận thức về văn hóa",
+      "explanation": "缺乏文化意识容易导致误解甚至冲突 xác định thiếu nhận thức văn hóa gây hiểu lầm."
+    },
+  },
+  {
+    "id": "hsk7-academic-integrity-reading",
+    "title": "Lòng trung thực học thuật",
+    "level": 7,
+    "sentences": [
+      "学术不端行为包括抄袭、伪造数据和重复发表。",
+      "这些行为不仅损害个人声誉，也破坏学术界的信任。",
+      "大学应建立完善的学术诚信教育体系。",
+      "期刊和出版社应加强论文的查重和审稿。",
+      "维护学术诚信，需要每个研究者自觉遵守规范。"
+    ],
+    "wordCount": 88,
+    "topic": "Học thuật",
+    "check": {
+      "prompt": "Theo đoạn văn, hành vi vi phạm đạo đức học thuật không bao gồm điều gì?",
+      "options": ["Trộm bài / sao chép", "Giả mạo dữ liệu", "Trích dẫn nguồn rõ ràng"],
+      "answer": "Trích dẫn nguồn rõ ràng",
+      "explanation": "学术不端行为包括抄袭、伪造数据和重复发表 khẳng định trích dẫn nguồn rõ ràng không phải là vi phạm."
+    },
+  },
+  {
+    "id": "hsk7-digital-privacy-reading",
+    "title": "Riêng tư số",
+    "level": 7,
+    "sentences": [
+      "数字时代，个人数据的收集和使用变得前所未有地普遍。",
+      "社交媒体、购物平台和移动应用都会收集用户信息。",
+      "数据泄露和滥用可能导致严重的隐私风险。",
+      "立法应平衡技术创新与个人隐私保护。",
+      "用户也应提高自我保护意识，谨慎分享个人信息。"
+    ],
+    "wordCount": 88,
+    "topic": "Công nghệ",
+    "check": {
+      "prompt": "Theo đoạn văn, ai cũng cần nâng cao ý thức tự bảo vệ?",
+      "options": ["Chỉ doanh nghiệp", "Người dùng", "Chỉ chính phủ"],
+      "answer": "Người dùng",
+      "explanation": "用户也应提高自我保护意识，谨慎分享个人信息 xác định người dùng cần tự bảo vệ."
+    },
+  },
+  {
+    "id": "hsk7-globalization-reading",
+    "title": "Toàn cầu hóa và bản địa",
+    "level": 7,
+    "sentences": [
+      "全球化使不同国家和地区之间的联系更加紧密。",
+      "文化交流促进了相互理解，但也带来了文化同质化的担忧。",
+      "一些地方传统文化面临消失的风险。",
+      "保护文化多样性，需要在全球化框架下寻找平衡点。",
+      "尊重不同文化的独特性，是构建和谐世界的前提。"
+    ],
+    "wordCount": 86,
+    "topic": "Xã hội",
+    "check": {
+      "prompt": "Theo đoạn văn, nguy cơ nào được nhắc đến về toàn cầu hóa?",
+      "options": ["Giảm giao thương", "Đồng nhất văn hóa (mất đi đặc trưng địa phương)", "Tăng chi phí du lịch"],
+      "answer": "Đồng nhất văn hóa (mất đi đặc trưng địa phương)",
+      "explanation": "一些地方传统文化面临消失的风险 xác định nguy cơ đồng nhất văn hóa."
+    },
+  },
+  {
+    "id": "hsk7-healthcare-reading",
+    "title": "Hệ thống y tế hiện đại",
+    "level": 7,
+    "sentences": [
+      "远程医疗利用互联网技术，让患者可以在线咨询医生。",
+      "这项技术对偏远地区和行动不便的患者尤其有帮助。",
+      "但是，远程诊断的准确性仍有待提高。",
+      "医生和患者需要建立信任关系，才能保证诊疗效果。",
+      "远程医疗是传统医疗的重要补充，而非替代。"
+    ],
+    "wordCount": 86,
+    "topic": "Sức khỏe",
+    "check": {
+      "prompt": "Theo đoạn văn, khám bệnh từ xa là gì đối với y tế truyền thống?",
+      "options": ["Thay thế hoàn toàn", "Một bổ trợ quan trọng", "Không cần thiết"],
+      "answer": "Một bổ trợ quan trọng",
+      "explanation": "远程医疗是传统医疗的重要补充，而非替代 xác định đây là sự bổ trợ, không phải thay thế."
+    },
+  },
+  {
+    "id": "hsk7-research-ethics-reading",
+    "title": "Đạo đức nghiên cứu",
+    "level": 7,
+    "sentences": [
+      "涉及人体或动物的实验，必须经过伦理委员会审批。",
+      "实验对象的自愿参与和知情同意是基本前提。",
+      "研究者应最大限度减少实验对实验对象的伤害。",
+      "实验数据应如实记录，不得随意修改。",
+      "遵循伦理规范，是科学研究的底线。"
+    ],
+    "wordCount": 88,
+    "topic": "Học thuật",
+    "check": {
+      "prompt": "Theo đoạn văn, điều kiện cơ bản nhất khi làm thí nghiệm với người hoặc động vật là gì?",
+      "options": ["Chi phí thấp", "Tham gia nguyện ý và đồng ý biết trước", "Thời gian ngắn"],
+      "answer": "Tham gia nguyện ý và đồng ý biết trước",
+      "explanation": "实验对象的自愿参与和知情同意是基本前提 xác định điều kiện cơ bản là nguyện ý và thông thuận."
+    },
+  },
+  {
+    "id": "hsk8-ai-ethics-reading",
+    "title": "Đạo đức AI",
+    "level": 8,
+    "sentences": [
+      "人工智能算法在招聘、贷款和司法领域得到广泛应用。",
+      "但是，算法可能存在偏见，导致不公平的结果。",
+      "透明度和可解释性是算法伦理的重要要求。",
+      "开发者应对算法的决策过程负责。",
+      "建立算法监管机制，保护公民的合法权益。"
+    ],
+    "wordCount": 88,
+    "topic": "Công nghệ",
+    "check": {
+      "prompt": "Theo đoạn văn, yêu cầu quan trọng của đạo đức thuật toán là gì?",
+      "options": ["Chạy nhanh", "Trong suốt và có thể giải thích", "Chi phí thấp"],
+      "answer": "Trong suốt và có thể giải thích",
+      "explanation": "透明度和可解释性是算法伦理的重要要求 xác định trong suốt và giải thích được."
+    },
+  },
+  {
+    "id": "hsk8-academic-publishing-reading",
+    "title": "Xuất bản học thuật",
+    "level": 8,
+    "sentences": [
+      "学术出版是研究成果传播的重要渠道。",
+      "开放获取使更多读者可以免费阅读学术文章。",
+      "但是，出版费用和审稿周期仍是挑战。",
+      "同行评审的公正性直接影响研究质量。",
+      "学术出版需要在传播速度与质量之间取得平衡。"
+    ],
+    "wordCount": 88,
+    "topic": "Học thuật",
+    "check": {
+      "prompt": "Theo đoạn văn, thách thức nào còn tồn tại trong xuất bản học thuật?",
+      "options": ["Không có độc giả", "Phí xuất bản và thời gian đánh giá dài", "Chỉ xuất bản tiếng Trung"],
+      "answer": "Phí xuất bản và thời gian đánh giá dài",
+      "explanation": "但是，出版费用和审稿周期仍是挑战 xác định thách thức là phí và thời gian."
+    },
+  },
+  {
+    "id": "hsk8-civil-society-reading",
+    "title": "Xã hội công dân",
+    "level": 8,
+    "sentences": [
+      "公民社会的发展需要法治保障和公民参与。",
+      "非政府组织在环境保护、教育和扶贫方面发挥重要作用。",
+      "政府与社会组织之间应建立合作伙伴关系。",
+      "透明的决策过程，能够增强公众的信任。",
+      "公民社会的成熟度，是衡量一个国家治理水平的重要指标。"
+    ],
+    "wordCount": 88,
+    "topic": "Xã hội",
+    "check": {
+      "prompt": "Theo đoạn văn, tổ chức phi chính phủ đóng vai trò gì?",
+      "options": ["Chỉ kinh doanh", "Trung trọng trong bảo vệ môi trường, giáo dục, giảm nghèo", "Chỉ hoạt động ở thành phố"],
+      "answer": "Trung trọng trong bảo vệ môi trường, giáo dục, giảm nghèo",
+      "explanation": "非政府组织在环境保护、教育和扶贫方面发挥重要作用 xác định vai trò của tổ chức phi chính phủ."
+    },
+  },
+  {
+    "id": "hsk8-digital-divide-reading",
+    "title": "Khoảng trắng số",
+    "level": 8,
+    "sentences": [
+      "数字鸿沟是指不同群体在获取信息技术方面的差距。",
+      "老年人、低收入群体和农村居民更容易受到影响。",
+      "政府应提供数字技能培训和公共接入设施。",
+      "企业也应设计更易于使用的产品和服务。",
+      "缩小数字鸿沟，有助于促进社会包容和公平。"
+    ],
+    "wordCount": 86,
+    "topic": "Công nghệ",
+    "check": {
+      "prompt": "Theo đoạn văn, nhóm nào dễ bị ảnh hưởng bởi khoảng trắng số nhất?",
+      "options": ["Doanh nhân trẻ tuổi", "Người già, nhóm thu nhập thấp và dân cư nông thôn", "Sinh viên đại học"],
+      "answer": "Người già, nhóm thu nhập thấp và dân cư nông thôn",
+      "explanation": "老年人、低收入群体和农村居民更容易受到影响 xác định nhóm dễ bị ảnh hưởng."
+    },
+  },
+  {
+    "id": "hsk8-urban-rural-reading",
+    "title": "Phát triển vùng nông thôn",
+    "level": 8,
+    "sentences": [
+      "乡村振兴是中国当前的重要发展战略。",
+      "改善农村基础设施，包括交通和网络，是首要任务。",
+      "发展特色农业和乡村旅游，可以增加农民收入。",
+      "吸引年轻人返乡创业，需要提供更多机会和平台。",
+      "城乡融合发展，是实现共同富裕的重要途径。"
+    ],
+    "wordCount": 88,
+    "topic": "Kinh tế",
+    "check": {
+      "prompt": "Theo đoạn văn, nhiệm vụ quan trọng nhất trong chiến lược phùng Hưng nông thôn là gì?",
+      "options": ["Xây dựng lại thành phố", "Cải thiện cơ sở hạ tầng nông thôn", "Di dân từ thành phố xuống nông thôn"],
+      "answer": "Cải thiện cơ sở hạ tầng nông thôn",
+      "explanation": "改善农村基础设施，包括交通和网络，是首要任务 xác định cải thiện cơ sở hạ tầng là nhiệm vụ đầu tiên."
+    },
+  },
+  {
+    "id": "hsk9-interdisciplinary-reading",
+    "title": "Nghiên cứu đa ngành",
+    "level": 9,
+    "sentences": [
+      "跨学科研究正在成为解决复杂问题的重要方法。",
+      "气候变化、公共卫生和人工智能等议题，需要多个学科共同参与。",
+      "不同学科的理论框架和研究方法，可以相互补充。",
+      "跨学科合作需要打破学术壁垒，建立共同语言。",
+      "未来的科研人员，应当具备多元的知识背景。"
+    ],
+    "wordCount": 88,
+    "topic": "Học thuật",
+    "check": {
+      "prompt": "Theo đoạn văn, nghiên cứu đa ngành cần làm gì để thành công?",
+      "options": ["Giữ masing ngành làm việc riêng", "Phá wall các rào cản học thuật, xây dựng ngôn ngữ chung", "Chỉ tập trung vào một lĩnh vực"],
+      "answer": "Phá壁 các rào cản học thuật, xây dựng ngôn ngữ chung",
+      "explanation": "跨学科合作需要打破学术壁垒，建立共同语言 xác định cần phá壁 rào cản và tạo ngôn ngữ chung."
+    },
+  },
+  {
+    "id": "hsk9-ai-society-reading",
+    "title": "AI và xã hội",
+    "level": 9,
+    "sentences": [
+      "人工智能对就业市场产生深远影响。",
+      "一些常规工作可能被自动化系统取代。",
+      "同时，AI也创造了新的职业和机会。",
+      "劳动者需要终身学习，不断更新技能。",
+      "政府应制定政策，支持劳动力转型和再就业。"
+    ],
+    "wordCount": 86,
+    "topic": "Công việc",
+    "check": {
+      "prompt": "Theo đoạn văn, người lao động cần làm gì để thích nghi với AI?",
+      "options": ["Không thay đổi gì", "Học tập suốt đời và cập nhật kỹ năng", "Chỉ làm công việc thủ công"],
+      "answer": "Học tập suốt đời và cập nhật kỹ năng",
+      "explanation": "劳动者需要终身学习，不断更新技能 xác định cần học tập suốt đời."
+    },
+  },
+  {
+    "id": "hsk9-cultural-identity-reading",
+    "title": "Định danh văn hóa",
+    "level": 9,
+    "sentences": [
+      "在全球化背景下，文化认同变得更加复杂。",
+      "移民和 diaspora 群体常常在多种文化之间寻找平衡。",
+      "语言是文化认同的重要标志之一。",
+      "保护少数民族语言和传统，有助于维护文化多样性。",
+      "在变化的世界中，保持文化根基，是每个人的责任。"
+    ],
+    "wordCount": 88,
+    "topic": "Xã hội",
+    "check": {
+      "prompt": "Theo đoạn văn, gì là dấu hiệu quan trọng của định danh văn hóa?",
+      "options": ["Kiến trúc hiện đại", "Ngôn ngữ", "Công nghệ"],
+      "answer": "Ngôn ngữ",
+      "explanation": "语言是文化认同的重要标志之一 xác định ngôn ngữ là dấu hiệu quan trọng."
+    },
+  },
+  {
+    "id": "hsk9-academic-freedom-reading",
+    "title": "Tự do nghiên cứu",
+    "level": 9,
+    "sentences": [
+      "学术自由是高校的核心价值观之一。",
+      "研究者应当能够独立选择研究课题和方法。",
+      "但是，学术自由不等于可以忽视伦理规范。",
+      "外部压力，无论来自政治还是商业，都不应影响研究独立性。",
+      "保护学术自由，需要制度保障和学者的自觉。"
+    ],
+    "wordCount": 88,
+    "topic": "Học thuật",
+    "check": {
+      "prompt": "Theo đoạn văn, tự do học thuật không có nghĩa là gì?",
+      "options": ["Chọn chủ đề nghiên cứu độc lập", "Bỏ qua quy tắc đạo đức", "Không bị áp lực bên ngoài"],
+      "answer": "Bỏ qua quy tắc đạo đức",
+      "explanation": "但是，学术自由不等于可以忽视伦理规范 xác định không được bỏ qua đạo đức."
+    },
+  },
+  {
+    "id": "hsk9-sustainable-development-reading",
+    "title": "Phát triển bền vững",
+    "level": 9,
+    "sentences": [
+      "可持续发展目标涵盖经济、社会和环境三个维度。",
+      "消除贫困、促进教育平等和应对气候变化，是核心任务。",
+      "政府、企业和个人都需要参与其中。",
+      "发展不应以牺牲环境为代价。",
+      "只有实现人与自然的和谐共生，发展才能长久。"
+    ],
+    "wordCount": 86,
+    "topic": "Môi trường",
+    "check": {
+      "prompt": "Theo đoạn văn, mục tiêu nào là核心 của phát triển bền vững?",
+      "options": ["Tăng trưởng GDP ngắn hạn", "Loại bỏ nghèo đói, giáo dục bình đẳng, xử lý biến đổi khí hậu", "Phát triển công nghiệp nặng"],
+      "answer": "Loại bỏ nghèo đói, giáo dục bình đẳng, xử lý biến đổi khí hậu",
+      "explanation": "消除贫困、促进教育平等和应对气候变化，是核心任务 xác định các mục tiêu cốt lõi."
+    },
+  },
+  {
+    "id": "hsk9-global-governance-reading",
+    "title": "Quản trị toàn cầu",
+    "level": 9,
+    "sentences": [
+      "全球治理面临着越来越多的非传统安全挑战。",
+      "网络安全、大流行病和跨国犯罪，都需要国际合作。",
+      "多边主义是应对全球挑战的重要途径。",
+      "改革国际组织，使其更具代表性和有效性，刻不容缓。",
+      "各国应摒弃零和思维，寻求共同安全。"
+    ],
+    "wordCount": 86,
+    "topic": "Quan hệ quốc tế",
+    "check": {
+      "prompt": "Theo đoạn văn, 접근 nào là quan trọng để đối mặt với thách thức toàn cầu?",
+      "options": ["Tư duy tổng hợp (zero-sum)", "Đã nhiều bên (multilateralism)", "Cô lập quốc gia"],
+      "answer": "Đã nhiều bên (multilateralism)",
+      "explanation": "多边主义是应对全球挑战的重要途径 xác định đaendu đã nhiều bên là cách tiếp cận quan trọng."
+    },
+  },
+];
 ];

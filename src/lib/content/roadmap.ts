@@ -34,9 +34,9 @@ const actual: Record<string, { vocab: number; grammar: number; reading: number; 
   "HSK 2": { vocab: 400, grammar: 203, reading: 16, speaking: 24, writing: 1 },
   "HSK 3": { vocab: 467, grammar: 273, reading: 24, speaking: 18, writing: 1 },
   "HSK 4": { vocab: 954, grammar: 200, reading: 30, speaking: 20, writing: 1 },
-  "HSK 5": { vocab: 1522, grammar: 36, reading: 5, speaking: 22, writing: 1 },
-  "HSK 6": { vocab: 1747, grammar: 25, reading: 3, speaking: 24, writing: 1 },
-  "HSK 7–9": { vocab: 5593, grammar: 62, reading: 7, speaking: 30, writing: 1 },
+  "HSK 5": { vocab: 1522, grammar: 36, reading: 15, speaking: 22, writing: 1 },
+  "HSK 6": { vocab: 1747, grammar: 25, reading: 12, speaking: 24, writing: 1 },
+  "HSK 7–9": { vocab: 5593, grammar: 62, reading: 25, speaking: 30, writing: 1 },
 };
 
 export const ROADMAP: RoadmapLevel[] = [
@@ -173,7 +173,7 @@ export const ROADMAP: RoadmapLevel[] = [
     lessons: [
       { title: "Từ vựng HSK 5 (1522 mục)", href: "/vocab?hsk=5", kind: "lesson", level: 5 },
       { title: "Ngữ pháp cấp 5 (36 câu)", href: "/grammar", kind: "lesson", level: 5 },
-      { title: "Đọc hiểu cấp 5 (5 bài)", href: "/reading?level=5", kind: "lesson", level: 5 },
+      { title: "Đọc hiểu cấp 5 (15 bài)", href: "/reading?level=5", kind: "lesson", level: 5 },
       { title: "Nói cùng AI HSK 5 (22 tình huống)", href: "/speaking", kind: "lesson" },
     ],
     review: [
@@ -193,7 +193,7 @@ export const ROADMAP: RoadmapLevel[] = [
     lessons: [
       { title: "Từ vựng HSK 6 (1747 mục)", href: "/vocab?hsk=6", kind: "lesson", level: 6 },
       { title: "Ngữ pháp cấp 6 (25 câu)", href: "/grammar", kind: "lesson", level: 6 },
-      { title: "Đọc hiểu cấp 6 (3 bài)", href: "/reading?level=6", kind: "lesson", level: 6 },
+      { title: "Đọc hiểu cấp 6 (12 bài)", href: "/reading?level=6", kind: "lesson", level: 6 },
       { title: "Nói cùng AI HSK 6 (24 tình huống)", href: "/speaking", kind: "lesson" },
     ],
     review: [
@@ -213,7 +213,7 @@ export const ROADMAP: RoadmapLevel[] = [
     lessons: [
       { title: "Từ vựng HSK 7–9 (5593 mục)", href: "/vocab?hsk=7", kind: "lesson", level: 7 },
       { title: "Ngữ pháp cấp 7–9 (62 câu)", href: "/grammar", kind: "lesson", level: 7 },
-      { title: "Đọc hiểu cấp 7–9 (7 bài)", href: "/reading?level=7", kind: "lesson", level: 7 },
+      { title: "Đọc hiểu cấp 7–9 (25 bài)", href: "/reading?level=7", kind: "lesson", level: 7 },
       { title: "Nói cùng AI HSK 7–9 (30 tình huống)", href: "/speaking", kind: "lesson" },
     ],
     review: [
