@@ -129,10 +129,14 @@ export const ROADMAP: RoadmapLevel[] = [
       { title: "Từ vựng HSK 3 (467 mục)", href: "/vocab?hsk=3", kind: "lesson", level: 3 },
       { title: "Ngữ pháp cấp 3 (54 câu)", href: "/grammar", kind: "lesson", level: 3 },
       { title: "Đọc hiểu cấp 3 (3 bài)", href: "/reading?level=3", kind: "lesson", level: 3 },
+      { title: "Nghe chép HSK 3 (18 câu)", href: "/dictation", kind: "lesson" },
+      { title: "Viết HSK 3", href: "/writing", kind: "lesson", level: 3 },
       { title: "Nói cùng AI HSK 3 (18 tình huống)", href: "/speaking", kind: "lesson" },
     ],
     review: [
       { title: "Ôn flashcard HSK 3", href: "/vocab?hsk=3", kind: "review" },
+      { title: "Lại nghe chép HSK 3", href: "/dictation", kind: "review" },
+      { title: "Lại ngữ pháp cấp 3", href: "/grammar", kind: "review" },
     ],
     test: [
       { title: "Thi thử HSK 3 (30 câu)", href: "/hsk-mock", kind: "test" },
