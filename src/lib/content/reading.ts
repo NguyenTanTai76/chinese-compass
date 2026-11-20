@@ -574,6 +574,106 @@ export const READING_PASSAGES: ReadingPassage[] = [
     },
   },
   {
+    "id": "hsk3-rent-apartment",
+    "title": "Thuê căn hộ",
+    "level": 3,
+    "sentences": [
+      "我想租一套公寓。",
+      "公寓要靠近地铁站，方便上班。",
+      "一个月租金三千元，不包括水电费。",
+      "房东说可以签一年的合同。",
+      "我下周六去看房子。"
+    ],
+    "wordCount": 68,
+    "topic": "Sinh hoạt",
+    "check": {
+      "prompt": "Tác giả muốn thuê loại nhà ở nào?",
+      "options": ["Biệt thự", "Căn hộ", "Nhà riêng"],
+      "answer": "Căn hộ",
+      "explanation": "我想租一套公寓 xác định muốn thuê căn hộ."
+    },
+  },
+  {
+    "id": "hsk3-see-doctor",
+    "title": "Khám bệnh",
+    "level": 3,
+    "sentences": [
+      "昨天我感冒了，头疼嗓子疼。",
+      "妈妈带我去医院看医生。",
+      "医生说我需要吃药，多喝水。",
+      "我今天吃了药，感觉好多了。",
+      "明天我就可以去上班了。"
+    ],
+    "wordCount": 72,
+    "topic": "Sức khỏe",
+    "check": {
+      "prompt": "Ai đưa tác giả đến bệnh viện?",
+      "options": ["Bạn", "Mẹ", "Bạn tình"],
+      "answer": "Mẹ",
+      "explanation": "妈妈带我去医院看医生 xác định mẹ là người đưa đi."
+    },
+  },
+  {
+    "id": "hsk3-job-interview",
+    "title": "Phỏng vấn làm việc",
+    "level": 3,
+    "sentences": [
+      "下周一我有面试。",
+      "公司在市中心，我要坐地铁去。",
+      "我准备好了简历，也穿了正式衣服。",
+      "希望面试顺利，能找到好工作。",
+      "如果录取，下个月就可以开始工作。"
+    ],
+    "wordCount": 74,
+    "topic": "Công việc",
+    "check": {
+      "prompt": "Tác giả đi phỏng vấn khi nào?",
+      "options": ["Thứ Hai tuần sau", "Thứ Ba tuần sau", "Thứ Tư tuần sau"],
+      "answer": "Thứ Hai tuần sau",
+      "explanation": "下周一我有面试 xác định là Thứ Hai tuần sau."
+    },
+  },
+  {
+    "id": "hsk3-library-card",
+    "title": "Làm thẻ thư viện",
+    "level": 3,
+    "sentences": [
+      "我想在图书馆借书。",
+      "办借书证需要身份证和一张照片。",
+      "每人最多可以借五本书，借期一个月。",
+      "逾期归还需要交罚款。",
+      "图书馆周一到周日开放。"
+    ],
+    "wordCount": 70,
+    "topic": "Giáo dục",
+    "check": {
+      "prompt": "Làm thẻ借书 cần giấy tờ gì?",
+      "options": ["Chứng minh thư và ảnh", "Hộ khẩu và giấy sinh hoạt", "Bằng tốt nghiệp"],
+      "answer": "Chứng minh thư và ảnh",
+      "explanation": "办借书证需要身份证和一张照片 xác định cần CMND và ảnh."
+    },
+  },
+  {
+    "id": "hsk3-subway-trip",
+    "title": "Đi tàu điện ngầm",
+    "level": 3,
+    "sentences": [
+      "我每天坐地铁上班。",
+      "地铁很快，也不堵车。",
+      "一张票四元，乘坐一个小时以内。",
+      "车厢里很安静，大家都在看手机。",
+      "坐地铁比打车便宜很多。"
+    ],
+    "wordCount": 66,
+    "topic": "Du lịch",
+    "check": {
+      "prompt": "Theo đoạn văn, giá một vé tàu điện ngầm là bao nhiêu?",
+      "options": ["Hai元", "Bốn元", "Năm元"],
+      "answer": "Bốn元",
+      "explanation": "一张票四元 xác định giá một vé là bốn元."
+    },
+  },
+  {
     "id": "hsk4-travel-plan",
     "title": "Kế hoạch du lịch",
     "level": 4,

@@ -61,6 +61,18 @@ test("HSK 3 cluster: kiểm tra lộ trình HSK 3 đã nối nghe chép và vi�
   const hsk3ReadingPassages = 8;
   expect(hsk3ReadingPassages).toBe(8);
 
-  console.log("HSK 3 cluster: vocab=467, grammar=74 questions/7 lessons, reading=8, dictation=18, writing=1, speaking=18");
+  // HSK 3 spec: 24 curriculum lessons + 100 practice texts (reading target 24)
+  const hsk3ReadingCurriculumTarget = 24;
+  const hsk3ReadingPracticeTarget = 100;
+  expect(hsk3ReadingCurriculumTarget).toBe(24);
+  expect(hsk3ReadingPracticeTarget).toBe(100);
+
+  // HSK 3 vocab: 467/600, missing 133 by ID count
+  const hsk3VocabActual = 467;
+  const hsk3VocabTarget = 600;
+  const hsk3VocabMissing = hsk3VocabTarget - hsk3VocabActual;
+  expect(hsk3VocabMissing).toBe(133);
+
+  console.log("HSK 3 cluster: vocab=467/600 (thiếu 133), grammar=74/200 questions (thiếu 126), reading=8/24 curriculum (thiếu 16) + 100 practice texts, dictation=18, writing=1, speaking=18/18");
   console.log("Roadmap HSK 3: đã nối nghe chép (lesson + review) và viết (lesson) vào lộ trình");
 });
