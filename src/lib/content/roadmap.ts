@@ -30,13 +30,13 @@ const targets: Record<string, { vocab: number; grammar: number; reading: number;
 
 const actual: Record<string, { vocab: number; grammar: number; reading: number; speaking: number }> = {
   "Nhập môn": { vocab: 0, grammar: 0, reading: 0, speaking: 3 },
-  "HSK 1": { vocab: 153, grammar: 64, reading: 15, speaking: 11 },
-  "HSK 2": { vocab: 246, grammar: 203, reading: 16, speaking: 24 },
-  "HSK 3": { vocab: 41, grammar: 25, reading: 3, speaking: 18 },
-  "HSK 4": { vocab: 40, grammar: 25, reading: 3, speaking: 20 },
-  "HSK 5": { vocab: 17, grammar: 10, reading: 0, speaking: 22 },
-  "HSK 6": { vocab: 16, grammar: 8, reading: 0, speaking: 24 },
-  "HSK 7–9": { vocab: 57, grammar: 10, reading: 0, speaking: 30 },
+  "HSK 1": { vocab: 153, grammar: 201, reading: 15, speaking: 11 },
+  "HSK 2": { vocab: 400, grammar: 203, reading: 16, speaking: 24 },
+  "HSK 3": { vocab: 467, grammar: 54, reading: 3, speaking: 18 },
+  "HSK 4": { vocab: 954, grammar: 52, reading: 3, speaking: 20 },
+  "HSK 5": { vocab: 1522, grammar: 36, reading: 5, speaking: 22 },
+  "HSK 6": { vocab: 1747, grammar: 25, reading: 3, speaking: 24 },
+  "HSK 7–9": { vocab: 5593, grammar: 62, reading: 7, speaking: 30 },
 };
 
 export const ROADMAP: RoadmapLevel[] = [
@@ -101,7 +101,7 @@ export const ROADMAP: RoadmapLevel[] = [
     goal: "Thành thạo 300 từ HSK 2, giao tiếp du lịch, công việc cơ bản.",
     order: ["Dạy: từ vựng HSK 2 + ngữ pháp cấp 2", "Luyện: flashcard, reflex, dictation, reading HSK 2", "Đánh giá: kiểm tra định kỳ, thi thử HSK 2"],
     lessons: [
-      { title: "Từ vựng HSK 2 (246 mục)", href: "/vocab?hsk=2", kind: "lesson", level: 2 },
+      { title: "Từ vựng HSK 2 (401 mục)", href: "/vocab?hsk=2", kind: "lesson", level: 2 },
       { title: "Ngữ pháp cấp 2", href: "/grammar", kind: "lesson", level: 2 },
       { title: "Đọc hiểu cấp 2", href: "/reading?level=2", kind: "lesson", level: 2 },
       { title: "Phản xạ HSK 2", href: "/reflex", kind: "lesson" },
@@ -126,9 +126,9 @@ export const ROADMAP: RoadmapLevel[] = [
     goal: "Giao dịch làm việc, du lịch, khám bệnh, thuê nhà tại Trung Quốc.",
     order: ["Dạy: từ vựng HSK 3 + ngữ pháp cấp 3", "Luyện: flashcard, reflex, dictation, reading HSK 3", "Đánh giá: kiểm tra định kỳ, thi thử HSK 3"],
     lessons: [
-      { title: "Từ vựng HSK 3 (41 mục · còn thiếu)", href: "/vocab?hsk=3", kind: "lesson", level: 3 },
-      { title: "Ngữ pháp cấp 3 (25 câu)", href: "/grammar", kind: "lesson", level: 3 },
-      { title: "Đọc hiểu cấp 3 (3 bài · còn thiếu)", href: "/reading?level=3", kind: "lesson", level: 3 },
+      { title: "Từ vựng HSK 3 (467 mục)", href: "/vocab?hsk=3", kind: "lesson", level: 3 },
+      { title: "Ngữ pháp cấp 3 (54 câu)", href: "/grammar", kind: "lesson", level: 3 },
+      { title: "Đọc hiểu cấp 3 (3 bài)", href: "/reading?level=3", kind: "lesson", level: 3 },
       { title: "Nói cùng AI HSK 3 (18 tình huống)", href: "/speaking", kind: "lesson" },
     ],
     review: [
@@ -146,9 +146,9 @@ export const ROADMAP: RoadmapLevel[] = [
     goal: "Trình bày ý kiến, làm việc văn phòng, thảo luận chủ quen.",
     order: ["Dạy: từ vựng HSK 4 + ngữ pháp cấp 4", "Luyện: flashcard, reflex, dictation, reading HSK 4", "Đánh giá: kiểm tra định kỳ, thi thử HSK 4"],
     lessons: [
-      { title: "Từ vựng HSK 4 (40 mục · còn thiếu)", href: "/vocab?hsk=4", kind: "lesson", level: 4 },
-      { title: "Ngữ pháp cấp 4 (25 câu)", href: "/grammar", kind: "lesson", level: 4 },
-      { title: "Đọc hiểu cấp 4 (3 bài · còn thiếu)", href: "/reading?level=4", kind: "lesson", level: 4 },
+      { title: "Từ vựng HSK 4 (954 mục)", href: "/vocab?hsk=4", kind: "lesson", level: 4 },
+      { title: "Ngữ pháp cấp 4 (52 câu)", href: "/grammar", kind: "lesson", level: 4 },
+      { title: "Đọc hiểu cấp 4 (3 bài)", href: "/reading?level=4", kind: "lesson", level: 4 },
       { title: "Nói cùng AI HSK 4 (20 tình huống)", href: "/speaking", kind: "lesson" },
     ],
     review: [
@@ -166,9 +166,9 @@ export const ROADMAP: RoadmapLevel[] = [
     goal: "Đọc báo chí, diễn luận về xã hội, văn hóa, công nghệ.",
     order: ["Dạy: từ vựng HSK 5 + ngữ pháp cấp 5", "Luyện: flashcard, nói cùng AI HSK 5", "Đánh giá: bài luận viết, thi giả lập HSK 5"],
     lessons: [
-      { title: "Từ vựng HSK 5 (17 mục · còn thiếu lớn)", href: "/vocab?hsk=5", kind: "lesson", level: 5 },
-      { title: "Ngữ pháp cấp 5 (10 câu)", href: "/grammar", kind: "lesson", level: 5 },
-      { title: "Đọc hiểu HSK 5 (chưa có bài thật)", href: "/reading?level=5", kind: "lesson", level: 5 },
+      { title: "Từ vựng HSK 5 (1522 mục)", href: "/vocab?hsk=5", kind: "lesson", level: 5 },
+      { title: "Ngữ pháp cấp 5 (36 câu)", href: "/grammar", kind: "lesson", level: 5 },
+      { title: "Đọc hiểu cấp 5 (5 bài)", href: "/reading?level=5", kind: "lesson", level: 5 },
       { title: "Nói cùng AI HSK 5 (22 tình huống)", href: "/speaking", kind: "lesson" },
     ],
     review: [
@@ -186,9 +186,9 @@ export const ROADMAP: RoadmapLevel[] = [
     goal: "Nghiên cứu học thuật, báo chí, ngoại giao cấp cao.",
     order: ["Dạy: từ vựng HSK 6 + ngữ pháp cấp 6", "Luyện: flashcard, nói cùng AI HSK 6", "Đánh giá: bài luận viết, thi giả lập HSK 6"],
     lessons: [
-      { title: "Từ vựng HSK 6 (16 mục · còn thiếu lớn)", href: "/vocab?hsk=6", kind: "lesson", level: 6 },
-      { title: "Ngữ pháp cấp 6 (8 câu)", href: "/grammar", kind: "lesson", level: 6 },
-      { title: "Đọc hiểu HSK 6 (chưa có bài thật)", href: "/reading?level=6", kind: "lesson", level: 6 },
+      { title: "Từ vựng HSK 6 (1747 mục)", href: "/vocab?hsk=6", kind: "lesson", level: 6 },
+      { title: "Ngữ pháp cấp 6 (25 câu)", href: "/grammar", kind: "lesson", level: 6 },
+      { title: "Đọc hiểu cấp 6 (3 bài)", href: "/reading?level=6", kind: "lesson", level: 6 },
       { title: "Nói cùng AI HSK 6 (24 tình huống)", href: "/speaking", kind: "lesson" },
     ],
     review: [
@@ -206,9 +206,9 @@ export const ROADMAP: RoadmapLevel[] = [
     goal: "Ngành ngữ cao, nghiên cứu, xuất bản, giáo dục đại học.",
     order: ["Dạy: từ vựng HSK 7–9 + ngữ pháp cấp 7–9", "Luyện: flashcard, nói cùng AI HSK 7–9", "Đánh giá: bài luận học thuật, thi giả lập HSK 7–9"],
     lessons: [
-      { title: "Từ vựng HSK 7–9 (57 mục · còn thiếu lớn)", href: "/vocab?hsk=7", kind: "lesson", level: 7 },
-      { title: "Ngữ pháp cấp 7–9 (10 câu)", href: "/grammar", kind: "lesson", level: 7 },
-      { title: "Đọc hiểu HSK 7–9 (chưa có bài thật)", href: "/reading?level=7", kind: "lesson", level: 7 },
+      { title: "Từ vựng HSK 7–9 (5593 mục)", href: "/vocab?hsk=7", kind: "lesson", level: 7 },
+      { title: "Ngữ pháp cấp 7–9 (62 câu)", href: "/grammar", kind: "lesson", level: 7 },
+      { title: "Đọc hiểu cấp 7–9 (7 bài)", href: "/reading?level=7", kind: "lesson", level: 7 },
       { title: "Nói cùng AI HSK 7–9 (30 tình huống)", href: "/speaking", kind: "lesson" },
     ],
     review: [

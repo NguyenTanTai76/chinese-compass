@@ -40,7 +40,13 @@ async function fetchPlan(userId: string, start: string, signal?: AbortSignal): P
     .eq("user_id", userId).eq("week_start", start);
   if (signal) request.abortSignal(signal);
   const { data, error } = await request.maybeSingle();
-  if (error) throw error;
+  if (error) {
+    // Bảng StudyPlan chưa tồn tại trên staging: suy về local-only, không báo lỗi UI.
+    if (error.message && /relation.*StudyPlan.*does not exist|table.*StudyPlan.*not found/i.test(error.message)) {
+      return null;
+    }
+    throw error;
+  }
   return data?.plan ?? null;
 }
 

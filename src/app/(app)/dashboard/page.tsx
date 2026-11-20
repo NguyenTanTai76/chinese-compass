@@ -1,15 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   BookOpen,
   Brain,
+  Calendar,
+  Clock,
   Cloud,
   Flame,
   Headphones,
   Languages,
   Loader2,
+  Medal,
   Mic,
   PenLine,
   RefreshCw,
@@ -22,8 +25,12 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 import { speakChinese } from "@/lib/speech";
+import { useAuth } from "@/lib/auth/context";
 import { levelFromXp, useStudyState } from "@/lib/progress";
+import { computeBadges, checkAndAwardBadges, getEarnedBadges, DAILY_CHALLENGES, WEEKLY_CHALLENGES, getCompletedChallenges, completeChallenge } from "@/lib/badges";
 import { ContinueLearning } from "@/components/dashboard/continue-learning";
 import { weekStart, addDays, studyDate, WEEKDAY_LABELS } from "@/lib/plan/generator";
 import { useWeekPlan } from "@/lib/plan/storage";
@@ -57,10 +64,44 @@ const FALLBACK_TASKS = [
 
 export default function DashboardPage() {
   const { state, syncing, lastSync, userLoaded, syncNow, syncFailed } = useStudyState();
+  const { user } = useAuth();
+  const userId = user?.id;
   const [plan, setPlan] = useState<AiPlan | null>(null);
   const [planLoading, setPlanLoading] = useState(false);
+  const [newBadges, setNewBadges] = useState<string[]>([]);
+  const [completedChallenges, setCompletedChallenges] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (!userId) return;
+    setCompletedChallenges(getCompletedChallenges(userId));
+  }, [userId]);
+
+  const completeDaily = useCallback((challenge: typeof DAILY_CHALLENGES[number]) => {
+    if (!userId) return;
+    if (completeChallenge(userId, challenge.id)) {
+      setCompletedChallenges(prev => new Set(prev));
+      setCompletedChallenges(prev => { const n = new Set(prev); n.add(challenge.id); return n; });
+      toast.success(`+${challenge.xpReward} XP - ${challenge.title}`);
+    }
+  }, [userId]);
+
+  const completeWeekly = useCallback((challenge: typeof WEEKLY_CHALLENGES[number]) => {
+    if (!userId) return;
+    if (completeChallenge(userId, challenge.id)) {
+      setCompletedChallenges(prev => { const n = new Set(prev); n.add(challenge.id); return n; });
+      toast.success(`+${challenge.xpReward} XP - ${challenge.title}`);
+    }
+  }, [userId]);
 
   const level = useMemo(() => levelFromXp(state.xp), [state.xp]);
+  const earned = useMemo(() => getEarnedBadges(userId ?? ""), [userId]);
+  const allBadges = useMemo(() => computeBadges(state), [state]);
+
+  useEffect(() => {
+    if (!userId) return;
+    const newly = checkAndAwardBadges(userId, state);
+    if (newly.length) setNewBadges(newly);
+  }, [userId, state]);
   const recent = useMemo(() => state.results.slice(0, 5), [state.results]);
   const todayCards = useMemo(
     () => state.cards.slice(0, 6),
@@ -338,6 +379,92 @@ export default function DashboardPage() {
           </ul>
         </section>
       )}
+
+      {userId && (
+        <section className="rounded-2xl border border-border bg-card p-5">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <Medal className="h-4 w-4" /> Huy hiệu
+            </h2>
+            {newBadges.length > 0 && (
+              <span className="text-[11px] text-primary font-medium">Mới: {newBadges.length}</span>
+            )}
+          </div>
+          <div className="grid gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+            {allBadges.map(badge => {
+              const isEarned = earned.has(badge.id) || newBadges.includes(badge.id);
+              return (
+                <div key={badge.id} className={cn("flex flex-col items-center gap-1.5 rounded-xl border p-3 text-center transition", isEarned ? "border-primary bg-primary/5" : "border-border bg-muted/30")}>
+                  <span className="text-2xl">{badge.icon}</span>
+                  <p className={cn("text-xs font-medium leading-tight", isEarned ? "text-primary" : "text-muted-foreground/50")}>
+                    {badge.name}
+                  </p>
+                  <p className="text-[10px] text-muted-foreground">{badge.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {userId && (
+        <section className="rounded-2xl border border-border bg-card p-5">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <Clock className="h-4 w-4" /> Thách thức hàng ngày
+            </h2>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-3">
+            {DAILY_CHALLENGES.map(challenge => {
+              const done = completedChallenges.has(challenge.id);
+              return (
+                <Button
+                  key={challenge.id}
+                  variant={done ? "outline" : "primary"}
+                  size="sm"
+                  className="flex flex-col items-center gap-1.5 text-xs py-3"
+                  disabled={done}
+                  onClick={() => done ? undefined : completeDaily(challenge)}
+                >
+                  <span className="text-lg">{done ? "✅" : "🎯"}</span>
+                  <span className="font-medium leading-tight">{challenge.title}</span>
+                  <span className="text-muted-foreground">+{challenge.xpReward} XP</span>
+                </Button>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {userId && (
+        <section className="rounded-2xl border border-border bg-card p-5">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <Calendar className="h-4 w-4" /> Thách thức hàng tuần
+            </h2>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-3">
+            {WEEKLY_CHALLENGES.map(challenge => {
+              const done = completedChallenges.has(challenge.id);
+              return (
+                <Button
+                  key={challenge.id}
+                  variant={done ? "outline" : "primary"}
+                  size="sm"
+                  className="flex flex-col items-center gap-1.5 text-xs py-3"
+                  disabled={done}
+                  onClick={() => done ? undefined : completeWeekly(challenge)}
+                >
+                  <span className="text-lg">{done ? "✅" : "🎯"}</span>
+                  <span className="font-medium leading-tight">{challenge.title}</span>
+                  <span className="text-muted-foreground">+{challenge.xpReward} XP</span>
+                </Button>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
     </div>
   );
 }

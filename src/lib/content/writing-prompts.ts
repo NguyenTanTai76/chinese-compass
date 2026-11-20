@@ -8,6 +8,21 @@ export type WritingPrompt = {
 
 export const WRITING_PROMPTS: WritingPrompt[] = [
   {
+    id: "hsk1-greeting", level: "HSK 1", title: "Greeting someone",
+    instruction: "Write 2–3 simple sentences to introduce yourself. Say your name, where you are from, and one thing you like.",
+    checklist: ["State your name", "Say where you are from", "Mention one thing you like"],
+  },
+  {
+    id: "hsk1-order-food", level: "HSK 1", title: "Ordering food",
+    instruction: "Write a short note to order food at a restaurant. Say what you want to eat and drink.",
+    checklist: ["Name one dish you want", "Name one drink you want", "Use polite words"],
+  },
+  {
+    id: "hsk1-ask-time", level: "HSK 1", title: "Asking the time",
+    instruction: "Write a short message to ask a friend what time it is and what time you are meeting.",
+    checklist: ["Ask what time it is", "Mention the meeting time", "Use a question mark"],
+  },
+  {
     id: "hsk2-invitation", level: "HSK 2", title: "Rủ bạn đi ăn",
     instruction: "Viết 3–4 câu nhắn cho bạn. Rủ bạn đi ăn vào thứ Bảy, đề xuất giờ và nơi gặp rồi hỏi bạn có rảnh không.",
     checklist: ["Có lời mời, giờ và địa điểm", "Đặt thời gian trước động từ", "Có một câu hỏi dễ trả lời"],

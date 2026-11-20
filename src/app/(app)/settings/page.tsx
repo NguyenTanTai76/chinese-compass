@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Download, LogOut, ShieldAlert, Sparkles, Trash2, User } from "lucide-react";
+import { ArrowRight, Download, LogOut, ShieldAlert, Sparkles, User, Wifi, WifiOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth/context";
 import { loadOnboarding, saveOnboarding } from "@/lib/plan/storage";
 import { useStudyState } from "@/lib/progress";
@@ -29,12 +30,23 @@ function clearAccountData(userId: string) {
 export default function SettingsPage() {
   const { user, signOut, loading: authLoading } = useAuth();
   const userId = user?.id;
-  const { state, syncFailed, syncNow } = useStudyState();
+  const { state, syncFailed } = useStudyState();
   const [saving, setSaving] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [notice, setNotice] = useState("");
+  const [aiProviders, setAiProviders] = useState<{ name: string; configured: boolean; model?: string }[]>([]);
+  const [aiLoading, setAiLoading] = useState(false);
+
+  useEffect(() => {
+    setAiLoading(true);
+    fetch("/api/ai/providers")
+      .then(res => res.json())
+      .then(data => setAiProviders(data.providers ?? []))
+      .catch(() => setAiProviders([]))
+      .finally(() => setAiLoading(false));
+  }, []);
 
   const level = levelFromXp(state?.xp ?? 0);
 
@@ -57,6 +69,9 @@ export default function SettingsPage() {
         minutesPerDay: minutes,
         preferredDays: [...days].sort((a, b) => a - b),
         skills,
+        consistency: "regular" as const,
+        learningStyle: "balanced" as const,
+        targetLevel: "hsk2" as Level,
         startedAt: Date.now(),
       };
       saveOnboarding(userId, input);
@@ -107,9 +122,6 @@ export default function SettingsPage() {
       setNotice("Chưa xóa được tài khoản. Vui lòng thử lại.");
     }
   };
-
-  const pick = (arr: { value: string | number; label: string }[], v: string) =>
-    arr.find((x) => String(x.value) === String(v))?.label ?? String(v);
 
   const MINUTES = [10, 20, 30, 45, 60];
   const DAYS = [{ value: 0, label: "CN" }, { value: 1, label: "Thứ 2" }, { value: 2, label: "Thứ 3" }, { value: 3, label: "Thứ 4" }, { value: 4, label: "Thứ 5" }, { value: 5, label: "Thứ 6" }, { value: 6, label: "Thứ 7" }];
@@ -187,6 +199,42 @@ export default function SettingsPage() {
               <Button variant="outline" onClick={() => setConfirmDelete(false)} size="sm">Hủy</Button>
               <Button variant="danger" onClick={handleDelete} disabled={deleting} size="sm">{deleting ? "Đang xử lý…" : "Xác nhận xóa"}</Button>
             </div>
+          </div>
+        )}
+      </section>
+
+      <section className="rounded-xl border border-border bg-card p-5">
+        <h2 className="text-sm font-semibold flex items-center gap-2">
+          {aiLoading ? (<span>Đang kiểm tra…</span>) : aiProviders.some(p => p.configured) ? (<Wifi className="h-4 w-4 text-green-600" />) : (<WifiOff className="h-4 w-4 text-muted-foreground" />)}
+          Cấu hình AI Speaking &amp; Tutor
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          AI trả lời và chỉnh lỗi phát âm dùng khóa API bạn tự cấu hình trong biến môi trường (GEMINI_API_KEY / GROQ_API_KEY). Ứng dụng không lưu cài đặt khóa này trong Git.
+        </p>
+        {aiLoading ? (
+          <div className="mt-4 flex gap-4">
+            {["Gemini", "Groq"].map(name => (
+              <div key={name} className="flex items-center gap-2">
+                <span className="animate-pulse rounded-full h-2 w-2 bg-muted" />
+                <span className="text-xs text-muted-foreground">{name}</span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-4 space-y-2">
+            {aiProviders.map(p => (
+              <div key={p.name} className="flex items-center justify-between p-2 rounded border">
+                <span className="text-sm">{p.name.charAt(0).toUpperCase() + p.name.slice(1)}</span>
+                <span className={cn("text-xs font-medium px-2 py-0.5 rounded-full", p.configured ? "text-green-700 bg-green-100" : "text-amber-700 bg-amber-100")}>
+                  {p.configured ? "Đã cấu hình" : "Chưa cấu hình"}
+                </span>
+              </div>
+            ))}
+            {!aiProviders.some(p => p.configured) && (
+              <p className="mt-2 text-xs text-muted-foreground">
+                Chưa có khóa AI nào. Speaking và Tutor vẫn hoạt động ở chế độ cục bộ (mẫu câu cố định, chấm điểm tự tin), không gán kết quả giả.
+              </p>
+            )}
           </div>
         )}
       </section>

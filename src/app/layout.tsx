@@ -3,6 +3,7 @@ import { Be_Vietnam_Pro, Noto_Sans_SC } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { PwaRegister } from "@/components/pwa-register";
+import { OfflineIndicator } from "@/components/offline-indicator";
 import { AuthProvider } from "@/lib/auth/context";
 
 const beVietnam = Be_Vietnam_Pro({
@@ -44,11 +45,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="vi" className={`${beVietnam.variable} ${notoSansSC.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">
-        <AuthProvider>
-          {children}
-          <Toaster position="top-center" richColors />
-          <PwaRegister />
-        </AuthProvider>
+          <AuthProvider>
+            {children}
+            <Toaster position="top-center" richColors />
+            <OfflineIndicator />
+            <PwaRegister />
+          </AuthProvider>
       </body>
     </html>
   );
