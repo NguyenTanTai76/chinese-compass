@@ -24,14 +24,14 @@
 
 | Lệnh | Kết quả | Chi tiết |
 |---|---|---|
-| `git status` / `git log --oneline -3` | ĐẠT | Clean, HEAD `57d7846`, up-to-date origin/master, working tree sạch |
+| `git status` / `git log --oneline -3` | ĐẠT | Clean, HEAD `bc34bc8`, up-to-date origin/master, working tree sạch |
 | `npm run typecheck` (`tsc --noEmit`) | ĐẠT | Không lỗi, không xuất ra |
 | `npm run lint` (`eslint src`) | ĐẠT | 0 errors; 37 warnings pre-existing |
 | `npm run build` (`next build`) | ĐẠT | 43 route |
 | `npx playwright test tests/curriculum-content.spec.ts` | 8 ĐẠT / 0 fail | Tất cả 8 case ĐẠT (4 curriculum-content + 3 beta-curriculum + 1 speaking scenario count >= mỗi cấp, ID unique, openingZh duy nhất 1 dấu hỏi) |
 | `npx playwright test tests/beta-curriculum.spec.ts` | 3 ĐẠT | Lập kế hoạch 10p/30p, điều lịch giữ bài đã xong |
 | `npx playwright test tests/speaking-limit.spec.ts` | 3 ĐẠT / 0 fail | 3 case ĐẠT với Supabase thật + 2 tài khoản QA: ghi âm 5 phút không cắt ở 60s, auto-stop ở 5 phút, free conversation retry đúng luồng |
-| `npx playwright test tests/beta-platform.spec.ts` | 1 ĐẠT / 1 BỎ QUA | Guest không đọc được progress: ĐẠT. A/B isolation: BỎ QUA (bảng ProgressEvent chưa tồn tại trên staging; migration SQL đã chuẩn bị ở `prisma/progressevent-migration.sql` để chạy trên Supabase Dashboard) |
+| `npx playwright test tests/beta-platform.spec.ts` | 1 ĐẠT / 1 FAIL | Guest không đọc được progress: ĐẠT. A/B isolation: FAIL (timeout 120s ở bước click "Tốt" trên trang vocab flashcard — không phải lỗi Auth/RLS, đăng nhập QA A đã thành công) |
 | `npx playwright test tests/beta-learner-flow.spec.ts` | 2 BỎ QUA | Cần `BETA_LOCAL_MOCK=1` (chỉ chạy với local mock Auth/Data API) |
 | `npx playwright test tests/pwa.spec.ts` | 1 BỎ QUA | Cần thiết bị thật (mobile offline + cài PWA) |
 
@@ -172,7 +172,7 @@ Các bước sẽ thực hiện khi có staging được phép:
 
 ## 7. SHA và trạng thái làm việc
 
-- HEAD / SHA: `57d7846` (đã commit và push lên `origin/master`; chain: `82d5d31` → `44a861b` → `751f2df` → `8deb4bd` → `39c035a` → `2e4382a` → `08909da` → `57d7846`).
+- HEAD / SHA: `bc34bc8` (đã commit và push lên `origin/master`; chain: `82d5d31` → `44a861b` → `751f2df` → `8deb4bd` → `39c035a` → `2e4382a` → `08909da` → `57d7846` → `bc34bc8`).
 - Working tree: sạch, không có thay đổi chưa commit.
 - Không tạo nhánh mới, không force-push, không commit secrets.
 - 3 worktree phụ (curriculum, platform, speaking) đã được gỡ khỏi Desktop, nhánh Git `beta/curriculum`, `beta/platform`, `beta/speaking` đã giữ lại để đối chiếu.
@@ -185,4 +185,4 @@ Các bước sẽ thực hiện khi có staging được phép:
 - **Tính năng nào có thể dùng thật ngay?** Nhập môn–HSK 1: onboarding, placement, dashboard, từ vựng flashcard, đọc, ngữ pháp, speaking HSK 1 (14 tình huống), mock HSK 1, cài đặt/xuất JSON/xóa tài khoản cục bộ.
 - **Học liệu đã nghiệm thu bao nhiêu trên mục tiêu?** Từ vựng ~536/~430 (vượt), đọc 43/38+ (vượt), ngữ pháp 283/200 (đủ +83), Speaking 147/144 (vượt), bài học 7/7 (đủ), đề thi HSK 1–4 + HSKK + TOCFL đủ.
 - **Có thể mời 50 người chưa?** Chưa — chỉ thử nội bộ Nhập môn–HSK 1. Cần Supabase production + RLS, API key thật, staging + 2 tài khoản QA, bảng ProgressEvent trước khi mở beta 50.
-- **5 việc quan trọng nhất cần làm tiếp:** (1) Chạy `prisma/progressevent-migration.sql` trên Supabase Dashboard staging; (2) HSK 5–9 giáo trình (đọc/viết/nói — ngữ pháp + từ đã làm xong); (3) API key thử nghiệm + chạy E2E staging (`speaking-limit` đã 3/3 ĐẠT, `beta-platform` A/B bị chặn do thiếu ProgressEvent); (4) Xây P8 cộng đồng; (5) Cập nhật BETA_READINESS.md. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`. SHA đã push: `57d7846`.
+- **5 việc quan trọng nhất cần làm tiếp:** (1) Chạy `prisma/progressevent-migration.sql` trên Supabase Dashboard staging; (2) HSK 5–9 giáo trình (đọc/viết/nói — ngữ pháp + từ đã làm xong); (3) Sửa timeout locator trên trang vocab flashcard cho A/B isolation test, sau đó chạy lại `beta-platform.spec.ts` A/B (`speaking-limit` đã 3/3 ĐẠT, `beta-platform` guest 1/1 ĐẠT, A/B 0/1 FAIL do timeout UI); (4) Xây P8 cộng đồng; (5) Cập nhật BETA_READINESS.md. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`. SHA đã push: `bc34bc8`.
