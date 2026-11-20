@@ -56,7 +56,7 @@ Mã trạng thái: ĐẠT = đủ bằng chứng; MỘT PHẦN =UI có nhưng ch
 | A-09 | A · P2 · Giáo trình | 7/7 bài Nhập bản mới | `src/lib/content/intro-lessons.ts` | ĐẠT | Automated test (intro sequence 7 bài, ID unique, audio, đáp án) | — |
 | A-10 | A · P2 · Từ vựng | Kho ~430 mục từ (HSK 1–4) | `src/lib/content/vocab.ts` | ĐẠT | 612 mục (163 HSK1 + 254 HSK2 + 44 HSK3 + 40 HSK4 + 26 HSK5 + 21 HSK6 + 21 HSK7 + 32 HSK8 + 21 HSK9, vượt +182), Code review | Độ phủ đối chiếu danh mục chính thức chưa hoàn tất; HSK 3–4 còn thiếu lớn so với HSK danh mục |
 | A-11 | A · P2 · Đọc | 38+ bài đọc (đủ 30) | `src/lib/content/reading.ts` (37) + `graded-reading.ts` (6, cấp 2–7) | ĐẠT | 43 tổng, Automated test graded passages | Tuyến bài HSK 3+ chưa đầy đủ |
-| A-12 | A · P2 · Ngữ pháp | 284 câu (đủ 200, mở HSK 3–9) | `src/lib/content/grammar-questions.ts` | ĐẠT | 284 câu (g01–g284, đếm mã nguồn), build pass, typecheck | — |
+| A-12 | A · P2 · Ngữ pháp | 348 câu (đủ 200, mở HSK 3–9) | `src/lib/content/grammar-questions.ts` | ĐẠT | 348 câu (g01–g350, đếm mã nguồn), build pass, typecheck | HSK 2 đạt 200/200; HSK 3–9 vẫn thiếu lớn so với mục tiêu |
 | A-13 | A · P2 · Phản xạ / nghe chép | 200 câu phản xạ, 40 nghe chép | `src/lib/content/phrases.ts`, `dictation.ts` | ĐẠT | Code review | Không đếm tự động trong lượt này |
 | A-14 | A · P3 · Đánh giá | Bài đầu vào 20 câu; 2 đề định kỳ 20 câu (10 vocab/5 ngữ pháp/5 nghe) | `src/lib/content/periodic-tests.ts` | ĐẠT | Automated test (2 form × 20 câu, không trùng, đáp án trong options) | — |
 | A-15 | A · P3 · Mock HSK | HSK 1 40 câu; HSK 2/3/4 30 câu/cấp (15 nghe + 15 đọc); HSKK Trung cấp ~30 câu; TOCFL A2 ~30 câu | `src/lib/content/hsk-mock.ts` | ĐẠT | Code review, build pass, score functions có sẵn | — |
@@ -106,7 +106,7 @@ Mã trạng thái: ĐẠT = đủ bằng chứng; MỘT PHẦN =UI có nhưng ch
 | HSK 5 | 22 | 22 | Đúng |
 | HSK 6 | 24 | 24 | Đúng |
 | HSK 7–9 | 30 | 30 | Đúng |
-| Tổng | 144 | 147 | Vượt +3 |
+| Tổng | 144 | 157 | Vượt +13 |
 
 **Lưu ý:** ID, cấp độ, trùng lặp, đáp án, pinyin đã kiểm tra qua Automated test (unique ID, openingZh unique, đáp án trong options, pinyin sinh từ pinyin-pro). Nguồn/giấy phép: nội dung tự biên soạn trong repo, tham chiếu chuẩn HSK, chưa có giấy phép phân phối danh mục bên ngoài. Âm thanh: TTS thiết bị (`speakChinese`), chưa phân biệt giọng thật/TTS bằng chứng riêng. Liên kết từ bài sang lịch học: có qua `taskHref` / study plan.
 
@@ -115,12 +115,12 @@ Mã trạng thái: ĐẠT = đủ bằng chứng; MỘT PHẦN =UI có nhưng ch
 ## 5. Kết luận nghiệp thu
 
 ### Prompt A — Phase 0–8: **MỘT PHẦN**
-- Đạt: P0 shell/auth/layout, P1 onboarding/settings/dashboard, P2 giáo trình Nhập môn–HSK 4 (283 ngữ pháp, ~536 từ, ~43 đọc), P3 đánh giá (placement, 2 đề định kỳ, mock HSK 1–4 + HSKK/TOCFL), P6 HSK 2–4 đầy đủ, **P2b lộ trình HSK (trang /roadmap, 8 cấp, báo thiếu theo kỹ năng)**.
+- Đạt: P0 shell/auth/layout, P1 onboarding/settings/dashboard, P2 giáo trình Nhập môn–HSK 4 (348 ngữ pháp, 612 từ, 43 đọc), P3 đánh giá (placement, 2 đề định kỳ, mock HSK 1–4 + HSKK/TOCFL), P6 HSK 2–4 đầy đủ, **P2b lộ trình HSK (trang /roadmap, 8 cấp, báo thiếu theo kỹ năng)**.
 - Một phần: P4 luyện tập (UI speaking đủ, STT/AI thật chưa verify), P5 beta (build/PWA ok, cài thật/staging/tải chưa), P7 HSK 5–9 (giao trình đang bổ sung), P8 cộng đồng (chỉ dashboard thử thách/huy hiệu).
 - Không đạt / chưa có: Supabase production migration + RLS A/B (cần chạy trên production qua Supabase Dashboard, không được phép chạy từ máy này), CMS, phân quyền gói, thanh toán. ProgressEvent table đã có trong `prisma/schema.prisma:125` và `prisma/progressevent-migration.sql` đã chuẩn bị; RLS đã được verify qua test A/B thực tế (cross-read=[], cross-write=42501) trên project `bqswvmdaqeryiddjvt`.
 
 ### Prompt B — Speaking chuyên sâu: **ĐẠT (dữ liệu), CHƯA XÁC MINH (thực thi thật)**
-- 147 tình huống, mọi cấp đạt/vượt chỉ tiêu; 2 chế độ, 5 lỗi, điểm 4/3/3, retry/tổng kết, ngân sách 10s — đủ bằng chứng code + automated test (8/8 pass).
+- 157 tình huống, mọi cấp đạt/vượt chỉ tiêu (Nhập môn 4, HSK 1 14, HSK 2 15, HSK 3 18, HSK 4 20, HSK 5 22, HSK 6 24, HSK 7–9 30); 2 chế độ, 5 lỗi, điểm 4/3/3, retry/tổng kết, ngân sách 10s — đủ bằng chứng code + automated test (8/8 pass).
 - Chưa verify: STT/AI thật, thiết bị thật, audio gắn nhãn, chấm âm/thanh.
 
 ### Prompt C — Trợ lý AI nhắn tin: **MỘT PHẦN**

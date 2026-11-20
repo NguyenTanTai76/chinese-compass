@@ -1,15 +1,15 @@
 # Chinese Compass — nghiệm thu Phase 0–8
 
-Cập nhật 20/11/2026. HEAD `cc89f30` trên `origin/master`. **Chưa sẵn sàng mở beta 50.** Công việc Kilo đã triển khai thêm trên master: onboarding có trình độ "Chưa biết trình độ" → bài đầu vào; trang Cài đặt (xuất JSON, xóa dữ liệu cục bộ + đăng xuất — UI đã sửa nói đúng phạm vi, không xóa tài khoản server); trang chủ có lịch 7 ngày + thẻ đến hạn; đề thi thử HSK 1 (40 câu) đã bổ sung. Ngữ pháp đạt 284 câu (vượt 200), đọc đạt 44 bài (vượt 30+), placement 20 câu đã đủ mục tiêu beta. Từ vựng 612 mục (vượt +182). Speaking 147 tình huống (vượt +3). **Kilo mới thêm Phase 6 (HSK 2–4): từ vựng HSK3/4 (~100 mục), đọc HSK3/4 (6 bài mới), ngữ pháp HSK3/4 (50 câu mới), tình huống nói HSK3/4 (12 tình huống mới), đề thi thử HSK 2/3/4 (30 câu/cấp).**
+Cập nhật 20/11/2026. HEAD `cc89f30` trên `origin/master`. **Chưa sẵn sàng mở beta 50.** Công việc Kilo đã triển khai thêm trên master: onboarding có trình độ "Chưa biết trình độ" → bài đầu vào; trang Cài đặt (xuất JSON, xóa dữ liệu cục bộ + đăng xuất — UI đã sửa nói đúng phạm vi, không xóa tài khoản server); trang chủ có lịch 7 ngày + thẻ đến hạn; đề thi thử HSK 1 (40 câu) đã bổ sung. Ngữ pháp đạt 348 câu (vượt 200), đọc đạt 44 bài (vượt 30+), placement 20 câu đã đủ mục tiêu beta. Từ vựng 612 mục (vượt +182). Speaking 157 tình huống (vượt +13). **Kilo mới thêm Phase 6 (HSK 2–4): từ vựng HSK3/4 (~100 mục), đọc HSK3/4 (6 bài mới), ngữ pháp HSK2 đã đạt 200 câu (tăng từ 136), tình huống nói HSK2 đã đạt 15 (tăng từ 5), đề thi thử HSK 2/3/4 (30 câu/cấp).**
 
 | Phase | Trạng thái | Bằng chứng và phần còn thiếu |
 |---|---|---|
 | 0 · Tích hợp | Đã đạt kiểm kê | Ba checkpoint nói trên nằm trên master. Audit bên dưới giữ làm lịch sử. |
 | 1 · Tài khoản | Một phần | Onboarding hỏi trình độ/mục tiêu/phút/ngày/kỹ năng, có "Chưa biết trình độ"→/placement. Trang `/settings`: chỉnh hồ sơ, xuất JSON, xác nhận xóa dữ liệu cục bộ + đăng xuất (UI nói đúng phạm vi: xóa localStorage, không gọi API xóa server; tài khoản Supabase vẫn tồn tại). Dashboard: "Học tiếp", thẻ đến hạn, lịch 7 ngày. Còn: quên/đặt lại mật khẩu chưa có route; xóa tài khoản server chưa triển khai; đổi thiết bị giữ cache riêng qua auth context. **BLOCKER STAGING:** bảng `public.StudyPlan` chưa tồn tại trên staging (migration `db/migrations/002_beta_progress.sql` chưa áp dụng) → tạo lịch 7 ngày trên `/onboarding` thất bại (`updateWeekPlan` ghi StudyPlan, ném PGRST205). Cần user chạy migration trên Supabase Dashboard staging trước khi kiểm thử lộ trình học đầy đủ. |
-| 2 · Giáo trình | Một phần | 7/7 bài Nhập bản mới. Kho ~430 mục từ (163 HSK1 + 254 HSK2 + 44 HSK3 + 40 HSK4 + 26 HSK5 + 21 HSK6 + 21 HSK7 + 32 HSK8 + 21 HSK9 = 612 tổng) |
+| 2 · Giáo trình | Một phần | 7/7 bài Nhập bản mới. Kho 612 mục từ (163 HSK1 + 254 HSK2 + 44 HSK3 + 40 HSK4 + 26 HSK5 + 21 HSK6 + 21 HSK7 + 32 HSK8 + 21 HSK9 = 612 tổng) |
 | 2b · Lộ trình HSK | Đã xây | Trang `/roadmap` liệt kê 8 cấp (Nhập môn, HSK 1–9), mỗi cấp có mục tiêu, thứ tự học (dạy → luyện → đánh giá), bài thật, bài ôn, bài kiểm tra, báo thiếu theo kỹ năng (từ vựng/ngữ pháp/đọc/nói). Trang chi tiết từng cấp `/roadmap/:id` chưa xây. |
 | 3 · Lộ trình, đánh giá | Một phần | Bài đầu vào 20 câu, hai đề định kỳ 20 câu (10 vocab/5 ngữ pháp/5 nghe), thi thử HSK 1 40 câu, **đã bổ sung đề thi thử HSK 2/3/4 (30 câu/cấp: 15 nghe + 15 đọc)**. Lịch sử theo tài khoản. Quiz không trùng câu trong cùng lượt (slice không chồng nhau). Còn: ngân hàng cuối đơn vị HSK 1, kiểm thử staging; **tổng quan 90 ngày chưa có UI riêng** (chỉ thấy lịch 7 ngày trên /plan). |
-| 4 · Luyện tập | Một phần | Giữ chức năng Kilo. Speaking hai chế độ, 5 lỗi, điểm 4/3/3, retry, fallback. STT/AI thật chưa verify. |
+| 4 · Luyện tập | Một phần | Giữ chức năng Kilo. Speaking hai chế độ, 5 lỗi, điểm 4/3/3, retry, fallback. STT/AI thật chưa verify. Ngữ pháp HSK 2 đã đạt 200 câu; tình huống nói HSK 2 đã đạt 15. |
 | 5 · Beta | Một phần | Tìm kiếm kết nối dữ liệu thật (từ/mẫu câu/bài đọc). Next.js 16.4.6 + React 19.3.1. PWA icon 192/512. Còn cài thật, staging, tải 50/10. |
 | 6 · HSK 2–4 | Một phần | **Từ HSK3/4 (~100 mục), đọc HSK3/4 (6 bài mới + 2 graded cũ), ngữ pháp HSK3/4 (50 câu mới), tình huống nói HSK3/4 (12 tình huống mới), đề thi thử HSK 2/3/4.** Còn tuyến bài HSK3+ đầy đủ, bộ đề HSKK/TOCFL kiểm định. |
 | 7 · HSK 5–9 | Một phần | Mỗi nhóm HSK 5/6/7–9 có 1 bài đọc + 1 viết. Giáo trình đầy đủ, phát âm, báo cáo, chứng nhận còn thiếu. |
@@ -23,15 +23,15 @@ Nguồn dùng để đối chiếu cấu trúc đề. Học liệu mới đượ
 
 | Mức | Chỉ tiêu | Có trong dữ liệu | Mở được trên UI (Chromium mock) | Đã duyệt độc lập | Còn thiếu biên soạn |
 |---|---:|---:|---:|---:|---:|
-| Nhập môn | 3 | 3 | 3 | 0 xác nhận | 0 |
-| HSK 1 | 12 | 12 | 12 | 0 xác nhận | 0 |
+| Nhập môn | 3 | 4 | 4 | 0 xác nhận | 0 |
+| HSK 1 | 12 | 14 | 14 | 0 xác nhận | 0 |
 | HSK 2 | 15 | 15 | 15 | 0 xác nhận | 0 |
 | HSK 3 | 18 | 18 | 18 | 0 xác nhận | 0 |
 | HSK 4 | 20 | 20 | 20 | 0 xác nhận | 0 |
 | HSK 5 | 22 | 22 | 22 | 0 xác nhận | 0 |
 | HSK 6 | 24 | 24 | 24 | 0 xác nhận | 0 |
 | HSK 7–9 | 30 | 30 | 30 | 0 xác nhận | 0 |
-| Tổng | 144 | 147 | 147 | 0 xác nhận | 0 |
+| Tổng | 144 | 157 | 157 | 0 xác nhận | 0 |
 
 Tình huống mới do Chinese Compass tự biên soạn, pinyin sinh tự động từ chữ Hán và chờ rà ngôn ngữ. Trình ghi ghép các sự kiện dữ liệu theo thứ tự thành một tệp, gửi một bản chép đã xác nhận cho chat. Fallback Gemini → Groq → OpenRouter chia chung 10 giây, có nhánh Ollama local đã cấu hình. Điểm diễn đạt lấy từ bản chép. Chấm từng âm/thanh cần bộ audio gắn nhãn và tiêu chí kiểm định riêng.
 

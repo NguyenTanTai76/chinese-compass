@@ -925,18 +925,6 @@ export const VOCAB: VocabEntry[] = [
     "hskLevel": 1
   },
   {
-    "hanzi": "为什么",
-    "pinyin": "wèi shén me",
-    "meaningVi": "Tại sao",
-    "hskLevel": 2
-  },
-  {
-    "hanzi": "怎么",
-    "pinyin": "zěn me",
-    "meaningVi": "Như thế nào",
-    "hskLevel": 2
-  },
-  {
     "hanzi": "多少",
     "pinyin": "duō shao",
     "meaningVi": "Bao nhiêu",
@@ -952,12 +940,6 @@ export const VOCAB: VocabEntry[] = [
     "hanzi": "哪儿",
     "pinyin": "nǎr",
     "meaningVi": "Ở đâu",
-    "hskLevel": 2
-  },
-  {
-    "hanzi": "谁",
-    "pinyin": "shéi",
-    "meaningVi": "Ai",
     "hskLevel": 2
   },
   {
@@ -1537,18 +1519,6 @@ export const VOCAB: VocabEntry[] = [
     "hskLevel": 2
   },
   {
-    "hanzi": "便宜",
-    "pinyin": "pián yi",
-    "meaningVi": "Rẻ",
-    "hskLevel": 2
-  },
-  {
-    "hanzi": "贵",
-    "pinyin": "guì",
-    "meaningVi": "Đắt",
-    "hskLevel": 2
-  },
-  {
     "hanzi": "现金",
     "pinyin": "xiàn jīn",
     "meaningVi": "Tiền mặt",
@@ -1855,12 +1825,6 @@ export const VOCAB: VocabEntry[] = [
     "hskLevel": 2
   },
   {
-    "hanzi": "密码",
-    "pinyin": "mì mǎ",
-    "meaningVi": "Mật khẩu",
-    "hskLevel": 2
-  },
-  {
     "hanzi": "用户名",
     "pinyin": "yòng hù míng",
     "meaningVi": "Tên người dùng",
@@ -2014,12 +1978,6 @@ export const VOCAB: VocabEntry[] = [
     "hanzi": "讲师",
     "pinyin": "jiǎng shī",
     "meaningVi": "Giảng viên",
-    "hskLevel": 2
-  },
-  {
-    "hanzi": "同学",
-    "pinyin": "tóng xué",
-    "meaningVi": "Bạn cùng lớp",
     "hskLevel": 2
   },
   {
@@ -2335,12 +2293,6 @@ export const VOCAB: VocabEntry[] = [
     "hskLevel": 2
   },
   {
-    "hanzi": "袜子",
-    "pinyin": "wà zi",
-    "meaningVi": "Tất",
-    "hskLevel": 2
-  },
-  {
     "hanzi": "牙刷",
     "pinyin": "yá shuā",
     "meaningVi": "Bàn chải đánh răng",
@@ -2476,12 +2428,6 @@ export const VOCAB: VocabEntry[] = [
     "hanzi": "合同",
     "pinyin": "hé tong",
     "meaningVi": "Hợp đồng",
-    "hskLevel": 3
-  },
-  {
-    "hanzi": "决定",
-    "pinyin": "jué dìng",
-    "meaningVi": "Quyết định",
     "hskLevel": 3
   },
   {
@@ -2677,12 +2623,6 @@ export const VOCAB: VocabEntry[] = [
     "hskLevel": 3
   },
   {
-    "hanzi": "银行",
-    "pinyin": "yín háng",
-    "meaningVi": "Ngân hàng",
-    "hskLevel": 3
-  },
-  {
     "hanzi": "账户",
     "pinyin": "zhàng hù",
     "meaningVi": "Tài khoản",
@@ -2698,12 +2638,6 @@ export const VOCAB: VocabEntry[] = [
     "hanzi": "付款",
     "pinyin": "fù kuǎn",
     "meaningVi": "Thanh toán",
-    "hskLevel": 3
-  },
-  {
-    "hanzi": "发票",
-    "pinyin": "fā piào",
-    "meaningVi": "Hóa đơn",
     "hskLevel": 3
   },
   {
@@ -2963,7 +2897,6 @@ export const VOCAB: VocabEntry[] = [
   { "hanzi": "不平等", "pinyin": "bù píng děng", "meaningVi": "Bất bình đẳng", "hskLevel": 6 },
   { "hanzi": "因素", "pinyin": "yīn sù", "meaningVi": "Yếu tố", "hskLevel": 6 },
   { "hanzi": "保护", "pinyin": "bǎo hù", "meaningVi": "Bảo tồn", "hskLevel": 6 },
-  { "hanzi": "合作", "pinyin": "hé zuò", "meaningVi": "Hợp tác", "hskLevel": 6 },
   { "hanzi": "意义", "pinyin": "yì yì", "meaningVi": "Ý nghĩa", "hskLevel": 6 },
   { "hanzi": "政策", "pinyin": "zhèng cè", "meaningVi": "Chính sách", "hskLevel": 6 },
   { "hanzi": "流于形式", "pinyin": "liú yú xíng shì", "meaningVi": "Rơi vào hình thức", "hskLevel": 7 },
@@ -2982,60 +2915,39 @@ export const VOCAB: VocabEntry[] = [
   { "hanzi": "模式", "pinyin": "mó shì", "meaningVi": "Mô hình", "hskLevel": 8 },
   { "hanzi": "标准", "pinyin": "biāo zhǔn", "meaningVi": "Tiêu chuẩn", "hskLevel": 8 },
   { "hanzi": "原则", "pinyin": "yuán zé", "meaningVi": "Nguyên tắc", "hskLevel": 8 },
-  { "hanzi": "机制", "pinyin": "jī zhì", "meaningVi": "Cơ chế", "hskLevel": 8 },
   { "hanzi": "实践", "pinyin": "shí jiàn", "meaningVi": "Thực hành", "hskLevel": 8 },
-  { "hanzi": "创新", "pinyin": "chuàng xīn", "meaningVi": "Đổi mới", "hskLevel": 8 },
-  { "hanzi": "发展", "pinyin": "fā zhǎn", "meaningVi": "Phát triển", "hskLevel": 8 },
   { "hanzi": "转型", "pinyin": "zhuǎn xíng", "meaningVi": "Biến đổi", "hskLevel": 8 },
   { "hanzi": "挑战", "pinyin": "tiǎo zhàn", "meaningVi": "Thách thức", "hskLevel": 8 },
   { "hanzi": "机遇", "pinyin": "jī yù", "meaningVi": "Cơ hội", "hskLevel": 8 },
   { "hanzi": "风险", "pinyin": "fēng xiǎn", "meaningVi": "Rủi ro", "hskLevel": 8 },
   { "hanzi": "收益", "pinyin": "shōu yì", "meaningVi": "Lợi ích", "hskLevel": 8 },
-  { "hanzi": "成本", "pinyin": "chéng běn", "meaningVi": "Chi phí", "hskLevel": 8 },
   { "hanzi": "效益", "pinyin": "xiào yì", "meaningVi": "Hiệu quả", "hskLevel": 8 },
-  { "hanzi": "效率", "pinyin": "xiào lǜ", "meaningVi": "Hiệu suất", "hskLevel": 8 },
-  { "hanzi": "质量", "pinyin": "zhì liàng", "meaningVi": "Chất lượng", "hskLevel": 8 },
   { "hanzi": "效果", "pinyin": "xiào guǒ", "meaningVi": "Kết quả", "hskLevel": 8 },
   { "hanzi": "影响", "pinyin": "yǐng xiǎng", "meaningVi": "Ảnh hưởng", "hskLevel": 9 },
   { "hanzi": "结构", "pinyin": "jié gòu", "meaningVi": "Cấu trúc", "hskLevel": 9 },
-  { "hanzi": "机制", "pinyin": "jī zhì", "meaningVi": "Cơ chế", "hskLevel": 9 },
   { "hanzi": "功能", "pinyin": "gōng néng", "meaningVi": "Chức năng", "hskLevel": 9 },
   { "hanzi": "作用", "pinyin": "zuò yòng", "meaningVi": "Tác dụng", "hskLevel": 9 },
-  { "hanzi": "意义", "pinyin": "yì yì", "meaningVi": "Ý nghĩa", "hskLevel": 9 },
   { "hanzi": "价值", "pinyin": "jià zhí", "meaningVi": "Giá trị", "hskLevel": 9 },
   { "hanzi": "前提", "pinyin": "qián tí", "meaningVi": "Điều kiện tiên quyết", "hskLevel": 9 },
-  { "hanzi": "经济", "pinyin": "jīng jì", "meaningVi": "Kinh tế", "hskLevel": 5 },
   { "hanzi": "社会", "pinyin": "shè huì", "meaningVi": "Xã hội", "hskLevel": 5 },
-  { "hanzi": "文化", "pinyin": "wén huà", "meaningVi": "Văn hóa", "hskLevel": 5 },
   { "hanzi": "教育", "pinyin": "jiào yù", "meaningVi": "Giáo dục", "hskLevel": 5 },
   { "hanzi": "技术", "pinyin": "jì shù", "meaningVi": "Kỹ thuật", "hskLevel": 5 },
   { "hanzi": "科学", "pinyin": "kē xué", "meaningVi": "Khoa học", "hskLevel": 5 },
-  { "hanzi": "发展", "pinyin": "fā zhǎn", "meaningVi": "Phát triển", "hskLevel": 5 },
   { "hanzi": "变化", "pinyin": "biàn huà", "meaningVi": "Sự thay đổi", "hskLevel": 5 },
   { "hanzi": "问题", "pinyin": "wèn tí", "meaningVi": "Vấn đề", "hskLevel": 5 },
   { "hanzi": "方法", "pinyin": "fāng fǎ", "meaningVi": "Phương pháp", "hskLevel": 5 },
   { "hanzi": "经验", "pinyin": "jīng yàn", "meaningVi": "Kinh nghiệm", "hskLevel": 5 },
-  { "hanzi": "机会", "pinyin": "jī huì", "meaningVi": "Cơ hội", "hskLevel": 5 },
-  { "hanzi": "合作", "pinyin": "hé zuò", "meaningVi": "Hợp tác", "hskLevel": 5 },
-  { "hanzi": "竞争", "pinyin": "jìng zhēng", "meaningVi": "Cạnh tranh", "hskLevel": 5 },
-  { "hanzi": "创新", "pinyin": "chuàng xīn", "meaningVi": "Đổi mới", "hskLevel": 5 },
-  { "hanzi": "政策", "pinyin": "zhèng cè", "meaningVi": "Chính sách", "hskLevel": 5 },
-  { "hanzi": "环境", "pinyin": "huán jìng", "meaningVi": "Môi trường", "hskLevel": 5 },
   { "hanzi": "健康", "pinyin": "jiàn kāng", "meaningVi": "Sức khỏe", "hskLevel": 5 },
   { "hanzi": "安全", "pinyin": "ān quán", "meaningVi": "An toàn", "hskLevel": 5 },
   { "hanzi": "民主", "pinyin": "mín zhǔ", "meaningVi": "Dân chủ", "hskLevel": 6 },
   { "hanzi": "自由", "pinyin": "zì yóu", "meaningVi": "Tự do", "hskLevel": 6 },
   { "hanzi": "平等", "pinyin": "píng děng", "meaningVi": "Bình đẳng", "hskLevel": 6 },
   { "hanzi": "法制", "pinyin": "fǎ zhì", "meaningVi": "Pháp chế", "hskLevel": 6 },
-  { "hanzi": "权利", "pinyin": "quán lì", "meaningVi": "Quyền lợi", "hskLevel": 6 },
-  { "hanzi": "义务", "pinyin": "yì wù", "meaningVi": "Nhiệm vụ", "hskLevel": 6 },
-  { "hanzi": "责任", "pinyin": "zé rèn", "meaningVi": "Trách nhiệm", "hskLevel": 6 },
   { "hanzi": "诚信", "pinyin": "chéng xìn", "meaningVi": "Tín nhiệm", "hskLevel": 6 },
   { "hanzi": "道德", "pinyin": "dào dé", "meaningVi": "Đạo đức", "hskLevel": 6 },
   { "hanzi": "文明", "pinyin": "wén míng", "meaningVi": "Văn minh", "hskLevel": 6 },
   { "hanzi": "和谐", "pinyin": "hé xié", "meaningVi": "Hoà hợp", "hskLevel": 6 },
   { "hanzi": "公正", "pinyin": "gōng zhèng", "meaningVi": "Công chính", "hskLevel": 6 },
-  { "hanzi": "公平", "pinyin": "gōng píng", "meaningVi": "Công bằng", "hskLevel": 6 },
   { "hanzi": "正义", "pinyin": "zhèng yì", "meaningVi": "Chính nghĩa", "hskLevel": 6 },
   { "hanzi": "国际", "pinyin": "guó jì", "meaningVi": "Quốc tế", "hskLevel": 7 },
   { "hanzi": "全球", "pinyin": "quán qiú", "meaningVi": "Toàn cầu", "hskLevel": 7 },
@@ -3046,29 +2958,20 @@ export const VOCAB: VocabEntry[] = [
   { "hanzi": "人权", "pinyin": "rén quán", "meaningVi": "Nhân quyền", "hskLevel": 7 },
   { "hanzi": "主权", "pinyin": "zhǔ quán", "meaningVi": "Chủ quyền", "hskLevel": 7 },
   { "hanzi": "领土", "pinyin": "lǐng tǔ", "meaningVi": "Lãnh thổ", "hskLevel": 7 },
-  { "hanzi": "全球化", "pinyin": "quán qiú huà", "meaningVi": "Toàn cầu hóa", "hskLevel": 8 },
-  { "hanzi": "数字化", "pinyin": "shù zì huà", "meaningVi": "Số hóa", "hskLevel": 8 },
   { "hanzi": "智能化", "pinyin": "zhì néng huà", "meaningVi": "Trí tuệ nhân tạo hóa", "hskLevel": 8 },
   { "hanzi": "网络化", "pinyin": "wǎng luò huà", "meaningVi": "Mạng lưới hóa", "hskLevel": 8 },
   { "hanzi": "绿色", "pinyin": "lǜ sè", "meaningVi": "Xanh荣", "hskLevel": 8 },
   { "hanzi": "低碳", "pinyin": "dī tàn", "meaningVi": "Thấp carbon", "hskLevel": 8 },
-  { "hanzi": "可持续", "pinyin": "kě chí xù", "meaningVi": "Bền vững", "hskLevel": 8 },
   { "hanzi": "创业", "pinyin": "chuàng yè", "meaningVi": "Khai doanh", "hskLevel": 8 },
-  { "hanzi": "投资", "pinyin": "tóu zī", "meaningVi": "Đầu tư", "hskLevel": 8 },
   { "hanzi": "融资", "pinyin": "róng zī", "meaningVi": "Vốn hóa", "hskLevel": 8 },
-  { "hanzi": "市场", "pinyin": "shì chǎng", "meaningVi": "Thị trường", "hskLevel": 8 },
   { "hanzi": "垄断", "pinyin": "lòng duàn", "meaningVi": "Thống trị", "hskLevel": 8 },
   { "hanzi": "规范", "pinyin": "guī fàn", "meaningVi": "Tiêu chuẩn", "hskLevel": 8 },
-  { "hanzi": "标准", "pinyin": "biāo zhǔn", "meaningVi": "Chuẩn mực", "hskLevel": 8 },
   { "hanzi": "治理", "pinyin": "zhì lǐ", "meaningVi": "Quản trị", "hskLevel": 9 },
   { "hanzi": "体制", "pinyin": "tǐ zhì", "meaningVi": "Chế độ", "hskLevel": 9 },
-  { "hanzi": "模式", "pinyin": "mó shì", "meaningVi": "Mô hình", "hskLevel": 9 },
   { "hanzi": "路径", "pinyin": "lù jìng", "meaningVi": "Đường dẫn", "hskLevel": 9 },
-  { "hanzi": "目标", "pinyin": "mù biāo", "meaningVi": "Mục tiêu", "hskLevel": 9 },
   { "hanzi": "战略", "pinyin": "zhàn lüè", "meaningVi": "Chiến lược", "hskLevel": 9 },
   { "hanzi": "战术", "pinyin": "zhàn shù", "meaningVi": "Chiến thuật", "hskLevel": 9 },
   { "hanzi": "执行", "pinyin": "zhí xíng", "meaningVi": "Thực thi", "hskLevel": 9 },
-  { "hanzi": "监督", "pinyin": "jiān dū", "meaningVi": "Giám sát", "hskLevel": 9 },
   { "hanzi": "评估", "pinyin": "píng gū", "meaningVi": "Đánh giá", "hskLevel": 9 },
   { "hanzi": "反馈", "pinyin": "fǎn kuì", "meaningVi": "Phản hồi", "hskLevel": 9 },
   { "hanzi": "改进", "pinyin": "gǎi jìn", "meaningVi": "Cải tiến", "hskLevel": 9 },
