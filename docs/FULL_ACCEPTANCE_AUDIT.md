@@ -3,7 +3,7 @@
 **Repo:** https://github.com/NguyenTanTai76/chinese-compass  
 **Local path:** `C:\Users\LENOVO\Desktop\chinese-compass`  
 **Nhánh:** `master`  
-**HEAD / SHA:** `2d105db` (fix UI xóa tài khoản nói đúng phạm vi local-only, đã push lên origin/master, working tree sạch)
+**HEAD / SHA:** `cc89f30` (fix UI xóa tài khoản nói đúng phạm vi local-only + chốt audit, đã push lên origin/master, working tree sạch)
 **Trạng thái push:** đã push lên `origin/master`, working tree sạch
 **Ngày kiểm tra:** 2026-11-20
 **Môi trường:** Windows 11, Node.js 22+, Next.js 16.4.6, React 19.3.1  
@@ -24,16 +24,17 @@
 
 | Lệnh | Kết quả | Chi tiết |
 |---|---|---|
-| `git status` / `git log --oneline -3` | ĐẠT | Clean, HEAD `bc34bc8`, up-to-date origin/master, working tree sạch |
+| `git status` / `git log --oneline -3` | ĐẠT | Clean, HEAD `cc89f30`, up-to-date origin/master, working tree sạch |
 | `npm run typecheck` (`tsc --noEmit`) | ĐẠT | Không lỗi, không xuất ra |
 | `npm run lint` (`eslint src`) | ĐẠT | 0 errors; 37 warnings pre-existing |
 | `npm run build` (`next build`) | ĐẠT | 43 route |
-| `npx playwright test tests/curriculum-content.spec.ts` | 8 ĐẠT / 0 fail | Tất cả 8 case ĐẠT (4 curriculum-content + 3 beta-curriculum + 1 speaking scenario count >= mỗi cấp, ID unique, openingZh duy nhất 1 dấu hỏi) |
+| `npx playwright test tests/curriculum-content.spec.ts` | 5 ĐẠT / 0 fail | Intro sequence unique IDs/audio/answer; periodic forms 20 valid questions no shared items; Speaking schema caps feedback at 5; graded passages unique IDs + answer keys; Speaking scenarios stable unique IDs + 1 opening question per level |
 | `npx playwright test tests/beta-curriculum.spec.ts` | 3 ĐẠT | Lập kế hoạch 10p/30p, điều lịch giữ bài đã xong |
 | `npx playwright test tests/speaking-limit.spec.ts` | 3 ĐẠT / 0 fail | 3 case ĐẠT với Supabase thật + 2 tài khoản QA: ghi âm 5 phút không cắt ở 60s, auto-stop ở 5 phút, free conversation retry đúng luồng |
 | `npx playwright test tests/beta-platform.spec.ts` | 2 ĐẠT / 0 fail | Guest không đọc được progress: ĐẠT. A/B isolation: ĐẠT (QA A lưu review+save+session+xp, reload vẫn thấy dữ liệu, QA B không đọc/ghi chéo được dữ liệu A, cross-read = [], cross-write = 42501). Chạy trên Supabase thật `bqswvmdaqeryiddjvt`, credentials từ `.env.local`. |
-| `npx playwright test tests/beta-learner-flow.spec.ts` | 2 BỎ QUA | Cần `BETA_LOCAL_MOCK=1` (chỉ chạy với local mock Auth/Data API) |
+| `npx playwright test tests/beta-learner-flow.spec.ts` | 2 BỎ QUA | Cần `BETA_LOCAL_MOCK=1` (local mock Auth/Data API không tồn tại trong repo) |
 | `npx playwright test tests/pwa.spec.ts` | 1 BỎ QUA | Cần thiết bị thật (mobile offline + cài PWA) |
+| **TỔNG** | **13 ĐẠT / 0 fail / 3 skip** | Hồi quy sau sửa settings xóa tài khoản: toàn bộ xanh |
 
 ---
 
@@ -46,19 +47,19 @@ Mã trạng thái: ĐẠT = đủ bằng chứng; MỘT PHẦN =UI có nhưng ch
 | A-01 | A · P0 · Auth | Đăng nhập / đăng ký email/password, redirect callbackUrl | `/auth/sign-in`, `Supabase Auth` | ĐẠT | Build pass, route tồn tại, UI render đầy đủ (`src/app/(auth)/auth/`) | Chưa có magic link / OAuth |
 | A-02 | A · P0 · Layout | Sidebar 12 mục, Cmd/Ctrl+K search tìm dữ liệu thật (vocab/phrases/reading), drawer mobile, avatar menu | `components/app-nav.tsx`, `components/global-search.tsx` | ĐẠT | Build pass, GlobalSearch lọc VOCAB/PHRASES/READING_PASSAGES thật, điều hướng route | — |
 | A-03 | A · P0 · Shell | Error boundary route | `app/(app)/error.tsx`, `src/app/error.tsx` | ĐẠT | File tồn tại, build pass | — |
-| A-04 | A · P1 · Onboarding | Hỏi trình độ/mục tiêu/phút/ngày/kỹ năng; "Chưa biết trình độ" → `/placement` | `src/app/(app)/onboarding/page.tsx:21-69` | ĐẠT | Code review, build pass | — |
+| A-04 | A · P1 · Onboarding | Hỏi trình độ/mục tiêu/phút/ngày/kỹ năng; "Chưa biết trình độ" → `/placement` | `src/app/(app)/onboarding/page.tsx:21-69` | ĐẠT MỘT PHẦN | Code review, build pass; form render đầy đủ | **BLOCKER:** tạo lịch 7 ngày thất bại trên staging vì bảng `public.StudyPlan` không tồn tại (PGRST205; migration `db/migrations/002_beta_progress.sql` chưa áp dụng). `updateWeekPlan` ghi StudyPlan → ném lỗi → form hiện "Chưa lưu được lịch học." Cần user chạy migration staging trước khi kiểm thử lộ trình học đầy đủ. |
 | A-05 | A · P1 · Placement | Bài đầu vào 20 câu | `src/app/(app)/placement/page.tsx`, `getPlacementQuestions()` | ĐẠT | Code review, build pass | — |
 | A-06 | A · P1 · Settings | Chỉnh hồ sơ, xuất JSON, xác nhận xóa dữ liệu cục bộ + đăng xuất | `src/app/(app)/settings/page.tsx:69-109` | ĐẠT | Code review; UI đã sửa nói đúng phạm vi xóa localStorage + signOut, tài khoản Supabase không bị xóa server | Xóa tài khoản chỉ cục bộ (chưa gọi API xóa server) |
 | A-07 | A · P1 · Dashboard | "Học tiếp", thẻ đến hạn, lịch 7 ngày, XP/Level/Streak, 11 kỹ năng CTA | `src/app/(app)/dashboard/page.tsx:1-42` | ĐẠT | Build pass, UI render đầy đủ | Sync thủ công qua nút "Đồng bộ dữ liệu" |
 | A-08 | A · P1 · Dashboard | Lịch 7 ngày + tổng quan | `src/app/(app)/dashboard/page.tsx` | ĐẠT | Code review | Tổng quan 90 ngày chưa rõ có UI riêng |
 | A-09 | A · P2 · Giáo trình | 7/7 bài Nhập bản mới | `src/lib/content/intro-lessons.ts` | ĐẠT | Automated test (intro sequence 7 bài, ID unique, audio, đáp án) | — |
-| A-10 | A · P2 · Từ vựng | Kho ~430 mục từ (HSK 1–4) | `src/lib/content/vocab.ts` | ĐẠT | 491 mục (vượt chuẩn), Code review | Độ phủ đối chiếu danh mục chính thức chưa hoàn tất |
+| A-10 | A · P2 · Từ vựng | Kho ~430 mục từ (HSK 1–4) | `src/lib/content/vocab.ts` | ĐẠT | 612 mục (163 HSK1 + 254 HSK2 + 44 HSK3 + 40 HSK4 + 26 HSK5 + 21 HSK6 + 21 HSK7 + 32 HSK8 + 21 HSK9, vượt +182), Code review | Độ phủ đối chiếu danh mục chính thức chưa hoàn tất; HSK 3–4 còn thiếu lớn so với HSK danh mục |
 | A-11 | A · P2 · Đọc | 38+ bài đọc (đủ 30) | `src/lib/content/reading.ts` (37) + `graded-reading.ts` (6, cấp 2–7) | ĐẠT | 43 tổng, Automated test graded passages | Tuyến bài HSK 3+ chưa đầy đủ |
-| A-12 | A · P2 · Ngữ pháp | 283 câu (đủ 200, mở HSK 3–9) | `src/lib/content/grammar-questions.ts` | ĐẠT | 283 câu (g01–g283, PowerShell đếm), build pass, typecheck | — |
+| A-12 | A · P2 · Ngữ pháp | 284 câu (đủ 200, mở HSK 3–9) | `src/lib/content/grammar-questions.ts` | ĐẠT | 284 câu (g01–g284, đếm mã nguồn), build pass, typecheck | — |
 | A-13 | A · P2 · Phản xạ / nghe chép | 200 câu phản xạ, 40 nghe chép | `src/lib/content/phrases.ts`, `dictation.ts` | ĐẠT | Code review | Không đếm tự động trong lượt này |
 | A-14 | A · P3 · Đánh giá | Bài đầu vào 20 câu; 2 đề định kỳ 20 câu (10 vocab/5 ngữ pháp/5 nghe) | `src/lib/content/periodic-tests.ts` | ĐẠT | Automated test (2 form × 20 câu, không trùng, đáp án trong options) | — |
 | A-15 | A · P3 · Mock HSK | HSK 1 40 câu; HSK 2/3/4 30 câu/cấp (15 nghe + 15 đọc); HSKK Trung cấp ~30 câu; TOCFL A2 ~30 câu | `src/lib/content/hsk-mock.ts` | ĐẠT | Code review, build pass, score functions có sẵn | — |
-| A-16 | A · P3 · Lịch sử theo tài khoản | Lưu kết quả thi, xem lại | `/api/progress`, localStorage + Supabase sync | CHỨA CÓ | `prisma/progressevent-migration.sql` đã chuẩn bị (tạo bảng + RLS) — cần chạy trên Supabase Dashboard staging | Chạy migration SQL trên staging, sau đó chạy beta-platform A/B isolation |
+| A-16 | A · P3 · Lịch sử theo tài khoản | Lưu kết quả thi, xem lại | `/api/progress`, localStorage + Supabase sync | ĐẠT | `prisma/progressevent-migration.sql` đã chuẩn bị; ProgressEvent + RLS verify qua test A/B thực tế (cross-read=[], cross-write=42501) trên staging `bqswvmdaqeryiddjvt` | Chưa áp migration trên production |
 | A-17 | A · P4 · Luyện tập | Speaking 2 chế độ (chủ đề + tự do), 5 lỗi, điểm 4/3/3, retry, fallback | `src/app/(app)/speaking/page.tsx`, `src/lib/content/speaking.ts` | ĐẠT | Automated test schema `maxItems: 5`, `MAX_SPEAKING_ERRORS=5` | STT/AI thật chưa verify |
 | A-18 | A · P5 · Beta | Next.js 16.4.6 + React 19.3.1, PWA icon 192/512 | `package.json`, `public/` | ĐẠT | package.json, build pass | Cài thật, staging, tải 50/10 chưa làm |
 | A-19 | A · P6 · HSK 2–4 | Từ HSK3/4 (~100), đọc HSK3/4 (6 bài mới + 2 graded cũ), ngữ pháp HSK3/4 (50 câu mới), nói HSK3/4 (12 mới), đề thi thử HSK 2/3/4 | `vocab.ts`, `reading.ts`, `grammar-questions.ts`, `speaking-scenarios.ts`, `hsk-mock.ts` | ĐẠT | Build pass, test scenario count | Tuyến bài HSK3+ đầy đủ, bộ đề HSKK/TOCFL kiểm định |
@@ -168,13 +169,15 @@ Các bước sẽ thực hiện khi có staging được phép:
 | 8 | Chạy `beta-platform.spec.ts` A/B trên staging | ✅ ĐÃ LÀM | `tests/beta-platform.spec.ts` | `npx playwright test` | 2/2 ĐẠT |
 | 9 | Cập nhật `docs/BETA_READINESS.md` speaking bảng (144/144 → 147 thực tế) | ✅ ĐÃ LÀM | `docs/BETA_READINESS.md` | Bảng Speaking đã khớp 147/147 | Bảng khớp thực tế |
 | 10 | Sửa UI xóa tài khoản nói đúng phạm vi local-only + đăng xuất | ✅ ĐÃ LÀM | `src/app/(app)/settings/page.tsx` | Mở /settings → Xóa tài khoản → đọc mô tả | Mô tả không còn overpromise xóa server |
+| 11 | Áp migration `db/migrations/002_beta_progress.sql` trên Supabase Dashboard staging (tạo StudyPlan + RLS) | BLOCKER (cần user) | `db/migrations/002_beta_progress.sql`, `/onboarding` | Chạy SQL trên Supabase Dashboard staging, sau đó tạo lịch 7 ngày từ /onboarding thành công | StudyPlan bảng tồn tại, onboarding tạo lịch không còn PGRST205 |
+| 12 | Áp migration `prisma/progressevent-migration.sql` trên Supabase Dashboard production | BLOCKER (cần user) | `prisma/progressevent-migration.sql` | Chạy SQL trên Supabase Dashboard production | ProgressEvent + RLS active trên production |
 
 ---
 
 ## 7. SHA và trạng thái làm việc
 
-- HEAD / SHA: `2d105db` (đã commit và push lên `origin/master`; chain: `...` → `77c6d85` → `2d105db`).
-- Working tree: có thay đổi chưa commit (docs/FULL_ACCEPTANCE_AUDIT.md, docs/BETA_READINESS.md, src/app/(app)/settings/page.tsx).
+- HEAD / SHA: `cc89f30` (đã commit và push lên `origin/master`; chain: `...` → `77c6d85` → `2d105db` → `cc89f30`).
+- Working tree: sạch (đã commit docs + settings fix).
 - Không tạo nhánh mới, không force-push, không commit secrets.
 - 3 worktree phụ (curriculum, platform, speaking) đã được gỡ khỏi Desktop, nhánh Git `beta/curriculum`, `beta/platform`, `beta/speaking` đã giữ lại để đối chiếu.
 
@@ -182,8 +185,8 @@ Các bước sẽ thực hiện khi có staging được phép:
 
 ## 8. Trả lời cuối (ngắn)
 
-- **Đã đáp ứng đủ từng prompt A/B/C chưa?** A: một phần (P0–P6 đủ, P7–P8 chưa); B: đủ dữ liệu (147 Speaking, mọi cấp đạt/vượt; test 8/8 pass local + 3/3 speaking-limit thật), chưa verify thực thi thật (STT/AI cần staging + key); C: một phần (route tutor + API tồn tại, build pass), chưa verify API key/lưu server thật.
-- **Tính năng nào có thể dùng thật ngay?** Nhập môn–HSK 1: onboarding, placement, dashboard, từ vựng flashcard, đọc, ngữ pháp, speaking HSK 1 (14 tình huống), mock HSK 1, cài đặt/xuất JSON/xóa dữ liệu cục bộ + đăng xuất.
+- **Đã đáp ứng đủ từng prompt A/B/C chưa?** A: một phần (P0–P6 đủ, P7–P8 chưa); B: đủ dữ liệu (147 Speaking, mọi cấp đạt/vượt; test 13/13 pass regression + 3/3 speaking-limit thật), chưa verify thực thi thật (STT/AI cần staging + key); C: một phần (route tutor + API tồn tại, build pass), chưa verify API key/lưu server thật.
+- **Tính năng nào có thể dùng thật ngay?** Nhập môn–HSK 1: onboarding (form render, nhưng tạo lịch 7 ngày bị chặn), placement, dashboard, từ vựng flashcard, đọc, ngữ pháp, speaking HSK 1 (14 tình huống), mock HSK 1, cài đặt/xuất JSON/xóa dữ liệu cục bộ + đăng xuất.
 - **Học liệu đã nghiệm thu bao nhiêu trên mục tiêu?** Từ vựng 612/~430 (vượt), đọc 43/38+ (vượt), ngữ pháp 284/200 (đủ +84), Speaking 147/144 (vượt), bài học 7/7 (đủ), đề thi HSK 1–4 + HSKK + TOCFL đủ.
-- **Có thể mời 50 người chưa?** Chưa — chỉ thử nội bộ Nhập môn–HSK 1. Cần Supabase production + RLS, API key thật, staging + 2 tài khoản QA, bảng ProgressEvent trước khi mở beta 50.
-- **5 việc quan trọng nhất cần làm tiếp:** (1) Chạy `prisma/progressevent-migration.sql` trên Supabase Dashboard production (RLS A/B đã verify trên staging qua test A/B thực tế); (2) HSK 5–9 giáo trình (đọc/viết/nói — ngữ pháp + từ đã làm xong); (3) Cấu hình API key STT/AI thật; (4) Xây P8 cộng đồng; (5) Cập nhật `docs/BETA_READINESS.md`. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`. SHA đã push: `2d105db`.
+- **Có thể mời 50 người chưa?** Chưa — chỉ thử nội bộ Nhập môn–HSK 1. Cần: (1) Supabase production + RLS; (2) API key STT/AI thật; (3) staging + 2 tài khoản QA; (4) bảng `StudyPlan` áp migration `db/migrations/002_beta_progress.sql` trên staging (chưa có → tạo lịch 7 ngày bị chặn); (5) bảng `ProgressEvent` áp trên production. Trước đó chỉ thử nội bộ.
+- **5 việc quan trọng nhất cần làm tiếp:** (1) User chạy `db/migrations/002_beta_progress.sql` trên Supabase Dashboard staging (tạo StudyPlan + RLS, mở khóa tạo lịch 7 ngày); (2) User chạy `prisma/progressevent-migration.sql` trên Supabase Dashboard production (ProgressEvent + RLS A/B đã verify staging); (3) HSK 5–9 giáo trình (đọc/viết/nói — ngữ pháp + từ đã làm xong); (4) Cấu hình API key STT/AI thật; (5) Xây P8 cộng đồng. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`, `docs/BETA_READINESS.md`, `docs/FULL_GAP_AUDIT.md`. SHA đã push: `cc89f30`.
