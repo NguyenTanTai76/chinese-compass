@@ -25,7 +25,7 @@ DO $$ BEGIN
     SELECT 1 FROM pg_policies WHERE tablename = 'ProgressEvent' AND policyname = 'Users can view own progress events'
   ) THEN
     CREATE POLICY "Users can view own progress events" ON "ProgressEvent"
-      FOR SELECT USING (auth.uid()::text = "userId");
+      FOR SELECT USING (auth.uid()::text = user_id);
   END IF;
 END $$;
 
@@ -34,7 +34,7 @@ DO $$ BEGIN
     SELECT 1 FROM pg_policies WHERE tablename = 'ProgressEvent' AND policyname = 'Users can insert own progress events'
   ) THEN
     CREATE POLICY "Users can insert own progress events" ON "ProgressEvent"
-      FOR INSERT WITH CHECK (auth.uid()::text = "userId");
+      FOR INSERT WITH CHECK (auth.uid()::text = user_id);
   END IF;
 END $$;
 

@@ -66,10 +66,10 @@ CREATE POLICY "Authenticated users can read passages" ON "ReadingPassage"
 
 -- ProgressEvent policies
 CREATE POLICY "Users can view own progress events" ON "ProgressEvent"
-  FOR SELECT USING (auth.uid()::text = "userId");
+  FOR SELECT USING (auth.uid()::text = user_id);
 
 CREATE POLICY "Users can insert own progress events" ON "ProgressEvent"
-  FOR INSERT WITH CHECK (auth.uid()::text = "userId");
+  FOR INSERT WITH CHECK (auth.uid()::text = user_id);
 
 -- Helper function to get current user id
 CREATE OR REPLACE FUNCTION current_user_id() RETURNS text
