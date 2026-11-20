@@ -474,6 +474,106 @@ export const READING_PASSAGES: ReadingPassage[] = [
     },
   },
   {
+    "id": "hsk3-work-office",
+    "title": "Làm việc tại văn phòng",
+    "level": 3,
+    "sentences": [
+      "小王每天早上八点到公司。",
+      "他先打开电脑，然后查看电子邮件。",
+      "上午十点有个会议，大家讨论新项目。",
+      "中午和同事一起去食堂吃饭。",
+      "下午他写报告，直到五点下班。"
+    ],
+    "wordCount": 78,
+    "topic": "Công việc",
+    "check": {
+      "prompt": "Tiểu王 thường đến công ty mấy giờ sáng?",
+      "options": ["Bảy giờ", "Tám giờ", "Chín giờ"],
+      "answer": "Tám giờ",
+      "explanation": "小王每天早上八点到公司 khẳng định tám giờ sáng."
+    },
+  },
+  {
+    "id": "hsk3-family-dinner",
+    "title": "Bữa tối gia đình",
+    "level": 3,
+    "sentences": [
+      "周末全家人一起吃晚饭。",
+      "爸爸做了很多菜，妈妈摆好碗筷。",
+      "弟弟倒水，姐姐端菜。",
+      "大家聊天，气氛很温暖。",
+      "饭后一起看电视，很开心。"
+    ],
+    "wordCount": 82,
+    "topic": "Gia đình",
+    "check": {
+      "prompt": "Ai là người nấu ăn trong đoạn văn?",
+      "options": ["Em trai", "Cha", "Chị gái"],
+      "answer": "Cha",
+      "explanation": "爸爸做了很多菜 xác định cha là người nấu ăn."
+    },
+  },
+  {
+    "id": "hsk3-travel-shanghai",
+    "title": "Du lịch Thượng Hải",
+    "level": 3,
+    "sentences": [
+      "上个月我去了上海旅行。",
+      "外滩的夜景很美，很多游客拍照。",
+      "我坐地铁去南京路步行街买东西。",
+      "那里的小笼包很好吃，我买了很多。",
+      "上海很现代，我也很喜欢。"
+    ],
+    "wordCount": 85,
+    "topic": "Du lịch",
+    "check": {
+      "prompt": "Tác giả đi du lịch thành phố nào?",
+      "options": ["Bắc Kinh", "Thượng Hải", "Thiên Chinh"],
+      "answer": "Thượng Hải",
+      "explanation": "上个月我去了上海旅行 xác định thành phố là Thượng Hải."
+    },
+  },
+  {
+    "id": "hsk3-technology-life",
+    "title": "Công nghệ và cuộc sống",
+    "level": 3,
+    "sentences": [
+      "现在很多人都用手机支付。",
+      "坐出租车、买咖啡、订机票都可以用手机。",
+      "但是，老年人不会用手机，生活不方便。",
+      "我们应该教他们用，让生活更轻松。",
+      "科技改变生活，也需要关心每一个人。"
+    ],
+    "wordCount": 80,
+    "topic": "Công nghệ",
+    "check": {
+      "prompt": "Theo đoạn văn, ai cần được hướng dẫn dùng điện thoại?",
+      "options": ["Người trẻ", "Người già", "Khách du lịch"],
+      "answer": "Người già",
+      "explanation": "但是，老年人不会用手机 xác định người già cần được hướng dẫn."
+    },
+  },
+  {
+    "id": "hsk3-learning-chinese",
+    "title": "Học tiếng Trung",
+    "level": 3,
+    "sentences": [
+      "学习中文不容易，但很有趣。",
+      "汉字很多，拼音也要花时间记。",
+      "每天练习听说读写，进步很快。",
+      "看中国电影，听中文歌曲，可以学得更好。",
+      "坚持下去，一定能说好中文。"
+    ],
+    "wordCount": 76,
+    "topic": "Giáo dục",
+    "check": {
+      "prompt": "Theo đoạn văn, cách nào giúp học tiếng Trung tốt hơn?",
+      "options": ["Chỉ học từ vựng", "Xem phim Trung và nghe nhạc Trung", "Học một mình mà không luyện"],
+      "answer": "Xem phim Trung và nghe nhạc Trung",
+      "explanation": "看中国电影，听中文歌曲，可以学得更好 nêu phương pháp học hiệu quả."
+    },
+  },
+  {
     "id": "hsk4-travel-plan",
     "title": "Kế hoạch du lịch",
     "level": 4,
@@ -531,6 +631,107 @@ export const READING_PASSAGES: ReadingPassage[] = [
       "options": ["Làm thêm giờ", "Nghỉ ngơi và tập thể dục thích độ", "Làm việc suốt tuần"],
       "answer": "Nghỉ ngơi và tập thể dục thích độ",
       "explanation": "下班后适当休息和运动，有助于恢复精力 nêu cách thức phục hồi năng lượng."
+    },
+  },
+  {
+    "id": "hsk4-business-email",
+    "title": "Email kinh doanh",
+    "level": 4,
+    "sentences": [
+      "尊敬的经理，",
+      "我写这封信是为了提出一个建议。",
+      "我们公司的办公时间可以更灵活一些。",
+      "这样员工可以更好地平衡工作和生活。",
+      "希望您能考虑这个建议。",
+      "祝工作顺利。"
+    ],
+    "wordCount": 90,
+    "topic": "Công việc",
+    "check": {
+      "prompt": "Tác giả viết email này để làm gì?",
+      "options": ["Xin nghỉ việc", "Đề xuất giờ làm linh hoạt", "Yêu cầu tăng lương"],
+      "answer": "Đề xuất giờ làm linh hoạt",
+      "explanation": "我写这封信是为了提出一个建议 + 我们公司的办公时间可以更灵活一些 xác định mục đích là đề xuất giờ làm linh hoạt."
+    },
+  },
+  {
+    "id": "hsk4-city-comparison",
+    "title": "So sánh thành phố",
+    "level": 4,
+    "sentences": [
+      "北京和上海都是中国的大城市。",
+      "北京有很多历史景点，比如故宫和长城。",
+      "上海更现代，有很多高楼大厦。",
+      "两个城市的人口都很多，交通也很发达。",
+      "但北京的冬天比上海冷。"
+    ],
+    "wordCount": 88,
+    "topic": "Du lịch",
+    "check": {
+      "prompt": "Theo đoạn văn, thành phố nào đông cao hơn?",
+      "options": ["Bắc Kinh", "Thượng Hải", "Hai thành phố bằng nhau"],
+      "answer": "Thượng Hải",
+      "explanation": "上海更现代，有很多高楼大厦 xác định Thượng Hải hiện đại/cao hơn."
+    },
+  },
+  {
+    "id": "hsk4-health-exercise",
+    "title": "Sức khỏe và thể dục",
+    "level": 4,
+    "sentences": [
+      "健康是我们最重要的财富。",
+      "每天运动半小时，可以增强体质。",
+      "多吃蔬菜水果，少吃油腻食物。",
+      "保证充足的睡眠，不要熬夜。",
+      "良好的生活习惯能让我们更有精力。"
+    ],
+    "wordCount": 82,
+    "topic": "Sức khỏe",
+    "check": {
+      "prompt": "Theo đoạn văn, điều gì không nên làm để giữ sức khỏe?",
+      "options": ["Uống nhiều nước", "Thức quá muộn", "Ăn nhiều rau quả"],
+      "answer": "Thức quá muộn",
+      "explanation": "不要熬夜 khẳng định không nên thức quá muộn."
+    },
+  },
+  {
+    "id": "hsk4-online-shopping",
+    "title": "Mua sắm trực tuyến",
+    "level": 4,
+    "sentences": [
+      "现在很多人喜欢在网上购物。",
+      "网上购物方便，价格也便宜。",
+      "但是，有时候网上的东西和照片不一样。",
+      "买东西前要看评价，选信誉好的卖家。",
+      "网购要理性，不要买不需要的东西。"
+    ],
+    "wordCount": 86,
+    "topic": "Mua sắm",
+    "check": {
+      "prompt": "Theo đoạn văn, trước khi mua sắm trực tuyến nên làm gì?",
+      "options": ["Mua ngay sản phẩm rẻ nhất", "Xem đánh giá và chọn người bán uy tín", "Không cần tìm hiểu"],
+      "answer": "Xem đánh giá và chọn người bán uy tín",
+      "explanation": "买东西前要看评价，选信誉好的卖家 xác định nên xem đánh giá và chọn người bán uy tín."
+    },
+  },
+  {
+    "id": "hsk4-education-online",
+    "title": "Giáo dục trực tuyến",
+    "level": 4,
+    "sentences": [
+      "随着互联网的发展，网上教育越来越普及。",
+      "学生可以在家里上课，不需要去学校。",
+      "这样节省了时间，也更方便。",
+      "但是，网上学习缺乏面对面的交流。",
+      "老师和学生要更努力地沟通。"
+    ],
+    "wordCount": 84,
+    "topic": "Giáo dục",
+    "check": {
+      "prompt": "Theo đoạn văn, nhược điểm của giáo dục trực tuyến là gì?",
+      "options": ["Học phí đắt", "Thiếu giao tiếp trực tiếp", "Không có giáo viên"],
+      "answer": "Thiếu giao tiếp trực tiếp",
+      "explanation": "但是，网上学习缺乏面对面的交流 xác định nhược điểm là thiếu giao tiếp mặt đối mặt."
     },
   },
   ...GRADED_READING,

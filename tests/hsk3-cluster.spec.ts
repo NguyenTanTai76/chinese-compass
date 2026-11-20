@@ -49,18 +49,18 @@ test("HSK 3 cluster: kiểm tra lộ trình HSK 3 đã nối nghe chép và vi�
   const hsk3GrammarLessons = 7;
   expect(hsk3GrammarLessons).toBe(7);
 
-  // Kiểm tra grammar questions HSK 3 (54 câu)
-  const hsk3GrammarQuestions = 54;
-  expect(hsk3GrammarQuestions).toBe(54);
+  // Kiểm tra grammar questions HSK 3 (74 câu sau khi bổ sung 20)
+  const hsk3GrammarQuestions = 74;
+  expect(hsk3GrammarQuestions).toBe(74);
 
   // Kiểm tra speaking scenarios HSK 3 (18 tình huống - đã đạt mục tiêu)
   const hsk3SpeakingScenarios = 18;
   expect(hsk3SpeakingScenarios).toBe(18);
 
-  // Kiểm tra reading passages HSK 3 (3 bài: thư viện, sức khỏe, đô thị)
-  const hsk3ReadingPassages = 3;
-  expect(hsk3ReadingPassages).toBe(3);
+  // Kiểm tra reading passages HSK 3 (8 bài sau khi bổ sung 5)
+  const hsk3ReadingPassages = 8;
+  expect(hsk3ReadingPassages).toBe(8);
 
-  console.log("HSK 3 cluster: vocab=467, grammar=54 questions/7 lessons, reading=3, dictation=18, writing=1, speaking=18");
+  console.log("HSK 3 cluster: vocab=467, grammar=74 questions/7 lessons, reading=8, dictation=18, writing=1, speaking=18");
   console.log("Roadmap HSK 3: đã nối nghe chép (lesson + review) và viết (lesson) vào lộ trình");
 });
