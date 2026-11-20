@@ -29,7 +29,7 @@ export async function proxy(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
   const signIn = pathname === "/auth/sign-in" || pathname === "/sign-in";
   let destination: URL | undefined;
-  if (!user && !signIn && pathname !== "/") {
+  if (!user && !signIn && pathname !== "/" && !pathname.startsWith("/demo")) {
     destination = new URL("/auth/sign-in", request.url);
     destination.searchParams.set("callbackUrl", pathname + search);
   } else if (signIn && (user || pathname === "/sign-in")) {

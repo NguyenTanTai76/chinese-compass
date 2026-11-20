@@ -4,20 +4,40 @@ import { useEffect, useState } from "react";
 import { WifiOff } from "lucide-react";
 
 export function OfflineIndicator() {
-  const [offline, setOffline] = useState(!navigator.onLine);
+  const [offline, setOffline] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    const onOnline = () => setOffline(false);
+    let timer: ReturnType<typeof setTimeout>;
+
+    const check = async () => {
+      try {
+        const controller = new AbortController();
+        timer = setTimeout(() => controller.abort(), 4000);
+        await fetch("/_next/static/", { method: "HEAD", signal: controller.signal, cache: "no-store" });
+        setOffline(false);
+      } catch {
+        setOffline(true);
+      } finally {
+        setChecked(true);
+        if (timer) clearTimeout(timer);
+      }
+    };
+
+    check();
+
+    const onOnline = () => { setOffline(false); setChecked(true); };
     const onOffline = () => setOffline(true);
     window.addEventListener("online", onOnline);
     window.addEventListener("offline", onOffline);
     return () => {
       window.removeEventListener("online", onOnline);
       window.removeEventListener("offline", onOffline);
+      if (timer) clearTimeout(timer);
     };
   }, []);
 
-  if (!offline) return null;
+  if (!checked || !offline) return null;
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-amber-900 text-amber-100 px-4 py-2 flex items-center gap-2 text-sm font-medium">
