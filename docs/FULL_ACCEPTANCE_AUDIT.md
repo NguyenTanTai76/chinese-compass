@@ -3,7 +3,7 @@
 **Repo:** https://github.com/NguyenTanTai76/chinese-compass  
 **Local path:** `C:\Users\LENOVO\Desktop\chinese-compass`  
 **Nhánh:** `master`  
-**HEAD / SHA:** `77c6d85` (locator flashcard + A/B isolation test fixes, đã push lên origin/master, working tree sạch)
+**HEAD / SHA:** `2d105db` (fix UI xóa tài khoản nói đúng phạm vi local-only, đã push lên origin/master, working tree sạch)
 **Trạng thái push:** đã push lên `origin/master`, working tree sạch
 **Ngày kiểm tra:** 2026-11-20
 **Môi trường:** Windows 11, Node.js 22+, Next.js 16.4.6, React 19.3.1  
@@ -44,11 +44,11 @@ Mã trạng thái: ĐẠT = đủ bằng chứng; MỘT PHẦN =UI có nhưng ch
 | ID | Nguồn + mục | Hành vi cần đạt | Route / API / data | Trạng thái | Bằng chứng | Phần còn thiếu |
 |---|---|---|---|---|---|---|
 | A-01 | A · P0 · Auth | Đăng nhập / đăng ký email/password, redirect callbackUrl | `/auth/sign-in`, `Supabase Auth` | ĐẠT | Build pass, route tồn tại, UI render đầy đủ (`src/app/(auth)/auth/`) | Chưa có magic link / OAuth |
-| A-02 | A · P0 · Layout | Sidebar 12 mục, Cmd/Ctrl+K search, drawer mobile, avatar menu | `components/app-nav.tsx`, `components/global-search.tsx` | ĐẠT | Build pass, code review | Search chỉ mock, chưa kết nối dữ liệu thật |
+| A-02 | A · P0 · Layout | Sidebar 12 mục, Cmd/Ctrl+K search tìm dữ liệu thật (vocab/phrases/reading), drawer mobile, avatar menu | `components/app-nav.tsx`, `components/global-search.tsx` | ĐẠT | Build pass, GlobalSearch lọc VOCAB/PHRASES/READING_PASSAGES thật, điều hướng route | — |
 | A-03 | A · P0 · Shell | Error boundary route | `app/(app)/error.tsx`, `src/app/error.tsx` | ĐẠT | File tồn tại, build pass | — |
 | A-04 | A · P1 · Onboarding | Hỏi trình độ/mục tiêu/phút/ngày/kỹ năng; "Chưa biết trình độ" → `/placement` | `src/app/(app)/onboarding/page.tsx:21-69` | ĐẠT | Code review, build pass | — |
 | A-05 | A · P1 · Placement | Bài đầu vào 20 câu | `src/app/(app)/placement/page.tsx`, `getPlacementQuestions()` | ĐẠT | Code review, build pass | — |
-| A-06 | A · P1 · Settings | Chỉnh hồ sơ, xuất JSON, xác nhận xóa tài khoản | `src/app/(app)/settings/page.tsx:69-109` | ĐẠT | Code review (xuất JSON, clear localStorage + signOut) | Xóa tài khoản chỉ cục bộ (chưa gọi API xóa server) |
+| A-06 | A · P1 · Settings | Chỉnh hồ sơ, xuất JSON, xác nhận xóa dữ liệu cục bộ + đăng xuất | `src/app/(app)/settings/page.tsx:69-109` | ĐẠT | Code review; UI đã sửa nói đúng phạm vi xóa localStorage + signOut, tài khoản Supabase không bị xóa server | Xóa tài khoản chỉ cục bộ (chưa gọi API xóa server) |
 | A-07 | A · P1 · Dashboard | "Học tiếp", thẻ đến hạn, lịch 7 ngày, XP/Level/Streak, 11 kỹ năng CTA | `src/app/(app)/dashboard/page.tsx:1-42` | ĐẠT | Build pass, UI render đầy đủ | Sync thủ công qua nút "Đồng bộ dữ liệu" |
 | A-08 | A · P1 · Dashboard | Lịch 7 ngày + tổng quan | `src/app/(app)/dashboard/page.tsx` | ĐẠT | Code review | Tổng quan 90 ngày chưa rõ có UI riêng |
 | A-09 | A · P2 · Giáo trình | 7/7 bài Nhập bản mới | `src/lib/content/intro-lessons.ts` | ĐẠT | Automated test (intro sequence 7 bài, ID unique, audio, đáp án) | — |
@@ -166,14 +166,15 @@ Các bước sẽ thực hiện khi có staging được phép:
 | 6 | Xây giáo trình HSK 5–9 (đọc, viết, nói) | Cần sửa | `src/lib/content/reading.ts`, `writing/`, `speaking-scenarios.ts` | Thêm nội dung cấp 5/6/7–9 (ngữ pháp + từ đã làm xong) | Đủ mục tiêu cấp |
 | 7 | Cấu hình API key thử nghiệm (Gemini/Groq) + Ollama local | Chặn beta | `.env.local`, `api/stt`, `api/speaking`, `api/tutor` | Nhập key, chạy E2E | STT/AI verify |
 | 8 | Chạy `beta-platform.spec.ts` A/B trên staging | ✅ ĐÃ LÀM | `tests/beta-platform.spec.ts` | `npx playwright test` | 2/2 ĐẠT |
-| 9 | Cập nhật `docs/BETA_READINESS.md` speaking bảng (144/144 → 147 thực tế) | Cần sửa | `docs/BETA_READINESS.md` | Sửa bảng Speaking | Bảng khớp thực tế |
+| 9 | Cập nhật `docs/BETA_READINESS.md` speaking bảng (144/144 → 147 thực tế) | ✅ ĐÃ LÀM | `docs/BETA_READINESS.md` | Bảng Speaking đã khớp 147/147 | Bảng khớp thực tế |
+| 10 | Sửa UI xóa tài khoản nói đúng phạm vi local-only + đăng xuất | ✅ ĐÃ LÀM | `src/app/(app)/settings/page.tsx` | Mở /settings → Xóa tài khoản → đọc mô tả | Mô tả không còn overpromise xóa server |
 
 ---
 
 ## 7. SHA và trạng thái làm việc
 
-- HEAD / SHA: `075810d` (đã commit và push lên `origin/master`; chain: `...` → `bc34bc8` → `075810d`).
-- Working tree: có thay đổi chưa commit (tests/beta-platform.spec.ts, docs/FULL_ACCEPTANCE_AUDIT.md).
+- HEAD / SHA: `2d105db` (đã commit và push lên `origin/master`; chain: `...` → `77c6d85` → `2d105db`).
+- Working tree: có thay đổi chưa commit (docs/FULL_ACCEPTANCE_AUDIT.md, docs/BETA_READINESS.md, src/app/(app)/settings/page.tsx).
 - Không tạo nhánh mới, không force-push, không commit secrets.
 - 3 worktree phụ (curriculum, platform, speaking) đã được gỡ khỏi Desktop, nhánh Git `beta/curriculum`, `beta/platform`, `beta/speaking` đã giữ lại để đối chiếu.
 
@@ -182,7 +183,7 @@ Các bước sẽ thực hiện khi có staging được phép:
 ## 8. Trả lời cuối (ngắn)
 
 - **Đã đáp ứng đủ từng prompt A/B/C chưa?** A: một phần (P0–P6 đủ, P7–P8 chưa); B: đủ dữ liệu (147 Speaking, mọi cấp đạt/vượt; test 8/8 pass local + 3/3 speaking-limit thật), chưa verify thực thi thật (STT/AI cần staging + key); C: một phần (route tutor + API tồn tại, build pass), chưa verify API key/lưu server thật.
-- **Tính năng nào có thể dùng thật ngay?** Nhập môn–HSK 1: onboarding, placement, dashboard, từ vựng flashcard, đọc, ngữ pháp, speaking HSK 1 (14 tình huống), mock HSK 1, cài đặt/xuất JSON/xóa tài khoản cục bộ.
-- **Học liệu đã nghiệm thu bao nhiêu trên mục tiêu?** Từ vựng ~536/~430 (vượt), đọc 43/38+ (vượt), ngữ pháp 283/200 (đủ +83), Speaking 147/144 (vượt), bài học 7/7 (đủ), đề thi HSK 1–4 + HSKK + TOCFL đủ.
+- **Tính năng nào có thể dùng thật ngay?** Nhập môn–HSK 1: onboarding, placement, dashboard, từ vựng flashcard, đọc, ngữ pháp, speaking HSK 1 (14 tình huống), mock HSK 1, cài đặt/xuất JSON/xóa dữ liệu cục bộ + đăng xuất.
+- **Học liệu đã nghiệm thu bao nhiêu trên mục tiêu?** Từ vựng 612/~430 (vượt), đọc 43/38+ (vượt), ngữ pháp 284/200 (đủ +84), Speaking 147/144 (vượt), bài học 7/7 (đủ), đề thi HSK 1–4 + HSKK + TOCFL đủ.
 - **Có thể mời 50 người chưa?** Chưa — chỉ thử nội bộ Nhập môn–HSK 1. Cần Supabase production + RLS, API key thật, staging + 2 tài khoản QA, bảng ProgressEvent trước khi mở beta 50.
-- **5 việc quan trọng nhất cần làm tiếp:** (1) Chạy `prisma/progressevent-migration.sql` trên Supabase Dashboard production (RLS A/B đã verify trên staging qua test A/B thực tế); (2) HSK 5–9 giáo trình (đọc/viết/nói — ngữ pháp + từ đã làm xong); (3) Cấu hình API key STT/AI thật; (4) Xây P8 cộng đồng; (5) Cập nhật `docs/BETA_READINESS.md`. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`. SHA đã push: `77c6d85`.
+- **5 việc quan trọng nhất cần làm tiếp:** (1) Chạy `prisma/progressevent-migration.sql` trên Supabase Dashboard production (RLS A/B đã verify trên staging qua test A/B thực tế); (2) HSK 5–9 giáo trình (đọc/viết/nói — ngữ pháp + từ đã làm xong); (3) Cấu hình API key STT/AI thật; (4) Xây P8 cộng đồng; (5) Cập nhật `docs/BETA_READINESS.md`. Báo cáo chi tiết: `docs/FULL_ACCEPTANCE_AUDIT.md`. SHA đã push: `2d105db`.

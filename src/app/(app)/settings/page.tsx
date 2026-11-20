@@ -175,14 +175,14 @@ export default function SettingsPage() {
 
       <section className="rounded-xl border border-border bg-card p-5">
         <h2 className="text-sm font-semibold flex items-center gap-2 text-destructive"><ShieldAlert className="h-4 w-4 text-destructive" />Xóa tài khoản</h2>
-        <p className="text-sm text-muted-foreground">Hành động này xóa vĩnh viễn tiến độ học, flashcard đã lưu, lịch sử bài làm và cài đặt của tài khoản này trên thiết bị và máy chủ. Không thể khôi phục. Dữ liệu của tài khoản khác không bị ảnh hưởng.</p>
+        <p className="text-sm text-muted-foreground">Hành động này xóa vĩnh viễn tiến độ học, flashcard đã lưu, lịch sử bài làm và cài đặt của tài khoản này trên thiết bị này (localStorage), rồi đăng xuất. Tài khoản Supabase vẫn tồn tại và dữ liệu trên máy chủ không bị xóa tự động. Dữ liệu của tài khoản khác không bị ảnh hưởng.</p>
         {!confirmDelete ? (
           <div className="mt-4">
             <Button variant="danger" onClick={() => setConfirmDelete(true)} disabled={deleting} size="sm">{deleting ? "Đang xử lý…" : "Xóa tài khoản của tôi"}</Button>
           </div>
         ) : (
           <div className="mt-4 space-y-3">
-            <p className="text-sm text-destructive font-medium">Bạn chắc chắn muốn xóa tài khoản này?</p>
+            <p className="text-sm text-destructive font-medium">Bạn chắc chắn muốn xóa dữ liệu học trên thiết bị này và đăng xuất?</p>
             <div className="flex gap-2">
               <Button variant="outline" onClick={() => setConfirmDelete(false)} size="sm">Hủy</Button>
               <Button variant="danger" onClick={handleDelete} disabled={deleting} size="sm">{deleting ? "Đang xử lý…" : "Xác nhận xóa"}</Button>
